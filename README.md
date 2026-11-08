@@ -2,9 +2,9 @@
 
 Buildless HTML game. `dist/` is the complete static application.
 
-Before playing, select a school to read its baseline forecast with no additional game policy effects: the 2026 public enrollment count, the 2027–2045 model trajectory, milestone counts, and an annual table. This uses the existing school forecast, independently of any saved game. Historical observations are shown separately from future estimates. School selection and forecast browsing do not create or change saved progress; the explicit game button starts a new game or resumes the existing one.
+Before playing, select a school to read its municipality's enrollment scenario: observed 2026 enrollment, the regional model target through 2045, a chart and an accessible annual table. This uses the municipality's total target, rather than the sum of surviving schools. The selected school's published starting count identifies the game target; its own forecast, observations and operating-change details remain in the collapsed data area. Browsing is independent of saved progress and does not change it; the explicit game button starts or resumes the school game.
 
-The default view shows a short school overview and reference chart. Admissions, regional comparisons, annual tables and methodology remain under “자료·다른 전망 보기”. During play, the annual decision, school scene and Next action stay primary; native disclosures hold grades/budget/support, operating records and detailed indicators. Support is one disclosure away, while costs and pending transfer consequences stay visible. Opening a chart redraws it, and unrelated actions preserve the open secondary areas.
+The default view shows a short municipality overview and regional reference chart. School-level forecasts, admissions, regional comparisons, annual tables and methodology remain under “자료·다른 전망 보기”. During play, the annual decision, school scene and Next action stay primary; native disclosures hold grades/budget/support, operating records and detailed indicators. Support is one disclosure away, while costs and pending transfer consequences stay visible. Opening a chart redraws it, and unrelated actions preserve the open secondary areas.
 
 ## Cloudflare Pages
 

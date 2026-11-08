@@ -86,7 +86,7 @@
 .baseline-grid{stroke:#e1e7dd;stroke-width:1;fill:none}
 .baseline-zero{stroke:#8b9c88;stroke-width:1;fill:none}
 .baseline-line{fill:none;stroke:#457450;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.baseline-point{fill:#fff;stroke:#457450;stroke-width:1.8}
+.baseline-point,.regional-baseline-point{fill:#fff;stroke:#457450;stroke-width:1.8}
 .baseline-ylabels{position:absolute;left:0;top:0;width:36px;color:#526356;font-size:12px;line-height:1}
 .baseline-ylabels>span{position:absolute;right:0;transform:translateY(-50%)}
 .baseline-xlabels{position:absolute;left:43px;right:0;top:217px;height:18px;color:#526356;font-size:12px;line-height:1.4}

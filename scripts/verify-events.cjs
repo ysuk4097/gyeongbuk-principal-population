@@ -206,6 +206,7 @@ assert.equal(preview.writes.length,0);
 assert.equal(preview.run('s'),null);
 const roster=preview.run('SCHOOLS');
 const demographics=preview.run('DEMOGRAPHICS');
+const originalDemographics=preview.run('JSON.stringify(DEMOGRAPHICS)');
 const admissions=preview.run('ADMISSIONS');
 const originalAdmissions=preview.run('JSON.stringify(ADMISSIONS)');
 assert.equal(admissions.version,1);
@@ -217,7 +218,7 @@ const originalForecasts=preview.run('JSON.stringify(SCHOOLS.map(school=>school.f
 const comparedRegions=new Set();
 function markedRows(markup,tag,className){
   const pattern=tag==='tr'?'<tr\\b[^>]*>[\\s\\S]*?</tr>':`<${tag}\\b[^>]*>`;
-  return [...markup.matchAll(new RegExp(pattern, 'g'))].filter(match=>new RegExp(`class="[^"]*\\b${className}\\b`).test(match[0])).map(match=>{
+  return [...markup.matchAll(new RegExp(pattern, 'g'))].filter(match=>(match[0].match(/class="([^"]*)"/)?.[1]||'').split(/\s+/).includes(className)).map(match=>{
     const year=Number(match[0].match(/data-year="(\d+)"/)?.[1]);
     const total=Number(match[0].match(/data-total="(\d+)"/)?.[1]);
     assert.ok(Number.isFinite(year)&&Number.isFinite(total),`${className}: displayed data must be finite`);
@@ -229,19 +230,32 @@ for(let i=0;i<roster.length;i++){
   preview.run(`selectSchool(SCHOOLS[${i}].id)`);
   const school=roster[i],markup=preview.nodes.get('forecastPreview').innerHTML;
   const summary=preview.run('baselineSummary(selected)');
-  const sharedFactor=markup.match(/<p\b[^>]*class="baseline-common-factor"[^>]*>/)?.[0];
-  assert.ok(sharedFactor,`${school.name}: the municipality's common rate must remain visible before play`);
-  assert.equal(Number(sharedFactor.match(/data-year="(\d+)"/)?.[1]),2045);
-  assert.equal(Number(sharedFactor.match(/data-factor="([^"]+)"/)?.[1]),demographics.regionalForecasts[school.region].commonFactors[2045]);
+  const municipal=demographics.regionalForecasts[school.region],municipalSummary=preview.run('regionalBaselineSummary(selected)');
+  assert.equal(municipalSummary.startTotal,municipal.observed2026);
+  assert.equal(municipalSummary.endTotal,municipal.totals[2045]);
+  assert.equal(municipalSummary.change,municipal.totals[2045]-municipal.observed2026);
+  const expectedMunicipal=Array.from({length:20},(_,j)=>({year:2026+j,total:j===0?municipal.observed2026:municipal.totals[2026+j]}));
+  for(const [tag,className] of [['circle','regional-baseline-point'],['tr','regional-baseline-row']]){
+    const points=markedRows(markup,tag,className);
+    assert.equal(points.length,20,`${school.region}: regional chart and accessible annual table must cover all years`);
+    points.forEach((point,j)=>{
+      assert.deepEqual({year:point.year,total:point.total},expectedMunicipal[j],'Primary preview must use the full municipality target, not surviving-school totals');
+      assert.equal(point.tag.match(/data-region="([^"]+)"/)?.[1],school.region);
+    });
+  }
+  const selectedInfo=preview.nodes.get('selectedInfo').innerHTML.replace(/<[^>]+>/g,'');
+  assert.ok(selectedInfo.includes(school.name)&&selectedInfo.includes(school.base.toLocaleString('ko-KR')),'The selected school and its actual game starting count remain clear');
+  const primaryMarkup=preview.run('baselinePopulationPreviewMarkup(selected)');
+  assert.ok(primaryMarkup.includes(school.region)&&primaryMarkup.includes('전체 학생 수'));
+  assert.ok(!primaryMarkup.includes('baseline-zero-marker'),'A school-zero notice must not imply municipality-wide closure');
+  assert.equal(markedRows(primaryMarkup,'circle','baseline-point').length,0,'Primary chart must not use individual-school values');
   if(i===0){
     const view=indexStructure(markup),details=view.byId('baselineDataDetails');
     assert.equal(details?.tag,'details');
     assert.ok(!Object.hasOwn(details.attrs,'open'),'Additional forecast data starts collapsed');
     const primaryChart=view.nodes.find(node=>node.tag==='svg'&&String(node.attrs.class).split(/\s+/).includes('baseline-svg')&&!String(node.attrs.class).includes('admissions-svg'));
     assert.equal(view.detailsAncestors(primaryChart).length,0,'Simple reference chart stays visible');
-    const factorNode=view.nodes.find(node=>String(node.attrs.class).split(/\s+/).includes('baseline-common-factor'));
-    assert.equal(view.detailsAncestors(factorNode).length,0,'The shared municipal rate is part of the compact overview');
-    for(const className of ['admissions-row','baseline-annual-row','baseline-milestone']){
+    for(const className of ['admissions-row','baseline-point','baseline-annual-row','baseline-milestone','regional-baseline-row']){
       const row=view.nodes.find(node=>String(node.attrs.class).split(/\s+/).includes(className));
       assert.ok(view.detailsAncestors(row).includes(details),`${className} belongs inside the single deeper-data disclosure`);
     }
@@ -342,10 +356,16 @@ for(let i=0;i<roster.length;i++){
     assert.equal(summary.startTotal,school.base,'Closure cannot rewrite the observed public count');
     summary.points.filter(point=>point.year>=closing.firstZeroForecastYear).forEach(point=>assert.equal(point.total,0));
     assert.ok(markup.includes(closing.effectiveDate),'Preview must disclose the verified date');
+    assert.ok(primaryMarkup.includes(school.name),'A school-specific calendar notice must name the school beside the regional overview');
   }
 }
+const pohang=roster.find(school=>school.region==='포항');
+preview.run(`selectSchool(${JSON.stringify(pohang.id)})`);
+assert.equal(preview.run('regionalBaselineSummary(selected).startTotal'),22431);
+assert.equal(preview.run('regionalBaselineSummary(selected).endTotal'),13461);
 assert.equal(preview.run('JSON.stringify(SCHOOLS.map(school=>school.forecast))'),originalForecasts,'Preview must not alter the demographic forecast');
 assert.equal(preview.run('JSON.stringify(ADMISSIONS)'),originalAdmissions,'Admissions browsing must not rewrite the separate reference series');
+assert.equal(preview.run('JSON.stringify(DEMOGRAPHICS)'),originalDemographics,'Municipality browsing must not rewrite any regional target or source metadata');
 assert.equal(preview.writes.length,0,'Browsing all schools must not write saved progress');
 assert.equal(preview.run('s'),null,'Browsing must not initialize a game');
 const nakdong=roster.find(school=>school.name==='낙동초등학교');
@@ -354,6 +374,8 @@ assert.equal(nakdong.grades[0],0);
 assert.equal(admissions.bySchoolCode[nakdong.code].observed['2026'],2,'Gross admissions and enrolled first grade are separate verified statistics');
 const nakdongView=boot({search:'?school='+encodeURIComponent(nakdong.id)});
 nakdongView.nodes.get('start').onclick();
+assert.equal(nakdongView.run('PopulationModel.total(s.grades,s.special)'),nakdong.base,'The regional preview must never replace the selected school game starting count');
+assert.equal(nakdongView.run('s.base'),nakdong.base);
 const currentNakdong=nakdongView.nodes.get('currentGrades').innerHTML.replace(/<[^>]+>/g,'');
 assert.match(currentNakdong,/1학년\s*재학생\s*0명/);
 assert.match(currentNakdong,/2026년\s*공시\s*입학생\s*2명/,'Sourced admissions must actually render beside current enrolled first grade');
