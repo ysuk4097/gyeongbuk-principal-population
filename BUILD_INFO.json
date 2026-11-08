@@ -1,9 +1,11 @@
 {
-  "edition": "population-v3",
-  "source_commit": "f85ffd303c9d628d312653e43a973cef04251c7e",
-  "published_url": "https://gyeongbuk-principal-life.ysuk.chatgpt.site",
+  "edition": "population-v3-events-evidence",
+  "original_source_commit": "f85ffd303c9d628d312653e43a973cef04251c7e",
+  "published_url": "https://ysuk4097.github.io/gyeongbuk-principal-population/",
+  "decisions": 19,
+  "evidence_checked": "2026-11-08",
   "schools": 474,
   "source_year": 2026,
   "future": "2027–2045 school-specific model outputs, not official enrollment plans",
-  "standalone_sha256": "e55000a418ba8929f71e3e3dd9bb46633f30278cb4598598147df8fe35ba1d40"
+  "standalone_sha256": "3fa0087d53ce992d012c330a45aaa128f92ea33bbe0df59d61f0370c014741fe"
 }

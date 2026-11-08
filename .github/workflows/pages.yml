@@ -26,6 +26,10 @@ jobs:
         uses: actions/checkout@v6
       - name: Verify population model
         run: node scripts/verify-population.cjs
+      - name: Verify events, evidence, and save compatibility
+        run: node scripts/verify-events.cjs
+      - name: Verify standalone parity
+        run: node scripts/build-standalone.cjs --check
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload static application

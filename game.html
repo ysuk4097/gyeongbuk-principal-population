@@ -15,10 +15,44 @@
 .forecast-preview{border:1px solid #e4eadc;border-radius:13px;padding:14px;margin:8px 0 17px;background:#f9fbf5}.forecast-preview>p{font-size:11px;color:#87967c;margin:4px 0;line-height:1.7}.forecast-start{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#657f52}.forecast-start>b{font-size:26px;color:#275e3e}.forecast-start small{font-size:11px;margin-left:3px}.grade-chips{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin:12px 0 6px}.grade-chips span{text-align:center;font-size:8px;color:#99a18c}.grade-chips b{display:block;font-size:10px;color:#607c4b;margin-top:3px}.special-note{font-size:9px;color:#949f85;display:block;text-align:right}.forecast-future{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid #e5ebdd}.forecast-future>span{font-size:9px;color:#93a17f}.forecast-future b{display:block;margin-top:4px;font-size:15px;color:#5d7d47}.forecast-preview .history-note{font-size:9px;color:#849873;margin:12px 0 0}.forecast-preview .model-note{font-size:9px;color:#909b83;line-height:1.7;margin:8px 0 0}.model-banner{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:10px;color:#7b9169;margin-top:12px}.chart-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:8px;color:#87977a;margin:12px 0 3px}.chart-legend span:before{content:'';display:inline-block;width:13px;margin-right:5px;vertical-align:middle}.base-dot:before{border-top:2px dashed #a6aea0}.play-dot:before{border-top:2px solid #38764e}.comparison{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid #edf0e7;gap:8px}.comparison>span{font-size:9px;color:#87997a}.comparison b{font-size:14px;color:#62804f;display:block;margin-top:4px}.comparison .positive{color:#2a8052}.comparison .negative{color:#bd8062}.forecast-details{border-top:1px solid #e9eee1;margin-top:14px;padding-top:13px;font-size:10px}.forecast-details summary{cursor:pointer;color:#71865e}.forecast-details table{width:100%;border-collapse:collapse;text-align:right;margin-top:12px;font-size:9px;font-variant-numeric:tabular-nums}.forecast-details th:first-child{text-align:left}.forecast-details th,.forecast-details td{padding:8px 3px;border-bottom:1px solid #edf0e8;white-space:nowrap}.forecast-details thead{color:#8a997a}.forecast-details tbody{color:#6f8660}.forecast-details tr.current{background:#f0f6e8;color:#376f41}.forecast-details p{font-size:8px;color:#8c9a7d;line-height:1.8}.picker .source-note{font-size:9px}.setup{align-items:start}.intro{align-self:center}@media(min-width:651px){.picker{margin-top:5px}}@media(max-width:650px){.model-banner{font-size:8px;gap:5px}.forecast-preview{padding:12px}.grade-chips{gap:2px}.forecast-details table{font-size:8px}.forecast-details th,.forecast-details td{padding:8px 2px}.forecast-future b{font-size:14px}.picker .source-note{font-size:8px}.intro p{max-width:72%}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.effect.play{opacity:1}.intro-art{opacity:1}}
 
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.choice-assumption{margin:0 0 15px;color:#4e6651;font-size:11px;line-height:1.7}
+.choice-group{margin-top:12px;min-width:0}
+.choice-group .choice{margin-top:0}
+.choice-copy{min-width:0;overflow-wrap:anywhere}
+.choice-evidence{margin-top:2px;color:#49634d;font-size:11px;line-height:1.7;min-width:0}
+.evidence-details{min-width:0}
+.evidence-details>summary{padding:8px 3px;min-height:36px;cursor:pointer;overflow-wrap:anywhere}
+.evidence-status{font-weight:700;color:#365d40}
+.evidence-status.indirect{color:#4c664f}
+.evidence-status.none{color:#646b4a}
+.evidence-toggle{margin-left:12px;color:#44674c;text-decoration:underline;text-underline-offset:3px}
+.evidence-details>summary:hover .evidence-toggle{color:#145e50;text-decoration-thickness:2px}
+.evidence-body{padding:2px 0 8px;max-width:70ch;min-width:0;overflow-wrap:anywhere;line-height:1.85;font-size:12px}
+.evidence-body p{margin:8px 0}
+.evidence-body b{font-weight:700}
+.evidence-note{color:#425b44}
+.evidence-sources{list-style:none;margin:12px 0 0;padding:0}
+.evidence-sources>li{padding:12px 0;border-top:1px solid var(--line)}
+.evidence-sources .evidence-source-title{margin:0 0 4px;font-weight:700}
+.evidence-source-title a{overflow-wrap:anywhere;text-underline-offset:3px}
+.evidence-sources .evidence-source-meta{margin:0 0 8px;color:#536b55;font-size:11px}
+.evidence-body .evidence-assumption{margin:12px 0 0;color:#56684c;font-size:11px}
+.history .history-entry{padding:9px 0;border-bottom:1px solid #eef2e9}
+.history .history-entry div{padding:0;border:0}
+.history .history-title{display:flex;align-items:baseline;gap:8px;color:#49634d;overflow-wrap:anywhere}
+.history .history-title>b{flex-shrink:0;margin-right:0}
+.history .history-title>span{min-width:0}
+.history .choice-evidence{margin-top:2px}
+.history .evidence-body{padding:2px 0 8px}
+.history .evidence-body b{font-size:inherit;color:inherit;margin:0 3px 0 0}
+.history .evidence-sources>li{padding:10px 0}
+@media(max-width:650px){.choice-assumption{font-size:11px}.evidence-details>summary{padding:10px 2px;min-height:40px}.evidence-toggle{margin-left:9px}}
+
 </style>
 </head>
 <body>
-<header class="topbar"><a class="brand" href="#"><span class="brand-icon">🏫</span><span>우리 학교의 내일<small>경북 초등학교 · 인구 반영판</small></span></a><span class="edition">SCHOOL LIFE SIMULATOR</span></header>
+<header class="topbar"><a class="brand" href="./"><span class="brand-icon">🏫</span><span>우리 학교의 내일<small>경북 초등학교 · 인구 반영판</small></span></a><span class="edition">SCHOOL LIFE SIMULATOR</span></header>
 <main>
 <section id="setup" class="setup">
   <div class="intro"><div class="eyebrow">교장실로의 첫 출근</div><h1>어느 학교의<br><em>내일</em>을 만들어 볼까요?</h1><p>작은 결정이 모여, 학교의 미래가 됩니다.<br>경북의 초등학교를 선택하고 현재 학생 수에서 출발해<br class="desktop"> 인구 변화 속 학교의 미래를 바꿔 보세요.</p><div class="intro-art" aria-hidden="true"><span class="intro-cloud">☁️</span><span class="intro-sun">☀️</span><div class="intro-school">🏫</div><span class="intro-kids">🌳　🧒　👧　🌷</span><div class="intro-ground"></div></div><div class="intro-facts"><span><b>22</b>개 시군</span><span><b id="schoolCount">474</b>개 학교·분교</span><span><b>20</b>년의 이야기</span></div></div>
@@ -29,8 +63,8 @@
   <div class="stats"><div class="stat"><small>현재 연도</small><strong id="year">2026</strong><span id="career">1년차 교장</span></div><div class="stat"><small>우리 학교 학생</small><strong id="students">257<span>명</span></strong><span id="studentDelta">새로운 시작</span></div><div class="stat"><small>운영 예산</small><strong id="money">100</strong><span>게임 포인트</span></div><div class="stat"><small>학교 평판</small><strong id="rep">50</strong><span>100점 만점</span></div></div><div class="model-banner"><span>📊 2026년 공시 학생 수에서 시작</span><span>인구 전망 + 학교별 진급 + 선택 효과</span></div>
   <div class="year-track"><div id="yearProgress"></div></div><div class="timeline-labels"><span>2026 · 첫 부임</span><span>2045 · 나의 학교 이야기</span></div>
   <div class="game-layout"><div class="left-col"><section class="scene-card"><div class="scene" id="scene"><div class="sun"></div><div class="cloud">☁️</div><div class="cloud second">☁️</div><div class="hill"></div><div class="tree t1">🌳</div><div class="tree t2">🌳</div><div class="school"><div class="school-sign" id="schoolSign"></div><div id="windows" class="windows"></div><div class="door"></div><div class="flag">⚑</div></div><div class="yard" id="yard"></div><div id="situation" class="situation" aria-hidden="true"></div><div class="rainlines"></div><div class="banner"><span id="season">🌸 봄 학기</span><span id="mood">😊 활기찬 학교</span></div><div id="effect" class="effect"></div><div id="confetti" class="confetti"></div></div><div class="narrative-row"><span class="principal" aria-hidden="true">👩‍💼</span><div><small>교장실에서 온 소식</small><p id="narrative" aria-live="polite"></p></div></div><div class="advance-row"><span id="step">올해의 결정을 내리세요</span><button id="next" class="primary" disabled>다음 해로 <span>→</span></button></div></section><section class="card journal"><details open><summary>📖 교장 일지 <span id="historyCount">0개의 기록</span></summary><div class="history" id="history"></div></details></section></div>
-  <div class="right-col"><section class="card decision-card"><div class="flex"><span class="eyebrow">올해의 의사결정</span><span class="pill" id="decisionBadge">선택 대기</span></div><h2 id="eventTitle"></h2><p id="eventDesc" class="event-desc"></p><div id="choices"></div></section><section class="card metrics-card"><h2>학교의 현재</h2><div class="metrics" id="metrics"></div><div class="chart-heading"><h3>학생 수의 미래</h3><span class="muted">단위: 명</span></div><div class="chart-legend"><span class="base-dot">인구 기준선(자체 추계)</span><span class="play-dot">내 선택의 결과</span></div><canvas id="chart" role="img" aria-label="연도별 학생 수 그래프"></canvas><div id="comparison" class="comparison"></div><p class="chart-note" id="chartNote"></p><details class="forecast-details"><summary>학교별 연도별 예상 보기</summary><div id="forecastTable"></div></details></section></div></div>
-  <footer class="game-footer"><details><summary>게임 방법 · 인구 전망과 계산 근거</summary><p>매년 정책 하나를 선택한 뒤 ‘다음 해로’를 누르세요. 예산·만족도·시설·평판·전입 매력이 달라지고, 다음 해 신입생과 전·출입에 가상 효과가 누적됩니다. 회색 점선은 정책 효과를 제외한 기준선, 녹색 선은 플레이 결과입니다. 예산·운영 지표와 정책 효과는 게임 설정입니다.</p><p>학교별 현재 값: <a href="https://www.schoolinfo.go.kr/ng/go/pnnggo_a01_l2.do" target="_blank" rel="noopener">학교알리미 학년별·학급별 학생수</a>의 2024·2025·2026년 공시를 사용합니다. 시작 합계는 1~6학년 및 별도 집계된 특수·순회학급을 포함한 ‘학생수(계)’와 일치합니다. 공시 후 전·출입은 반영하지 않습니다.</p><p>인구 흐름: <a href="https://www.kostat.go.kr/boardDownload.es?bid=207&amp;list_no=431113&amp;seq=1" target="_blank" rel="noopener">통계청 2024.05.28 장래인구추계(시도편), 통계표 인쇄 59쪽</a>의 경북 6~11세 중위추계(천 명 단위 반올림)를 사용합니다. 시군별 공식 인구추계 원표는 이번 판에 반영하지 않았습니다. 시군 차이는 최근 3년 실제 재학생 비중 변화에서 계산한 모형 가정입니다.</p><p>미래 학생 수: 학교별 기존 학년의 진급, 최근 동일 학교의 진급 코호트 증감, 최근 입학생 규모를 결합합니다. 작은 학교의 변동은 200명 관측에 해당하는 보정으로 완화하고, 과거 추세의 영향은 5년 단위로 줄입니다. 도 전체의 일반학급 기준선은 경북 학령인구 증감 비율에 맞춥니다. 특수·순회학급은 학년 분포가 없어 지역 기준선 비율로 별도 변화시킵니다.</p><p>2027년 이후 학교별 수치는 공식 전망이 아닌 자체 추계입니다. 통학구역 변경, 학교 신설·통폐합, 주택 개발계획은 자동 반영하지 않으므로 해당 학교의 확정된 미래로 해석할 수 없습니다. 교장의 선택은 지역 출생아 수를 바꾸지 않고 신입생 유입과 전·출입의 게임 가정에 영향을 줍니다.</p><p>진행 상황은 현재 브라우저에 학교별로 저장됩니다. 인구 반영판은 2026년 공시 값으로 새로 시작하며 이전 가상 규모판의 저장은 덮어쓰지 않습니다.</p></details><p>우리 학교의 내일 · GYEONGBUK SCHOOL STORIES</p></footer>
+  <div class="right-col"><section class="card decision-card"><div class="flex"><span class="eyebrow">올해의 의사결정</span><span class="pill" id="decisionBadge">선택 대기</span></div><h2 id="eventTitle"></h2><p id="eventDesc" class="event-desc"></p><p id="choiceAssumption" class="choice-assumption">예산·지표·학생 수의 선택 효과는 모두 게임 가정입니다.</p><div id="choices"></div></section><section class="card metrics-card"><h2>학교의 현재</h2><div class="metrics" id="metrics"></div><div class="chart-heading"><h3>학생 수의 미래</h3><span class="muted">단위: 명</span></div><div class="chart-legend"><span class="base-dot">인구 기준선(자체 추계)</span><span class="play-dot">내 선택의 결과</span></div><canvas id="chart" role="img" aria-label="연도별 학생 수 그래프"></canvas><div id="comparison" class="comparison"></div><p class="chart-note" id="chartNote"></p><details class="forecast-details"><summary>학교별 연도별 예상 보기</summary><div id="forecastTable"></div></details></section></div></div>
+  <footer class="game-footer"><details><summary>게임 방법 · 인구 전망과 계산 근거</summary><p>매년 정책 하나를 선택한 뒤 ‘다음 해로’를 누르세요. 예산·만족도·시설·평판·전입 매력이 달라지고, 다음 해 신입생과 전·출입에 가상 효과가 누적됩니다. 회색 점선은 정책 효과를 제외한 기준선, 녹색 선은 플레이 결과입니다. 예산·운영 지표의 변화량과 학생 수 효과의 모든 계수는 게임 가정이며, 출처에서 추정한 정책 효과가 아닙니다.</p><p>선택지의 ‘사례 근거’는 학생 유입이 함께 관찰된 사례, ‘간접 근거’는 교육·돌봄·정책 운영을 뒷받침하는 자료입니다. 사례는 선택 하나의 인과효과를 증명하지 않습니다. ‘직접 근거 미확인’은 해당 선택의 학생 수 증가를 입증할 자료를 연결하지 못한 경우입니다. 출처의 내용과 한계는 선택 전후에 펼쳐볼 수 있으며, 새로 남긴 교장 일지에서도 확인할 수 있습니다. 정책 근거 확인일: <span id="evidenceChecked">2026-11-08</span>.</p><p>학교별 현재 값: <a href="https://www.schoolinfo.go.kr/ng/go/pnnggo_a01_l2.do" target="_blank" rel="noopener noreferrer">학교알리미 학년별·학급별 학생수</a>의 2024·2025·2026년 공시를 사용합니다. 시작 합계는 1~6학년 및 별도 집계된 특수·순회학급을 포함한 ‘학생수(계)’와 일치합니다. 공시 후 전·출입은 반영하지 않습니다.</p><p>인구 흐름: <a href="https://www.kostat.go.kr/boardDownload.es?bid=207&amp;list_no=431113&amp;seq=1" target="_blank" rel="noopener noreferrer">통계청 2024.05.28 장래인구추계(시도편), 통계표 인쇄 59쪽</a>의 경북 6~11세 중위추계(천 명 단위 반올림)를 사용합니다. 시군별 공식 인구추계 원표는 이번 판에 반영하지 않았습니다. 시군 차이는 최근 3년 실제 재학생 비중 변화에서 계산한 모형 가정입니다.</p><p>미래 학생 수: 학교별 기존 학년의 진급, 최근 동일 학교의 진급 코호트 증감, 최근 입학생 규모를 결합합니다. 작은 학교의 변동은 200명 관측에 해당하는 보정으로 완화하고, 과거 추세의 영향은 5년 단위로 줄입니다. 도 전체의 일반학급 기준선은 경북 학령인구 증감 비율에 맞춥니다. 특수·순회학급은 학년 분포가 없어 지역 기준선 비율로 별도 변화시킵니다.</p><p>2027년 이후 학교별 수치는 공식 전망이 아닌 자체 추계입니다. 통학구역 변경, 학교 신설·통폐합, 주택 개발계획은 자동 반영하지 않으므로 해당 학교의 확정된 미래로 해석할 수 없습니다. 교장의 선택은 지역 출생아 수를 바꾸지 않고 신입생 유입과 전·출입의 게임 가정에 영향을 줍니다.</p><p>진행 상황은 현재 브라우저에 학교별로 저장됩니다. 기존 인구 반영판의 현재 사건과 이미 내린 선택은 이어지며, 다음 해부터 확장된 사건을 만납니다. 이전 가상 규모판의 저장은 덮어쓰지 않습니다.</p></details><p>우리 학교의 내일 · GYEONGBUK SCHOOL STORIES</p></footer>
 </section>
 </main><div id="toast" role="status" class="toast"></div>
 <script>
@@ -38,7 +72,1183 @@ const SCHOOLS=[{"id":"경산-경산동부초등학교","code":"S150001030","regi
 const DEMOGRAPHICS={"version":3,"observedYear":2026,"checked":"2026-11-08","schoolSource":"https://www.schoolinfo.go.kr/ng/go/pnnggo_a01_l2.do","schoolSourceTitle":"학교알리미 학년별·학급별 학생수, 2024·2025·2026년 공시","province":{"title":"장래인구추계(시도편): 2022~2052년","publisher":"통계청","published":"2024-05-28","source":"https://www.kostat.go.kr/boardDownload.es?bid=207&list_no=431113&seq=1","table":"8. 시도별 학령인구(중위추계), 초등학교 학령인구(6~11세), 인쇄 59쪽","region":"경상북도","unit":"천 명","precision_note":"원문에 공표된 천 명 단위 반올림 수치. 실제 재학생 수와 연령별 인구는 정의가 다름.","values":{"2022":128,"2023":123,"2024":115,"2025":108,"2026":100,"2027":91,"2028":82,"2029":75,"2030":69,"2031":64,"2032":61,"2033":59,"2034":58,"2035":58,"2036":58,"2037":59,"2038":60,"2039":61,"2040":62,"2041":62,"2042":63,"2043":63,"2044":63,"2045":62,"2046":61,"2047":61,"2048":60,"2049":58,"2050":57,"2051":56,"2052":55}},"schools":474,"officialSchoolForecast":false,"regularTotals":{"2024":115151.0,"2025":106642.0,"2026":99028.0},"regionTrends":{"경산":0.000331,"경주":0.002771,"고령":-0.025,"구미":0.007274,"김천":0.003539,"문경":-0.014867,"봉화":-0.025,"상주":-0.025,"성주":-0.00934,"안동":-0.003305,"영덕":-0.025,"영양":-0.007285,"영주":-0.014766,"영천":0.008252,"예천":0.012656,"울릉":-0.025,"울진":0.013703,"의성":-0.01054,"청도":-0.025,"청송":0.011548,"칠곡":-0.025,"포항":0.007188},"method":"학년별 진급 + 과거 동일 학교 코호트 이동비율(200명 보정, 0.94~1.06 제한, 5년 감쇠) + 경북 6~11세 중위추계 증감비율. 시군의 2024~2026년 재학생 점유율 추세는 연 ±2.5% 제한 후 5년 감쇠하며 도 합계에 맞춰 재정규화. 신입생은 학교별 최근 3년 입학생 가중치로 배분. 특수·순회학급은 공시 합계를 맞추기 위해 별도 유지 후 시군 기준선 비율로 변화. 천 명 단위 인구를 학교 학생 수로 환산한 모형 결과이며 공식 학교별 학생배치계획이 아님."};
 
 </script><script>
-const events=[{title:'신입생이 줄고 있습니다',desc:'지역의 학령인구가 줄어들 수 있다는 우려가 나옵니다. 어떤 전략을 선택하시겠습니까?',options:[['특색 교육과정 개발','예산 -18 · 평판 +12 · 전입 매력 +3',{money:-18,rep:12,appeal:3,happy:5},'🎨 창의적인 교실이 열렸습니다!'],['통학 지원 강화','예산 -25 · 전입 매력 +5 · 만족 +6',{money:-25,appeal:5,happy:6},'🚌 통학버스가 학교에 도착합니다!'],['현행 유지','예산 +10 · 평판 -6',{money:10,rep:-6},'📋 예산을 아꼈지만 학부모들의 걱정이 남았습니다.']]},{title:'학교 시설이 노후화되었습니다',desc:'도서관과 운동장 중 무엇부터 바꿀까요?',options:[['꿈꾸는 도서관 조성','예산 -22 · 시설 +16 · 만족 +7',{money:-22,facilities:16,happy:7},'📚 새 도서관이 문을 열었습니다!'],['운동장·놀이시설 개선','예산 -24 · 시설 +18 · 만족 +9',{money:-24,facilities:18,happy:9},'⚽ 운동장이 웃음소리로 가득합니다!'],['소규모 안전 보수','예산 -8 · 시설 +6',{money:-8,facilities:6},'🔧 꼭 필요한 보수를 마쳤습니다.']]},{title:'교사들의 업무가 늘어납니다',desc:'새 교육과정과 행정업무로 교직원 피로도가 높아졌습니다.',options:[['업무 자동화 도입','예산 -15 · 교사 만족 +17',{money:-15,teacher:17},'💻 반복 업무가 줄었습니다!'],['협력 수업 지원','예산 -19 · 교사 만족 +10 · 학생 만족 +7',{money:-19,teacher:10,happy:7},'🤝 교사들이 함께 수업을 설계합니다!'],['업무 재배치','교사 만족 +4 · 평판 -3',{teacher:4,rep:-3},'🗂️ 업무를 조정했습니다.']]},{title:'마을에서 새 주택단지 논의',desc:'지역에 주거개발 가능성이 제기되었습니다. 학교는 어떻게 대응할까요?',options:[['교육청·지자체 협의','예산 -12 · 전입 매력 +5 · 평판 +8',{money:-12,appeal:5,rep:8},'🏘️ 마을과 학교가 함께 미래를 논의합니다!'],['학교 홍보 영상 제작','예산 -9 · 전입 매력 +2 · 평판 +10',{money:-9,appeal:2,rep:10},'🎬 학교의 매력이 널리 알려졌습니다!'],['관망하기','예산 +5 · 평판 -2',{money:5,rep:-2},'⏳ 개발 소식을 기다립니다.']]},{title:'돌봄 수요가 늘어납니다',desc:'맞벌이 가정의 돌봄 요구가 증가했습니다.',options:[['돌봄 프로그램 확대','예산 -20 · 만족 +14 · 전입 매력 +3',{money:-20,happy:14,appeal:3},'🧸 방과 후에도 학교가 활기찹니다!'],['지역 기관과 협약','예산 -10 · 만족 +8 · 평판 +6',{money:-10,happy:8,rep:6},'🏡 마을 돌봄 협력이 시작됐습니다!'],['현 수준 유지','예산 +6 · 만족 -9',{money:6,happy:-9},'🕒 돌봄 대기 문의가 이어집니다.']]},{title:'기후 재난과 폭우',desc:'집중호우로 학교 시설 점검이 필요해졌습니다.',options:[['안전시설 선제 개선','예산 -25 · 시설 +13 · 평판 +10',{money:-25,facilities:13,rep:10},'🌧️ 안전한 학교로 정비했습니다!'],['기후교육 프로젝트','예산 -13 · 만족 +10 · 평판 +7',{money:-13,happy:10,rep:7},'🌱 학생들이 기후 대응을 배우고 있습니다!'],['긴급 점검만 시행','예산 -5 · 시설 -5',{money:-5,facilities:-5},'☔ 임시 점검을 마쳤습니다.']]},{title:'학교 축제가 다가옵니다',desc:'학생회가 특별한 축제를 열고 싶어 합니다.',options:[['마을과 함께하는 축제','예산 -17 · 만족 +15 · 평판 +10',{money:-17,happy:15,rep:10},'🎉 마을 축제가 열렸습니다!'],['학생 주도 작은 축제','예산 -8 · 만족 +11',{money:-8,happy:11},'🎈 학생들이 직접 축제를 만들었습니다!'],['행사 간소화','예산 +8 · 만족 -7',{money:8,happy:-7},'📅 조용한 학기가 지나갑니다.']]},{title:'디지털 교실 전환',desc:'AI 교육과 디지털 기기 활용에 대한 요구가 늘었습니다.',options:[['AI 창의교실 구축','예산 -27 · 시설 +14 · 평판 +11',{money:-27,facilities:14,rep:11},'🤖 미래형 교실이 열렸습니다!'],['교사 연수 집중','예산 -12 · 교사 만족 +12 · 평판 +5',{money:-12,teacher:12,rep:5},'👩‍🏫 새로운 수업 역량을 갖췄습니다!'],['기존 시설 활용','예산 +8 · 평판 -4',{money:8,rep:-4},'🖥️ 기존 기기를 더 활용합니다.']]}];
+// Point changes are game-design assumptions, not measured policy effect sizes.
+const EVENT_CATALOG_VERSION = 2;
+
+const events = [
+  {
+    "title": "신입생이 줄고 있습니다",
+    "desc": "지역의 학령인구가 줄어들 수 있다는 우려가 나옵니다. 어떤 전략을 선택하시겠습니까?",
+    "options": [
+      [
+        "특색 교육과정 개발",
+        "예산 -18 · 평판 +12 · 전입 매력 +3",
+        {
+          "money": -18,
+          "rep": 12,
+          "appeal": 3,
+          "happy": 5
+        },
+        "🎨 창의적인 교실이 열렸습니다!",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "small-school-study-2022",
+            "small-school-cases-2022"
+          ],
+          "note": "특색 교육과정과 학교 활성화의 관련성을 다룬 연구·사례입니다. 교육과정 하나의 전입 효과는 분리하지 않았습니다."
+        }
+      ],
+      [
+        "통학 지원 강화",
+        "예산 -25 · 전입 매력 +5 · 만족 +6",
+        {
+          "money": -25,
+          "appeal": 5,
+          "happy": 6
+        },
+        "🚌 통학버스가 학교에 도착합니다!",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "gb-free-district-2025"
+          ],
+          "note": "자유학구제의 학생 유입 집계는 참고할 수 있지만 통학 지원만의 효과나 지역 전체 학생 증가를 입증하지 않습니다."
+        }
+      ],
+      [
+        "현행 유지",
+        "예산 +10 · 평판 -6",
+        {
+          "money": 10,
+          "rep": -6
+        },
+        "📋 예산을 아꼈지만 학부모들의 걱정이 남았습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "현행 유지의 예산 절감과 평판 변화에 대응하는 비교 근거는 확인하지 못했습니다."
+        }
+      ]
+    ],
+    "id": "declining-enrollment",
+    "icon": "🌱"
+  },
+  {
+    "title": "학교 시설이 노후화되었습니다",
+    "desc": "도서관과 운동장 중 무엇부터 바꿀까요?",
+    "options": [
+      [
+        "꿈꾸는 도서관 조성",
+        "예산 -22 · 시설 +16 · 만족 +7",
+        {
+          "money": -22,
+          "facilities": 16,
+          "happy": 7
+        },
+        "📚 새 도서관이 문을 열었습니다!",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "small-school-study-2022",
+            "small-school-cases-2022"
+          ],
+          "note": "학교 환경 개선을 포함한 활성화 논의의 참고 자료입니다. 도서관 조성만의 만족도·학생 수 효과는 확인하지 않았습니다."
+        }
+      ],
+      [
+        "운동장·놀이시설 개선",
+        "예산 -24 · 시설 +18 · 만족 +9",
+        {
+          "money": -24,
+          "facilities": 18,
+          "happy": 9
+        },
+        "⚽ 운동장이 웃음소리로 가득합니다!",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "small-school-cases-2022"
+          ],
+          "note": "자연놀이와 여러 지역 사업을 함께 운영한 사례입니다. 운동장·놀이시설만의 효과를 분리하지 않았습니다."
+        }
+      ],
+      [
+        "소규모 안전 보수",
+        "예산 -8 · 시설 +6",
+        {
+          "money": -8,
+          "facilities": 6
+        },
+        "🔧 꼭 필요한 보수를 마쳤습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "안전 보수는 시설 관리 판단입니다. 이 보수 규모의 시설 점수나 학생 수 효과를 추정한 자료는 연결하지 않았습니다."
+        }
+      ]
+    ],
+    "id": "aging-facilities",
+    "icon": "🏫"
+  },
+  {
+    "title": "교사들의 업무가 늘어납니다",
+    "desc": "새 교육과정과 행정업무로 교직원 피로도가 높아졌습니다.",
+    "options": [
+      [
+        "업무 자동화 도입",
+        "예산 -15 · 교사 만족 +17",
+        {
+          "money": -15,
+          "teacher": 17
+        },
+        "💻 반복 업무가 줄었습니다!",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "업무 자동화가 이 학교의 교사 만족을 얼마나 바꾸는지 검증한 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "협력 수업 지원",
+        "예산 -19 · 교사 만족 +10 · 학생 만족 +7",
+        {
+          "money": -19,
+          "teacher": 10,
+          "happy": 7
+        },
+        "🤝 교사들이 함께 수업을 설계합니다!",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "small-school-study-2022"
+          ],
+          "note": "작은 학교의 교육과정 운영과 지역 자원 활용을 다룬 질적 연구를 참고합니다. 협력 수업 지원만의 교사·학생 만족 효과는 추정하지 않았습니다."
+        }
+      ],
+      [
+        "업무 재배치",
+        "교사 만족 +4 · 평판 -3",
+        {
+          "teacher": 4,
+          "rep": -3
+        },
+        "🗂️ 업무를 조정했습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "업무 재배치의 만족과 평판 간 상충에 대응하는 비교 연구는 연결하지 않았습니다."
+        }
+      ]
+    ],
+    "id": "teacher-workload",
+    "icon": "👩‍🏫"
+  },
+  {
+    "title": "마을에서 새 주택단지 논의",
+    "desc": "지역에 주거개발 가능성이 제기되었습니다. 학교는 어떻게 대응할까요?",
+    "options": [
+      [
+        "교육청·지자체 협의",
+        "예산 -12 · 전입 매력 +5 · 평판 +8",
+        {
+          "money": -12,
+          "appeal": 5,
+          "rep": 8
+        },
+        "🏘️ 마을과 학교가 함께 미래를 논의합니다!",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "namhae-housing-2025"
+          ],
+          "note": "실제 빈집 임대와 가족 이주를 함께 진행한 사례입니다. 새 주택단지의 개발 논의나 협의만으로 전입이 늘어난다는 근거는 아닙니다."
+        }
+      ],
+      [
+        "학교 홍보 영상 제작",
+        "예산 -9 · 전입 매력 +2 · 평판 +10",
+        {
+          "money": -9,
+          "appeal": 2,
+          "rep": 10
+        },
+        "🎬 학교의 매력이 널리 알려졌습니다!",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "학교 홍보 영상만의 전입·평판 효과를 검증한 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "관망하기",
+        "예산 +5 · 평판 -2",
+        {
+          "money": 5,
+          "rep": -2
+        },
+        "⏳ 개발 소식을 기다립니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "주거개발을 관망했을 때의 예산·평판 변화에 대응하는 비교 근거는 연결하지 않았습니다."
+        }
+      ]
+    ],
+    "id": "housing-discussion",
+    "icon": "🏘️"
+  },
+  {
+    "title": "돌봄 수요가 늘어납니다",
+    "desc": "맞벌이 가정의 돌봄 요구가 증가했습니다.",
+    "options": [
+      [
+        "돌봄 프로그램 확대",
+        "예산 -20 · 만족 +14 · 전입 매력 +3",
+        {
+          "money": -20,
+          "happy": 14,
+          "appeal": 3
+        },
+        "🧸 방과 후에도 학교가 활기찹니다!",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "neulbom-care-2024"
+          ],
+          "note": "늘봄학교의 돌봄 대기 해소와 학부모 만족도 운영 결과입니다. 돌봄 확대로 전입생이 늘어났음을 검증한 자료는 아닙니다."
+        }
+      ],
+      [
+        "지역 기관과 협약",
+        "예산 -10 · 만족 +8 · 평판 +6",
+        {
+          "money": -10,
+          "happy": 8,
+          "rep": 6
+        },
+        "🏡 마을 돌봄 협력이 시작됐습니다!",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "neulbom-care-2024"
+          ],
+          "note": "범부처 협력을 통한 돌봄 운영의 참고 자료입니다. 특정 지역 기관 협약만의 만족도·평판 효과나 전입 증가는 분리하지 않았습니다."
+        }
+      ],
+      [
+        "현 수준 유지",
+        "예산 +6 · 만족 -9",
+        {
+          "money": 6,
+          "happy": -9
+        },
+        "🕒 돌봄 대기 문의가 이어집니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "현 수준 유지 시 대기나 만족이 얼마나 달라지는지 비교한 자료는 연결하지 않았습니다."
+        }
+      ]
+    ],
+    "id": "afterschool-care",
+    "icon": "🧸"
+  },
+  {
+    "title": "기후 재난과 폭우",
+    "desc": "집중호우로 학교 시설 점검이 필요해졌습니다.",
+    "options": [
+      [
+        "안전시설 선제 개선",
+        "예산 -25 · 시설 +13 · 평판 +10",
+        {
+          "money": -25,
+          "facilities": 13,
+          "rep": 10
+        },
+        "🌧️ 안전한 학교로 정비했습니다!",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "폭우 대비 시설 개선의 필요성과 별개로 이 선택의 시설·평판 점수를 산출한 실증 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "기후교육 프로젝트",
+        "예산 -13 · 만족 +10 · 평판 +7",
+        {
+          "money": -13,
+          "happy": 10,
+          "rep": 7
+        },
+        "🌱 학생들이 기후 대응을 배우고 있습니다!",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "기후교육 프로젝트만의 학생 만족·평판 효과를 추정한 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "긴급 점검만 시행",
+        "예산 -5 · 시설 -5",
+        {
+          "money": -5,
+          "facilities": -5
+        },
+        "☔ 임시 점검을 마쳤습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "긴급 점검만 하는 선택의 장기 시설 변화를 추정한 자료는 연결하지 않았습니다. 실제 재난 대응의 충분성을 뜻하지 않습니다."
+        }
+      ]
+    ],
+    "id": "heavy-rain",
+    "icon": "🌧️",
+    "rain": true
+  },
+  {
+    "title": "학교 축제가 다가옵니다",
+    "desc": "학생회가 특별한 축제를 열고 싶어 합니다.",
+    "options": [
+      [
+        "마을과 함께하는 축제",
+        "예산 -17 · 만족 +15 · 평판 +10",
+        {
+          "money": -17,
+          "happy": 15,
+          "rep": 10
+        },
+        "🎉 마을 축제가 열렸습니다!",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "dangpo-curriculum-2022"
+          ],
+          "note": "방과후 프로그램과 지역 공동체 활동을 함께 시행한 사례입니다. 축제 한 번의 만족도·평판·학생 수 효과를 분리하지 않았습니다."
+        }
+      ],
+      [
+        "학생 주도 작은 축제",
+        "예산 -8 · 만족 +11",
+        {
+          "money": -8,
+          "happy": 11
+        },
+        "🎈 학생들이 직접 축제를 만들었습니다!",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "학생 주도 작은 축제만의 만족도 효과를 측정한 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "행사 간소화",
+        "예산 +8 · 만족 -7",
+        {
+          "money": 8,
+          "happy": -7
+        },
+        "📅 조용한 학기가 지나갑니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "행사 간소화의 예산·만족도 상충에 대응하는 비교 근거는 연결하지 않았습니다."
+        }
+      ]
+    ],
+    "id": "school-festival",
+    "icon": "🎉"
+  },
+  {
+    "title": "디지털 교실 전환",
+    "desc": "AI 교육과 디지털 기기 활용에 대한 요구가 늘었습니다.",
+    "options": [
+      [
+        "AI 창의교실 구축",
+        "예산 -27 · 시설 +14 · 평판 +11",
+        {
+          "money": -27,
+          "facilities": 14,
+          "rep": 11
+        },
+        "🤖 미래형 교실이 열렸습니다!",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "AI 교실 구축만의 시설·평판 효과나 학생 유입 효과를 검증한 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "교사 연수 집중",
+        "예산 -12 · 교사 만족 +12 · 평판 +5",
+        {
+          "money": -12,
+          "teacher": 12,
+          "rep": 5
+        },
+        "👩‍🏫 새로운 수업 역량을 갖췄습니다!",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "디지털 교사 연수의 만족·평판 효과를 이 학교에 적용할 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "기존 시설 활용",
+        "예산 +8 · 평판 -4",
+        {
+          "money": 8,
+          "rep": -4
+        },
+        "🖥️ 기존 기기를 더 활용합니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "기존 기기 활용의 예산 절감과 평판 변화에 대응하는 비교 근거는 연결하지 않았습니다."
+        }
+      ]
+    ],
+    "id": "digital-classroom",
+    "icon": "💻"
+  },
+  {
+    "id": "school-district-coordination",
+    "icon": "🗺️",
+    "title": "통학구 조정 요청이 들어왔습니다",
+    "desc": "이웃 지역 학부모가 우리 학교로의 통학을 문의합니다. 학구와 이동 여건은 교육청·지자체 협의가 필요합니다.",
+    "options": [
+      [
+        "자유학구제 운영 협의",
+        "예산 -16 · 전입 매력 +4 · 평판 +7 · 교사 만족 -3",
+        {
+          "money": -16,
+          "appeal": 4,
+          "rep": 7,
+          "teacher": -3
+        },
+        "🗺️ 교육청과 학구·수용 여건을 검토하며 추가 행정업무를 맡았습니다.",
+        {
+          "level": "case",
+          "sourceIds": [
+            "gb-free-district-2025"
+          ],
+          "note": "경북의 자유학구제 운영과 학생 유입 집계에 대응하는 선택입니다. 단순 전입 이동이며 정책의 인과효과나 학교별 증가를 보장하지 않습니다."
+        }
+      ],
+      [
+        "현 학구의 통학 노선 개선",
+        "예산 -22 · 전입 매력 +2 · 학생 만족 +8",
+        {
+          "money": -22,
+          "appeal": 2,
+          "happy": 8
+        },
+        "🚌 현재 통학권 안에서 이동 부담을 줄일 노선을 마련했습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "gb-free-district-2025"
+          ],
+          "note": "학구 운영 지원의 맥락은 참고할 수 있습니다. 버스 노선 개선만으로 학생이 늘어난 효과를 분리한 자료는 아닙니다."
+        }
+      ],
+      [
+        "현 학구 학생 교육복지 집중",
+        "예산 -9 · 학생 만족 +8 · 교사 만족 -2",
+        {
+          "money": -9,
+          "happy": 8,
+          "teacher": -2
+        },
+        "🎒 학구 확대는 보류하고 재학생의 교육비·학습 지원에 힘을 모았습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "small-school-study-2022"
+          ],
+          "note": "작은 학교 활성화 방향으로 교육복지를 제안한 질적 연구입니다. 학구 확대와 비교한 우열이나 학생 수 효과를 추정하지 않았습니다."
+        }
+      ]
+    ]
+  },
+  {
+    "id": "vacant-home-settlement",
+    "icon": "🔑",
+    "title": "빈집을 전입 가정과 연결할까요?",
+    "desc": "마을의 빈집 소유자와 지자체가 협력을 제안했습니다. 주택 상태·임대 조건·통학 여건을 함께 확인해야 합니다.",
+    "options": [
+      [
+        "빈집 임대·전입 연계 협약",
+        "예산 -20 · 전입 매력 +5 · 평판 +8 · 교사 만족 -4",
+        {
+          "money": -20,
+          "appeal": 5,
+          "rep": 8,
+          "teacher": -4
+        },
+        "🔑 지자체가 임대 여건을 살피고 학교는 전입 가정의 교육 상담을 맡았습니다.",
+        {
+          "level": "case",
+          "sourceIds": [
+            "namhae-housing-2025"
+          ],
+          "note": "빈집 임대·가족 이주·학교 전입을 연결한 남해 사례와 유사한 구성입니다. 지역 주거·일자리와 협력이 전제되며 동일한 전입 결과를 보장하지 않습니다."
+        }
+      ],
+      [
+        "주거·학교 사전 방문 운영",
+        "예산 -9 · 전입 매력 +2 · 평판 +4 · 교사 만족 -3",
+        {
+          "money": -9,
+          "appeal": 2,
+          "rep": 4,
+          "teacher": -3
+        },
+        "🏡 희망 가정이 집과 학교를 둘러보았지만 입주 결정은 아직 남아 있습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "rural-study-policy-2024"
+          ],
+          "note": "실제 농산어촌유학 모집의 학교·주택 사전방문 절차를 참고합니다. 방문만으로 전학·정착이 이루어진다는 결과 자료는 아닙니다."
+        }
+      ],
+      [
+        "재학생 가정 주거 상담 연결",
+        "예산 -6 · 학생 만족 +6 · 교사 만족 -2",
+        {
+          "money": -6,
+          "happy": 6,
+          "teacher": -2
+        },
+        "🤝 새 모집을 서두르기보다 현재 가정의 주거 문의를 지자체 상담으로 연결했습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "재학생 가정의 주거 상담 연결이 만족이나 재학 유지에 미치는 효과를 추정한 자료는 연결하지 않았습니다."
+        }
+      ]
+    ]
+  },
+  {
+    "id": "rural-study-program",
+    "icon": "🌾",
+    "title": "농촌유학 참여를 검토합니다",
+    "desc": "도시 가정이 농촌 학교 생활을 문의합니다. 실제 모집 가능 여부와 주거·전학 절차를 확인할 인력이 필요합니다.",
+    "options": [
+      [
+        "교육청과 모집·주거 조건 준비",
+        "예산 -18 · 전입 매력 +4 · 평판 +6 · 교사 만족 -5",
+        {
+          "money": -18,
+          "appeal": 4,
+          "rep": 6,
+          "teacher": -5
+        },
+        "🌾 교육청과 참여 자격·주택 방문·전학 절차를 확인하며 준비를 시작했습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "rural-study-policy-2024"
+          ],
+          "note": "전남의 실제 농산어촌유학 모집 절차를 참고합니다. 경북의 현행 참여 조건은 별도 확인이 필요하며 모집 안내 자체는 유입 성과의 검증이 아닙니다."
+        }
+      ],
+      [
+        "주말 생태 체험부터 운영",
+        "예산 -10 · 학생 만족 +8 · 평판 +4 · 교사 만족 -3",
+        {
+          "money": -10,
+          "happy": 8,
+          "rep": 4,
+          "teacher": -3
+        },
+        "🌿 재학생과 방문 가족이 함께 체험했습니다. 체험 참여가 전학을 뜻하지는 않습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "small-school-cases-2022"
+          ],
+          "note": "자연놀이와 여러 학교·마을 사업을 함께 운영한 사례를 참고합니다. 단기 체험 하나의 전학·정착 효과를 분리한 자료는 아닙니다."
+        }
+      ],
+      [
+        "다음 모집을 위한 담당자 준비",
+        "예산 -6 · 교사 만족 +5 · 평판 +2",
+        {
+          "money": -6,
+          "teacher": 5,
+          "rep": 2
+        },
+        "📝 올해 모집은 보류하고 담당자 연수와 주거 정보 정리에 집중했습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "rural-study-policy-2024"
+          ],
+          "note": "모집에 학교 매칭·주택 확인·주소 이전 등 준비가 필요하다는 절차상의 참고 근거입니다. 준비 기간의 만족도·평판 효과를 측정한 자료는 아닙니다."
+        }
+      ]
+    ]
+  },
+  {
+    "id": "shared-curriculum",
+    "icon": "🤝",
+    "title": "이웃 작은 학교가 손을 내밉니다",
+    "desc": "학생 수가 적어 단독으로 열기 어려운 수업이 있습니다. 공동수업은 선택 폭을 넓히지만 이동과 협의 시간이 듭니다.",
+    "options": [
+      [
+        "정기 공동수업·공동 방과후",
+        "예산 -17 · 학생 만족 +11 · 평판 +6 · 교사 만족 -4",
+        {
+          "money": -17,
+          "happy": 11,
+          "rep": 6,
+          "teacher": -4
+        },
+        "🤝 두 학교가 수업과 이동 일정을 맞추고 더 다양한 활동을 함께 열었습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "small-school-cases-2022"
+          ],
+          "note": "인근 학교와 방과후 프로그램을 함께 운영한 실제 사례를 참고합니다. 공동수업만의 만족도·학생 수 효과나 이동 부담을 정량 추정하지 않았습니다."
+        }
+      ],
+      [
+        "온라인 공동수업 시범",
+        "예산 -10 · 시설 +5 · 학생 만족 +5 · 교사 만족 -2",
+        {
+          "money": -10,
+          "facilities": 5,
+          "happy": 5,
+          "teacher": -2
+        },
+        "🖥️ 이동은 줄였지만 연결 장비와 공동수업 준비가 필요했습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "온라인 공동수업의 시설·만족도 효과와 이동식 공동수업 대비 우열을 검증한 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "교사 공동설계·학교별 수업",
+        "예산 -8 · 교사 만족 +8 · 학생 만족 +3",
+        {
+          "money": -8,
+          "teacher": 8,
+          "happy": 3
+        },
+        "📒 교사들이 자료를 함께 만들고 각 학교의 시간표에 맞춰 수업했습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "small-school-study-2022"
+          ],
+          "note": "작은 학교의 교육과정 운영과 자원 연계에 관한 질적 연구의 참고 근거입니다. 이 수업 방식만의 효과를 분리하거나 학생 유입을 추정하지 않았습니다."
+        }
+      ]
+    ]
+  },
+  {
+    "id": "transfer-student-welcome",
+    "icon": "🎒",
+    "title": "전입생의 새 출발을 돕습니다",
+    "desc": "새로 온 학생이 수업과 친구 관계에 적응하기 어렵다고 말합니다. 기존 학생과 교사의 부담도 함께 살펴야 합니다.",
+    "options": [
+      [
+        "적응 상담·또래 멘토 운영",
+        "예산 -12 · 학생 만족 +12 · 교사 만족 -3",
+        {
+          "money": -12,
+          "happy": 12,
+          "teacher": -3
+        },
+        "🎒 전입생과 또래 멘토가 학교생활 계획을 함께 세웠습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "전입생 적응 상담·또래 멘토의 만족도와 재학 유지 효과를 직접 검증한 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "소집단 학습 연결부터 지원",
+        "예산 -15 · 학생 만족 +9 · 교사 만족 -4 · 평판 +4",
+        {
+          "money": -15,
+          "happy": 9,
+          "teacher": -4,
+          "rep": 4
+        },
+        "📚 학습 상태를 살피고 기존 수업과 연결한 작은 모둠 지도를 시작했습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "eef-small-group-tuition"
+          ],
+          "note": "필요에 맞춘 소집단 지도의 학습 성취 근거입니다. 전입생의 정서 적응·만족이나 재학 유지 효과를 직접 검증한 자료는 아닙니다."
+        }
+      ],
+      [
+        "학급 전체 환영 프로젝트",
+        "예산 -7 · 학생 만족 +7 · 평판 +3 · 교사 만족 -2",
+        {
+          "money": -7,
+          "happy": 7,
+          "rep": 3,
+          "teacher": -2
+        },
+        "💌 학생들이 학교 안내와 환영 활동을 만들고 개별 상담은 필요한 때 이어가기로 했습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "학급 환영 프로젝트만의 만족도·평판·전입 효과를 측정한 자료는 연결하지 않았습니다."
+        }
+      ]
+    ]
+  },
+  {
+    "id": "multilingual-family-communication",
+    "icon": "💬",
+    "title": "학교 안내가 잘 닿지 않습니다",
+    "desc": "한국어가 익숙하지 않은 가정이 안내문과 상담을 이해하기 어렵다고 합니다. 소통 방식과 지원 인력을 정해야 합니다.",
+    "options": [
+      [
+        "통역·번역 상담 연계",
+        "예산 -14 · 학생 만족 +10 · 평판 +5",
+        {
+          "money": -14,
+          "happy": 10,
+          "rep": 5
+        },
+        "💬 통역 지원과 번역 안내로 가정이 학교와 질문을 주고받았습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "다언어 상담 지원만의 만족도·평판이나 학생 수 변화를 검증한 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "쉬운 한국어 안내·교사 연수",
+        "예산 -8 · 교사 만족 +6 · 학생 만족 +5",
+        {
+          "money": -8,
+          "teacher": 6,
+          "happy": 5
+        },
+        "📝 쉬운 문장과 그림으로 안내를 고쳤지만 개별 통역 수요는 남았습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "쉬운 안내문과 교사 연수의 효과를 이 학교에 적용할 실증 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "지역 지원기관 상담 창구 협약",
+        "예산 -6 · 학생 만족 +6 · 평판 +4 · 교사 만족 -3",
+        {
+          "money": -6,
+          "happy": 6,
+          "rep": 4,
+          "teacher": -3
+        },
+        "🏡 지역 기관과 상담을 연결하고 학교는 일정·정보 전달을 조정했습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "지역 지원기관 연결이 소통·만족이나 전입에 미치는 효과를 추정한 자료는 연결하지 않았습니다."
+        }
+      ]
+    ]
+  },
+  {
+    "id": "bullying-prevention",
+    "icon": "🛡️",
+    "title": "따돌림 신호가 포착됐습니다",
+    "desc": "일부 학생이 관계의 어려움을 알렸습니다. 필요한 보호와 사안 처리는 즉시 진행하며, 이후 예방 지원의 범위를 정합니다.",
+    "options": [
+      [
+        "학교 전체 예방 프로그램",
+        "예산 -18 · 학생 만족 +12 · 평판 +7 · 교사 만족 -5",
+        {
+          "money": -18,
+          "happy": 12,
+          "rep": 7,
+          "teacher": -5
+        },
+        "🛡️ 학생·교직원·가정이 함께 참여할 예방 활동과 점검을 시작했습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "anti-bullying-review-2021"
+          ],
+          "note": "학교 기반 괴롭힘 예방 프로그램의 가해·피해 행동 감소를 다룬 종합 연구입니다. 만족도·평판이나 학생 수 효과를 직접 검증하지 않았고 프로그램별 효과 차이가 큽니다."
+        }
+      ],
+      [
+        "전문상담 집중·외부기관 연계",
+        "예산 -13 · 학생 만족 +10 · 교사 만족 +4",
+        {
+          "money": -13,
+          "happy": 10,
+          "teacher": 4
+        },
+        "🤲 보호가 필요한 학생의 상담을 연결했습니다. 학급 전체 예방 활동은 제한적으로 운영합니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "전문상담·외부기관 연계 하나의 효과를 연결된 예방 프로그램 연구로 대신 입증할 수 없습니다. 이 선택에 직접 맞는 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "학급 관계 회복·담당 시간 확보",
+        "예산 -7 · 학생 만족 +7 · 교사 만족 -4 · 평판 +3",
+        {
+          "money": -7,
+          "happy": 7,
+          "teacher": -4,
+          "rep": 3
+        },
+        "🧩 담임의 활동 시간을 확보해 관계를 살피고 필요한 지원을 이어갑니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "학급 관계 활동만의 효과는 전체 학교 예방 프로그램의 평균 효과와 구별해야 합니다. 개별 선택의 효과 자료는 연결하지 않았습니다."
+        }
+      ]
+    ]
+  },
+  {
+    "id": "targeted-learning-support",
+    "icon": "📖",
+    "title": "기초학습 지원이 필요합니다",
+    "desc": "학습 점검에서 학생마다 다른 어려움이 확인됐습니다. 지원 시간·지도 인력과 다른 수업의 균형을 정해야 합니다.",
+    "options": [
+      [
+        "진단 연계 소집단 집중지도",
+        "예산 -18 · 학생 만족 +11 · 평판 +6 · 교사 만족 -4",
+        {
+          "money": -18,
+          "happy": 11,
+          "rep": 6,
+          "teacher": -4
+        },
+        "📖 준비된 지도 인력이 작은 모둠을 맡고 교과 수업과 진도를 연결했습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "eef-small-group-tuition"
+          ],
+          "note": "진단·교과 연계·지도 인력 준비를 갖춘 소집단 지도의 학습 성취 근거와 관련됩니다. 만족도·평판 및 학생 수 증가는 측정 결과가 아닙니다."
+        }
+      ],
+      [
+        "교사 공동 수업 개선·추가 점검",
+        "예산 -10 · 교사 만족 +7 · 학생 만족 +5",
+        {
+          "money": -10,
+          "teacher": 7,
+          "happy": 5
+        },
+        "👩‍🏫 교사들이 어려운 부분을 함께 분석했습니다. 별도 집중지도 시간은 적습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "small-school-study-2022"
+          ],
+          "note": "작은 학교의 교육과정 운영을 다룬 질적 연구를 참고합니다. 이 방식과 소집단 지도의 학습 효과를 직접 비교한 근거는 아닙니다."
+        }
+      ],
+      [
+        "외부 학습지원 인력 협약",
+        "예산 -14 · 학생 만족 +8 · 교사 만족 +5 · 평판 +3",
+        {
+          "money": -14,
+          "happy": 8,
+          "teacher": 5,
+          "rep": 3
+        },
+        "🤝 지원 인력과 학교가 수업 자료·점검 결과를 공유하며 지도를 나눠 맡았습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "eef-small-group-tuition"
+          ],
+          "note": "준비된 지도 인력과 수업 연계가 소집단 지도의 실행 조건이라는 근거를 참고합니다. 외부 인력 계약 자체의 효과나 학생 유입을 검증한 자료는 아닙니다."
+        }
+      ]
+    ]
+  },
+  {
+    "id": "local-career-partnership",
+    "icon": "🧑‍🔧",
+    "title": "마을 전문가의 수업 제안",
+    "desc": "농업인·예술가·기술자가 진로 수업에 참여하고 싶다고 합니다. 교육과정 연결과 안전 관리에 준비가 필요합니다.",
+    "options": [
+      [
+        "지역 연계 정규 프로젝트",
+        "예산 -16 · 학생 만족 +10 · 평판 +8 · 교사 만족 -4",
+        {
+          "money": -16,
+          "happy": 10,
+          "rep": 8,
+          "teacher": -4
+        },
+        "🧑‍🔧 교사와 전문가가 프로젝트를 설계하고 활동·안전 계획을 함께 세웠습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "small-school-study-2022",
+            "dangpo-curriculum-2022"
+          ],
+          "note": "지역 자원 연계와 방과후·공동체 활동을 다룬 연구·사례입니다. 진로 프로젝트 하나의 학생 유입·만족도 효과는 분리하지 않았습니다."
+        }
+      ],
+      [
+        "교내 진로 체험의 날",
+        "예산 -8 · 학생 만족 +7 · 평판 +4 · 교사 만족 -2",
+        {
+          "money": -8,
+          "happy": 7,
+          "rep": 4,
+          "teacher": -2
+        },
+        "🎨 전문가를 학교로 초대해 이동 부담을 줄였지만 체험 시간은 짧았습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "dangpo-curriculum-2022"
+          ],
+          "note": "다양한 활동을 운영한 학교 사례의 참고 자료입니다. 일회성 진로 체험만의 효과를 추정하지 않았습니다."
+        }
+      ],
+      [
+        "교사 연수 후 수업 자료화",
+        "예산 -7 · 교사 만족 +7 · 학생 만족 +3",
+        {
+          "money": -7,
+          "teacher": 7,
+          "happy": 3
+        },
+        "🧰 교사들이 지역 직업 이야기를 배워 자료로 만들고 직접 체험은 다음으로 미뤘습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "지역 전문가에게 배운 자료를 교사 수업으로 전환하는 방식의 만족도·전입 효과를 검증한 자료는 연결하지 않았습니다."
+        }
+      ]
+    ]
+  },
+  {
+    "id": "family-communication",
+    "icon": "🗣️",
+    "title": "학부모의 요구가 엇갈립니다",
+    "desc": "일부 가정은 새로운 프로그램을, 다른 가정은 수업 안정과 휴식을 원합니다. 소수의 목소리도 들을 방식이 필요합니다.",
+    "options": [
+      [
+        "소규모 숙의·공개 답변 운영",
+        "예산 -9 · 학생 만족 +7 · 평판 +8 · 교사 만족 -4",
+        {
+          "money": -9,
+          "happy": 7,
+          "rep": 8,
+          "teacher": -4
+        },
+        "🗣️ 서로 다른 요구와 선택 이유를 공개하고 교사들은 협의 시간을 더 맡았습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "숙의·공개 답변 방식의 만족도·평판 효과를 추정한 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "수요 조사 후 한 학기 시범",
+        "예산 -14 · 학생 만족 +9 · 평판 +5 · 교사 만족 -2",
+        {
+          "money": -14,
+          "happy": 9,
+          "rep": 5,
+          "teacher": -2
+        },
+        "🧪 희망 수요를 확인해 제한된 규모로 시작하고 학기 말에 다시 점검하기로 했습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "수요 조사와 시범 운영의 조합이 만족도나 학생 수에 미치는 효과를 검증한 자료는 연결하지 않았습니다."
+        }
+      ],
+      [
+        "정규 수업 집중·개별 면담",
+        "예산 -5 · 교사 만족 +5 · 학생 만족 +3 · 평판 -2",
+        {
+          "money": -5,
+          "teacher": 5,
+          "happy": 3,
+          "rep": -2
+        },
+        "📋 새 사업은 줄이고 개별 상담을 이어갑니다. 확대를 바라던 일부 가정에는 아쉬움이 남았습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "정규 수업 집중·개별 면담과 신규 프로그램 확대를 비교한 근거는 연결하지 않았습니다."
+        }
+      ]
+    ]
+  },
+  {
+    "id": "budget-priorities",
+    "icon": "💰",
+    "title": "내년 사업 예산이 줄었습니다",
+    "desc": "필수 수업과 안전 운영비를 확보한 뒤 남는 사업비가 줄었습니다. 선택 사업의 우선순위를 다시 정해야 합니다.",
+    "options": [
+      [
+        "돌봄 유지·행사 축소",
+        "예산 +10 · 학생 만족 +3 · 평판 -3",
+        {
+          "money": 10,
+          "happy": 3,
+          "rep": -3
+        },
+        "🧸 돌봄 시간은 지켰지만 큰 행사와 외부 홍보를 줄였습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "neulbom-care-2024"
+          ],
+          "note": "돌봄 대기 해소·학부모 만족의 운영 결과는 돌봄 유지 판단에 참고할 수 있습니다. 행사 축소와의 예산·평판 상충이나 전입 효과를 비교한 자료는 아닙니다."
+        }
+      ],
+      [
+        "공동사업으로 비용 분담",
+        "예산 +6 · 학생 만족 +5 · 교사 만족 -5",
+        {
+          "money": 6,
+          "happy": 5,
+          "teacher": -5
+        },
+        "🤝 이웃 학교와 활동비를 나눴지만 일정과 행정 조정이 늘었습니다.",
+        {
+          "level": "indirect",
+          "sourceIds": [
+            "small-school-cases-2022"
+          ],
+          "note": "인근 학교와 프로그램을 공동 운영한 사례를 참고합니다. 실제 절감액이나 교사 업무 변화, 학생 수 효과를 추정한 자료는 아닙니다."
+        }
+      ],
+      [
+        "시설 확장 연기·수업 지원 유지",
+        "예산 +14 · 교사 만족 +5 · 시설 -5",
+        {
+          "money": 14,
+          "teacher": 5,
+          "facilities": -5
+        },
+        "🔧 필수 안전 보수는 진행하고 새 공간 조성은 미뤘습니다. 수업 지원은 유지했습니다.",
+        {
+          "level": "none",
+          "sourceIds": [],
+          "note": "선택 시설 확장을 연기하고 수업 지원을 유지하는 예산 배분의 효과를 비교한 자료는 연결하지 않았습니다."
+        }
+      ]
+    ]
+  }
+];
+
+const LEGACY_EVENT_IDS = events.slice(0, 8).map(event => event.id);
+
+</script><script>
+'use strict';
+
+// Curated source summaries, not measured coefficients for the population model.
+const POLICY_EVIDENCE_META = {
+  checked: '2026-11-08',
+  scope: '학생 유입 사례와 교육·돌봄의 간접 근거를 구분합니다. 사례는 인과효과의 증명이 아니며, 게임의 학생 수 증감 계수는 연구에서 추정한 값이 아닙니다.'
+};
+
+const POLICY_SOURCES = {
+  'gb-free-district-2025': {
+    title: '2025 주요 추진성과 · 작은 학교 자유학구제 내실화',
+    publisher: '경상북도교육청',
+    date: '2025-12 기준',
+    url: 'https://www.gbe.kr/opengbe/cm/cntnts/cntntsView.do?cntntsId=9445&mi=20294',
+    kind: 'case',
+    finding: '교육청은 2025년 3월 4일 기준 작은 학교 135교에 학생 515명이 유입됐다고 집계했습니다. 자유학구제 운영 예산과 학생 유입 실적을 함께 제시한 행정자료입니다.',
+    limitations: '개별 학교의 순증가나 통학버스만의 효과를 뜻하지 않습니다. 학구 조정·교육과정 등 여러 지원이 함께 작용하며, 다른 학교에서 이동한 학생이므로 지역 전체 학생 수의 증가와도 구별해야 합니다.'
+  },
+  'small-school-study-2022': {
+    title: '두 초등학교 사례를 통한 원도심 작은학교의 활성화 방안 연구',
+    publisher: '위미나·차형률 · 수산해양교육연구 34(2), 234–255',
+    date: '2022-04-30',
+    url: 'https://english.ksfme.or.kr/_common/do.php?a=full&aidx=32739&b=12&bidx=2907',
+    kind: 'research',
+    finding: '창원 원도심의 작은 초등학교 두 곳에 관한 면담 연구입니다. 특색 교육과정, 지역 자원 연계, 교육복지와 학교 환경 지원을 활성화 방향으로 제안합니다.',
+    limitations: '질적 사례연구로, 개별 정책이 전학생을 몇 명 늘렸는지 인과적으로 추정하지 않았습니다. 시설·협력·복지 선택의 참고 근거이며 경북 학교의 효과를 보장하지 않습니다.'
+  },
+  'small-school-cases-2022': {
+    title: '농어촌에 활력을, 아이들에 활기를…‘참 좋은 작은 학교’',
+    publisher: '대한민국 정책브리핑 · 윤세리',
+    date: '2022-02-08',
+    url: 'https://www.korea.kr/news/policyNewsView.do?newsId=148898779',
+    kind: 'case',
+    finding: '백봉초는 마을과 학교의 협력 사업 속에서 재학생이 2019년 26명, 2020년 38명, 기사 시점 48명으로 늘어난 사례로 소개됩니다. 인근 학교와의 방과후 프로그램과 자연놀이 교육도 함께 운영했습니다.',
+    limitations: '여러 해의 지역·학교 사업을 묶어 소개한 사례입니다. 축제, 도서관, 스포츠나 생태활동 하나의 효과를 분리한 연구가 아니며, 사례의 증가율을 다른 학교에 그대로 적용할 수 없습니다.'
+  },
+  'namhae-housing-2025': {
+    title: '남해 빈집 재생 사업 순항…성명초 전·입학 학생 가정 늘어',
+    publisher: '뉴스1 · 강미영',
+    date: '2025-03-14',
+    url: 'https://www.news1.kr/local/busan-gyeongnam/5719186',
+    kind: 'case',
+    finding: '남해군이 빈집 네 곳을 전·입학 학생 가정에 임대해 21명이 입주했으며, 성명초에는 유치원생 한 명을 포함한 아홉 명이 입학했다고 보도했습니다. 초등학생만으로는 여덟 명입니다.',
+    limitations: '주택 제공과 가족 이주가 함께 이뤄진 지역 사례입니다. 개발 논의나 학교 홍보만으로 같은 결과가 발생한다는 근거가 아니며, 일자리·주거 여건과 지자체 협력이 필요합니다.'
+  },
+  'rural-study-policy-2024': {
+    title: '[모집 안내] 2024학년도 2학기 2차 전남농산어촌유학생 모집',
+    publisher: '전라남도교육청 교육자치과',
+    date: '2024-07-12',
+    url: 'https://www.jne.go.kr/jne/na/ntt/selectNttInfo.do?mi=1204&nttSn=5120010',
+    kind: 'policy',
+    finding: '도시 학생을 농산어촌 학교에 연결하는 실제 모집 절차입니다. 학교 매칭, 학교·주택 사전방문, 배정 뒤 주소 이전과 전학 처리 과정을 안내합니다.',
+    limitations: '모집·운영 안내이지 학생 유입 실적이나 인과효과 평가가 아닙니다. 체험 참가가 곧 전학·정착으로 이어지는 것은 아니며, 해당 연도의 자격·지원 조건을 모든 학교에 적용할 수 없습니다.'
+  },
+  'dangpo-curriculum-2022': {
+    title: '교육부 ‘참 좋은 작은 학교’에 경북 조마초교·당포초교·청하중 선정',
+    publisher: '뉴시스 · 류상현',
+    date: '2022-12-15',
+    url: 'https://www.newsis.com/view/NISX20221215_0002123905',
+    kind: 'case',
+    finding: '문경 당포초는 골프·도예·국궁 등 열한 개 방과후 프로그램과 지역 공동체 활동을 운영하며, 재학생이 2021년 24명에서 2022년 38명으로 늘었다고 소개됐습니다.',
+    limitations: '방과후 교육과 마을 활동 등을 함께 시행한 사례 보도입니다. 특정 강좌나 행사 하나가 증가를 일으켰다는 인과 증거, 또는 동일한 증가율을 보장하는 자료는 아닙니다.'
+  },
+  'neulbom-care-2024': {
+    title: '범부처 협력을 통해 늘봄학교 운영을 성공적으로 이어 나간다',
+    publisher: '교육부',
+    date: '2024-07-15',
+    url: 'https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=100295&lev=0&m=020402&opType=N&page=1&s=moe&searchType=null&statusYN=W',
+    kind: 'policy',
+    finding: '교육부는 2024년 1학기 늘봄학교 운영교 2,963곳의 초등학교 1학년 돌봄 대기가 해소됐고 학부모 만족도가 80% 이상이었다고 발표했습니다.',
+    limitations: '돌봄 이용과 만족도에 관한 운영 결과입니다. 돌봄 확대 때문에 전입·입학생 또는 재학생 수가 늘어났음을 검증한 자료는 아닙니다.'
+  },
+  'eef-small-group-tuition': {
+    title: 'Small group tuition · 소집단 학습 지원 근거 검토',
+    publisher: 'Education Endowment Foundation (EEF)',
+    date: '2021-07 검토 갱신',
+    url: 'https://educationendowmentfoundation.org.uk/education-evidence/teaching-learning-toolkit/small-group-tuition',
+    kind: 'research',
+    finding: '교육 근거 검토는 학습 필요에 맞춘 소집단 지도에서 평균적인 학습 진전 효과가 나타났다고 정리합니다. 진단, 수업과의 연결, 지도 인력의 준비가 실행 조건입니다.',
+    limitations: '측정한 결과는 학습 성취이며 입학생·전학생 증가가 아닙니다. 평균적인 학습 효과를 경북 학교의 학생 수 증가율로 바꾸어 적용할 수 없습니다.'
+  },
+  'anti-bullying-review-2021': {
+    title: 'Effectiveness of school-based programs to reduce bullying perpetration and victimization: An updated systematic review and meta-analysis',
+    publisher: 'Gaffney·Ttofi·Farrington · Campbell Systematic Reviews',
+    date: '2021-04-05',
+    url: 'https://onlinelibrary.wiley.com/doi/10.1002/cl2.1143',
+    kind: 'research',
+    finding: '학교 기반 괴롭힘 예방 프로그램을 평가한 100개 연구를 종합해 가해·피해 행동의 평균적인 감소를 보고했습니다. 프로그램·대상·평가 방식에 따라 효과 차이가 컸습니다.',
+    limitations: '괴롭힘 행동 감소에 관한 근거입니다. 일반적인 상담 하나의 효과, 재학생 유지나 전학생 증가를 직접 검증한 결과로 해석해서는 안 됩니다.'
+  }
+};
 
 </script><script>
 'use strict';
@@ -78,21 +1288,86 @@ const $=id=>document.getElementById(id), clamp=(v,a=0,b=100)=>Math.max(a,Math.mi
 const STORE='gyeongbuk-principal-population-v3:', META='gyeongbuk-principal-last';
 let s=null, selected=null, toastTimer, effectTimer;
 const schoolMap=new Map(SCHOOLS.map(x=>[x.id,x]));
+const eventMap=new Map(events.map(x=>[x.id,x]));
+const catalogVersion=typeof EVENT_CATALOG_VERSION==='number'?EVENT_CATALOG_VERSION:2;
+const legacyEventIds=typeof LEGACY_EVENT_IDS!=='undefined'?LEGACY_EVENT_IDS:events.slice(0,8).map(x=>x.id);
 const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function legacyEventId(year){return legacyEventIds[((year-2026)%legacyEventIds.length+legacyEventIds.length)%legacyEventIds.length]}
+function scheduledEventId(year){return events[((year-2026)%events.length+events.length)%events.length].id}
+function nextEventId(state,year){
+  if(state.eventCatalogVersion===catalogVersion&&state.eventScheduleMode!=='remaining')return scheduledEventId(year);
+  const played=new Set(state.history.map(h=>h&&eventMap.has(h.eventId)?h.eventId:h&&Number.isInteger(h.year)?legacyEventId(h.year):null));
+  played.add(state.eventId);
+  return events.find(ev=>!played.has(ev.id))?.id||scheduledEventId(year);
+}
+function optionEvidence(option){
+  const raw=option?.[4]&&typeof option[4]==='object'?option[4]:{};
+  const catalog=typeof POLICY_SOURCES==='object'&&POLICY_SOURCES?POLICY_SOURCES:{};
+  const ids=Array.isArray(raw.sourceIds)?[...new Set(raw.sourceIds.filter(id=>typeof id==='string'))]:[];
+  const sources=ids.filter(id=>Object.prototype.hasOwnProperty.call(catalog,id)).map(id=>catalog[id]).filter(source=>source&&typeof source==='object');
+  let level=['case','indirect','none'].includes(raw.level)?raw.level:'none';
+  if(!sources.length)level='none';
+  return {level,sources,note:typeof raw.note==='string'?raw.note:''};
+}
+function sourceLink(source){
+  const title=esc(source.title||'제목이 제공되지 않은 출처');
+  try{const url=new URL(source.url);if(url.protocol==='https:')return `<a href="${esc(url.href)}" target="_blank" rel="noopener noreferrer">${title}<span class="sr-only"> (새 창)</span></a>`}catch{}
+  return `<span>${title}</span>`;
+}
+function evidenceMarkup(option,context='choice'){
+  const evidence=optionEvidence(option),labels={case:'사례 근거',indirect:'간접 근거',none:'직접 근거 미확인'};
+  const summary=context==='journal'?'선택한 정책의 근거·한계':'근거·한계 보기';
+  const interpretation=evidence.level==='case'?'학생 유입이 함께 관찰된 사례입니다. 이 선택만의 인과효과나 같은 증가율을 입증하지는 않습니다.':evidence.level==='indirect'?'교육·돌봄·정책 운영의 참고 근거입니다. 입학생·전학생 증가를 직접 입증하지는 않습니다.':'이 선택이 학생 수를 늘린다는 직접 근거는 확인하지 못했습니다.';
+  const kinds={case:'사례',research:'연구',policy:'정책·운영 자료'};
+  const sources=evidence.sources.length?`<ul class="evidence-sources">${evidence.sources.map(source=>`<li><p class="evidence-source-title">${sourceLink(source)}</p><p class="evidence-source-meta">${esc([source.publisher,source.date,kinds[source.kind]].filter(Boolean).join(' · '))}</p>${source.finding?`<p><b>확인된 내용</b> ${esc(source.finding)}</p>`:''}${source.limitations?`<p><b>해석의 한계</b> ${esc(source.limitations)}</p>`:''}</li>`).join('')}</ul>`:'<p class="evidence-empty">연결된 출처가 없습니다.</p>';
+  return `<div class="choice-evidence"><details class="evidence-details"><summary><span class="evidence-status ${evidence.level}">${labels[evidence.level]}</span><span class="evidence-toggle">${summary}</span><span class="sr-only"> — ${esc(option?.[0]||'정책')}</span></summary><div class="evidence-body"><p>${interpretation}</p>${evidence.note?`<p class="evidence-note">${esc(evidence.note)}</p>`:''}${sources}<p class="evidence-assumption">예산·지표 변화와 학생 수 효과의 모든 계수는 게임 가정이며, 출처에서 추정한 값이 아닙니다.</p></div></details></div>`;
+}
+function historyMarkup(entry){
+  if(!entry||typeof entry!=='object')return '';
+  const option=eventMap.get(entry.eventId)?.options?.[entry.optionIndex];
+  const evidence=Number.isInteger(entry.optionIndex)&&entry.optionIndex>=0&&entry.optionIndex<3&&option?evidenceMarkup(option,'journal'):'';
+  return `<div class="history-entry"><div class="history-title"><b>${esc(entry.year)}년</b><span>${esc(entry.title??'')}</span></div>${evidence}</div>`;
+}
 function notify(message){$('toast').textContent=message;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3000)}
-function initial(school){return {version:3,schoolId:school.id,base:school.base,year:2026,grades:school.grades.slice(),special:school.special,money:100,rep:50,teacher:60,happy:60,facilities:50,appeal:0,history:[],points:[{year:2026,total:school.base}],chosen:false,chosenIndex:null,done:false,last:`${school.name}의 교장으로 부임했습니다. 2026년 공시 학생 ${school.base.toLocaleString('ko-KR')}명에서 학교 이야기를 시작합니다.`}}
-function loadSave(id){try{const v=JSON.parse(localStorage.getItem(STORE+id));if(!v||v.version!==3||v.schoolId!==id||!schoolMap.has(id)||!Array.isArray(v.grades)||v.grades.length!==6||!v.grades.every(x=>Number.isFinite(x)&&x>=0)||!Number.isFinite(v.special)||v.special<0||!Array.isArray(v.points)||!v.points.length||!v.points.every(p=>Number.isFinite(p.total)&&Number.isFinite(p.year))||!Array.isArray(v.history)||v.base!==schoolMap.get(id).base||v.year<2026||v.year>2045||!['money','rep','happy','teacher','facilities','appeal'].every(k=>Number.isFinite(v[k])))return null;return v}catch{return null}}
+function initial(school){return {version:3,eventCatalogVersion:catalogVersion,eventId:events[0].id,schoolId:school.id,base:school.base,year:2026,grades:school.grades.slice(),special:school.special,money:100,rep:50,teacher:60,happy:60,facilities:50,appeal:0,history:[],points:[{year:2026,total:school.base}],chosen:false,chosenIndex:null,done:false,last:`${school.name}의 교장으로 부임했습니다. 2026년 공시 학생 ${school.base.toLocaleString('ko-KR')}명에서 학교 이야기를 시작합니다.`}}
+function loadSave(id){try{
+  const v=JSON.parse(localStorage.getItem(STORE+id));
+  if(!v||v.version!==3||v.schoolId!==id||!schoolMap.has(id)||!Array.isArray(v.grades)||v.grades.length!==6||!v.grades.every(x=>Number.isFinite(x)&&x>=0)||!Number.isFinite(v.special)||v.special<0||!Array.isArray(v.points)||!v.points.length||!v.points.every(p=>p&&Number.isFinite(p.total)&&Number.isFinite(p.year))||!Array.isArray(v.history)||v.base!==schoolMap.get(id).base||!Number.isInteger(v.year)||v.year<2026||v.year>2045||!['money','rep','happy','teacher','facilities','appeal'].every(k=>Number.isFinite(v[k])))return null;
+  const legacy=v.eventCatalogVersion!==catalogVersion;
+  v.eventCatalogVersion=legacy?1:catalogVersion;
+  if(!eventMap.has(v.eventId))v.eventId=legacy?legacyEventId(v.year):scheduledEventId(v.year);
+  v.chosen=v.chosen===true;
+  if(!Number.isInteger(v.chosenIndex)||v.chosenIndex<0||v.chosenIndex>2)v.chosenIndex=null;
+  if(!v.chosen)v.chosenIndex=null;
+  v.done=v.done===true||v.year>=2045;
+  return v;
+}catch{return null}}
 function persist(){try{localStorage.setItem(STORE+s.schoolId,JSON.stringify(s));localStorage.setItem(META,s.schoolId);return true}catch{return false}}
 function listSchools(){const region=$('region').value,query=$('search').value.trim().replace(/\s/g,'').toLowerCase();const found=SCHOOLS.filter(x=>(!region||x.region===region)&&(!query||(x.name+x.region+x.address).replace(/\s/g,'').toLowerCase().includes(query)));$('resultCount').textContent=`총 ${found.length}개 학교·분교`;$('schoolList').innerHTML=found.length?found.map(x=>`<button class="school-option${selected?.id===x.id?' selected':''}" data-school="${esc(x.id)}" aria-pressed="${selected?.id===x.id}"><span>${esc(x.name)}</span><small>${esc(x.region)} ${selected?.id===x.id?'✓':'›'}</small></button>`).join(''):'<div class="no-results">검색 결과가 없습니다. 지역이나 학교명을 바꿔 보세요.</div>'}
 function selectSchool(id){selected=schoolMap.get(id);if(!selected)return;const saved=loadSave(id);$('selectedInfo').innerHTML=`<b>🏫 ${esc(selected.name)}</b><small>${esc(selected.address)} · ${esc(selected.type)} · 2026년 공시</small>`;$('start').disabled=false;$('start').innerHTML=(saved?`${saved.year}년부터 이어하기`:'실제 학생 수로 교장 부임하기')+' <span>→</span>';const f30=PopulationModel.forecast(selected,2030),f45=PopulationModel.forecast(selected,2045);$('forecastPreview').innerHTML=`<div class="forecast-start"><span>2026년 공시 재학생</span><b>${selected.base.toLocaleString('ko-KR')}<small>명</small></b></div><div class="grade-chips">${selected.grades.map((v,i)=>`<span>${i+1}학년<b>${v}명</b></span>`).join('')}</div><small class="special-note">특수·순회학급 별도 집계 ${selected.special}명 포함</small><div class="forecast-future"><span>2030년 자체 추계<b>약 ${f30.total.toLocaleString('ko-KR')}명</b></span><span>2045년 자체 추계<b>약 ${f45.total.toLocaleString('ko-KR')}명</b></span></div><p class="history-note">공시 추이: ${Object.entries(selected.history).map(([y,n])=>y+'년 '+n.toLocaleString('ko-KR')+'명').join(' → ')}</p><p class="model-note">학교별 미래 값은 공시 학년 구성·최근 추세·경북 학령인구 전망으로 계산합니다. 교육청의 공식 학교별 예상 학생 수는 아닙니다.</p>`;listSchools()}
 function showSetup(){if(s){persist();$('cancelSetup').hidden=false;selected=schoolMap.get(s.schoolId);$('region').value=selected.region;$('search').value='';selectSchool(selected.id)}$('setup').hidden=false;$('game').hidden=true;window.scrollTo({top:0,behavior:'instant'})}
-function enterGame(){if(!selected)return;const saved=loadSave(selected.id);s=saved||initial(selected);$('setup').hidden=true;$('game').hidden=false;persist();render();const url=new URL(location.href);url.searchParams.set('school',s.schoolId);try{history.replaceState(null,'',url)}catch{};window.scrollTo({top:0,behavior:'instant'});if(saved)notify(`${saved.year}년의 학교 이야기를 이어갑니다.`)}
-function currentEvent(){return events[(s.year-2026)%events.length]}
-function updateScene(){const total=PopulationModel.total(s.grades,s.special),ratio=total/s.base,eventIndex=(s.year-2026)%events.length;const rainy=eventIndex===5;$('scene').className='scene'+(rainy?' rain':'');$('season').textContent=['🌸 봄 학기','☀️ 여름 학기','🍁 가을 학기','❄️ 겨울 학기'][(s.year-2026)%4];$('mood').textContent=ratio<.45?'🏫 조용해진 교정':ratio<.8?'🌿 변화하는 학교':ratio>1.15?'🎉 북적이는 학교':'😊 활기찬 학교';$('schoolSign').textContent=schoolMap.get(s.schoolId).name;$('windows').innerHTML=Array.from({length:10},(_,i)=>`<div class="window ${i>=Math.ceil(ratio*8)?'off':''}"></div>`).join('');const n=Math.min(11,Math.max(2,Math.round(ratio*8)));$('yard').innerHTML=Array.from({length:n},(_,i)=>`<span class="person" style="left:${7+i*8}%;animation-duration:${.8+i*.12}s;animation-delay:${i*.1}s">${['🧒','👧','👦','🏃','👩‍🏫'][i%5]}</span>`).join('');let icons=['🚌','📚','💻','🏘️','🧸','☔','🎈','🤖'];let icon=s.chosen?(currentEvent().options[s.chosenIndex??0][3].match(/^\S+/)?.[0]||icons[eventIndex]):icons[eventIndex];$('situation').textContent=s.done?'🎓':icon;$('situation').className='situation '+(icon==='🚌'?'bus':'float')}
+function enterGame(){if(!selected)return;const saved=loadSave(selected.id);s=saved||initial(selected);$('setup').hidden=true;$('game').hidden=false;persist();render();const url=new URL(location.href);url.searchParams.set('school',s.schoolId);history.replaceState(null,'',url);window.scrollTo({top:0,behavior:'instant'});if(saved)notify(`${saved.year}년의 학교 이야기를 이어갑니다.`)}
+function currentEvent(){return eventMap.get(s.eventId)||eventMap.get(s.eventCatalogVersion===catalogVersion?scheduledEventId(s.year):legacyEventId(s.year))||events[0]}
+function updateScene(){const total=PopulationModel.total(s.grades,s.special),ratio=total/s.base,ev=currentEvent();$('scene').className='scene'+(ev.rain?' rain':'');$('season').textContent=['🌸 봄 학기','☀️ 여름 학기','🍁 가을 학기','❄️ 겨울 학기'][(s.year-2026)%4];$('mood').textContent=ratio<.45?'🏫 조용해진 교정':ratio<.8?'🌿 변화하는 학교':ratio>1.15?'🎉 북적이는 학교':'😊 활기찬 학교';$('schoolSign').textContent=schoolMap.get(s.schoolId).name;$('windows').innerHTML=Array.from({length:10},(_,i)=>`<div class="window ${i>=Math.ceil(ratio*8)?'off':''}"></div>`).join('');const n=Math.min(11,Math.max(2,Math.round(ratio*8)));$('yard').innerHTML=Array.from({length:n},(_,i)=>`<span class="person" style="left:${7+i*8}%;animation-duration:${.8+i*.12}s;animation-delay:${i*.1}s">${['🧒','👧','👦','🏃','👩‍🏫'][i%5]}</span>`).join('');const result=Number.isInteger(s.chosenIndex)&&s.chosenIndex>=0&&s.chosenIndex<3?ev.options[s.chosenIndex]?.[3]:null;const icon=(s.chosen&&typeof result==='string'?result.match(/^\S+/)?.[0]:null)||ev.icon||'🏫';$('situation').textContent=s.done?'🎓':icon;$('situation').className='situation '+(icon==='🚌'?'bus':'float')}
 function animate(msg){const e=$('effect');e.textContent=msg.match(/^\S+/)?.[0]||'✨';e.classList.remove('play');void e.offsetWidth;e.classList.add('play');const icons=msg.startsWith('🌧')||msg.startsWith('☔')?['💧','🌧️']:['✨','⭐','🎊'];$('confetti').innerHTML=Array.from({length:18},(_,i)=>`<i style="left:${Math.random()*100}%;animation-delay:${Math.random()*.5}s">${icons[i%icons.length]}</i>`).join('');clearTimeout(effectTimer);effectTimer=setTimeout(()=>{$('confetti').innerHTML='';e.classList.remove('play')},2400)}
-function render(){const school=schoolMap.get(s.schoolId),total=PopulationModel.total(s.grades,s.special),baseline=PopulationModel.forecast(school,s.year);document.title=`${school.name} · 교장 인생 시뮬레이터`;$('location').textContent=`경상북도 ${school.region} · 나의 학교 이야기`;$('schoolName').textContent=school.name;$('year').textContent=s.year;$('students').innerHTML=total.toLocaleString('ko-KR')+'<span>명</span>';$('money').textContent=s.money;$('rep').textContent=s.rep;$('career').textContent=`${s.year-2025}년차 교장`;$('studentDelta').textContent=s.points.length>1?`지난해보다 ${total-s.points[s.points.length-2].total>=0?'+':''}${total-s.points[s.points.length-2].total}명`:'새로운 시작';$('narrative').textContent=s.last;$('next').disabled=!s.chosen||s.done;$('step').textContent=s.done?'20년의 학교 운영을 마쳤습니다':s.chosen?'결정 완료 · 다음 해로 진행':'올해의 결정을 내리세요';$('decisionBadge').textContent=s.done?'운영 종료':s.chosen?'결정 완료 ✓':'선택 대기';$('yearProgress').style.width=((s.year-2026)/19*100)+'%';updateScene();$('metrics').innerHTML=[['학생 만족',s.happy],['교사 만족',s.teacher],['시설 수준',s.facilities],['학교 평판',s.rep]].map(([k,v])=>`<div class="metric"><div class="metric-top"><span>${k}</span><b>${v}<small> / 100</small></b></div><div class="bar"><div style="width:${v}%"></div></div></div>`).join('');$('historyCount').textContent=`${s.history.length}개의 기록`;$('history').innerHTML=s.history.slice().reverse().map(h=>`<div><b>${esc(h.year)}년</b>${esc(h.title)}</div>`).join('')||'아직 일지가 비어 있습니다. 첫 결정을 내려 보세요.';if(s.done){const score=Math.round(total*.35+s.rep*2+s.teacher+s.happy+s.facilities+s.money*.3);$('eventTitle').textContent='2045년, 당신이 남긴 학교';$('eventDesc').textContent=`최종 재학생 ${total}명 · 종합점수 ${score}점. ${total>baseline.total?'인구 기준선보다 많은 학생이 함께하는 학교를 만들었습니다!':total===baseline.total?'인구 변화 속에서 기준선 수준의 학교를 지켰습니다.':'인구 기준선과의 차이를 돌아보며 다음 학교 이야기를 준비해 보세요.'}`;$('choices').innerHTML='<button class="primary" id="endingRestart">새로운 교장 인생 시작 <span>↻</span></button>';$('endingRestart').onclick=reset}else{const ev=currentEvent();$('eventTitle').textContent=ev.title;$('eventDesc').textContent=ev.desc;$('choices').innerHTML=ev.options.map((o,i)=>`<button class="choice ${s.chosen&&s.chosenIndex===i?'picked':''}" ${s.chosen?'disabled':''} data-choice="${i}"><span class="number">${s.chosen&&s.chosenIndex===i?'✓':String(i+1).padStart(2,'0')}</span><span><b>${esc(o[0])}</b><small>${esc(o[1])}</small></span></button>`).join('')}updateForecast(school,total);draw()}
-function choose(i){if(!s||s.chosen||s.done||!Number.isInteger(i)||i<0||i>2)return;const o=currentEvent().options[i];for(const[k,v]of Object.entries(o[2]))s[k]=k==='money'?Math.max(-50,s[k]+v):k==='appeal'?clamp(s[k]+v,-15,25):clamp(s[k]+v);s.chosen=true;s.chosenIndex=i;s.last=o[3];s.history.push({year:s.year,title:o[0]});render();animate(o[3]);if(!persist())notify('저장 공간이 부족합니다. 현재 플레이는 계속할 수 있습니다.')}
-function advance(){if(!s||!s.chosen||s.done)return;const school=schoolMap.get(s.schoolId),old=PopulationModel.total(s.grades,s.special),previous=PopulationModel.forecast(school,s.year),next=PopulationModel.forecast(school,s.year+1),effects=PopulationModel.effects(s);s.grades=PopulationModel.transition(s.grades,previous,next,effects);s.special=next.special;s.year++;const total=PopulationModel.total(s.grades,s.special);s.money=clamp(s.money+Math.round(16+total/Math.max(1,s.base)*6)-Math.round(s.facilities*.035),-50,250);s.teacher=clamp(s.teacher-2);s.facilities=clamp(s.facilities-2);s.appeal=clamp(s.appeal-1,-15,25);s.points.push({year:s.year,total});const gap=total-next.total;s.last=`${s.year}년, ${total.toLocaleString('ko-KR')}명이 새 학년을 시작합니다. ${old>total?`지난해보다 ${old-total}명 감소.`:old<total?`지난해보다 ${total-old}명 증가.`:'지난해 학생 수 유지.'} 인구 기준선 ${next.total.toLocaleString('ko-KR')}명 대비 ${gap>=0?'+':''}${gap}명입니다.`;s.chosen=false;s.chosenIndex=null;s.done=s.year>=2045;render();animate(s.done?'🎓 교장 인생의 결말':'🎓 새로운 학년!');persist()}
+function render(){
+  const school=schoolMap.get(s.schoolId),total=PopulationModel.total(s.grades,s.special),baseline=PopulationModel.forecast(school,s.year);
+  document.title=`${school.name} · 교장 인생 시뮬레이터`;$('location').textContent=`경상북도 ${school.region} · 나의 학교 이야기`;$('schoolName').textContent=school.name;$('year').textContent=s.year;$('students').innerHTML=total.toLocaleString('ko-KR')+'<span>명</span>';$('money').textContent=s.money;$('rep').textContent=s.rep;$('career').textContent=`${s.year-2025}년차 교장`;$('studentDelta').textContent=s.points.length>1?`지난해보다 ${total-s.points[s.points.length-2].total>=0?'+':''}${total-s.points[s.points.length-2].total}명`:'새로운 시작';$('narrative').textContent=s.last;$('next').disabled=!s.chosen||s.done;$('step').textContent=s.done?'20년의 학교 운영을 마쳤습니다':s.chosen?'결정 완료 · 다음 해로 진행':'올해의 결정을 내리세요';$('decisionBadge').textContent=s.done?'운영 종료':s.chosen?'결정 완료 ✓':'선택 대기';$('yearProgress').style.width=((s.year-2026)/19*100)+'%';updateScene();
+  $('metrics').innerHTML=[['학생 만족',s.happy],['교사 만족',s.teacher],['시설 수준',s.facilities],['학교 평판',s.rep]].map(([k,v])=>`<div class="metric"><div class="metric-top"><span>${k}</span><b>${v}<small> / 100</small></b></div><div class="bar"><div style="width:${v}%"></div></div></div>`).join('');
+  $('historyCount').textContent=`${s.history.length}개의 기록`;$('history').innerHTML=s.history.slice().reverse().map(historyMarkup).join('')||'아직 일지가 비어 있습니다. 첫 결정을 내려 보세요.';
+  $('choiceAssumption').hidden=s.done;
+  if(s.done){
+    const score=Math.round(total*.35+s.rep*2+s.teacher+s.happy+s.facilities+s.money*.3);
+    $('eventTitle').textContent='2045년, 당신이 남긴 학교';$('eventDesc').textContent=`최종 재학생 ${total}명 · 종합점수 ${score}점. ${total>baseline.total?'인구 기준선보다 많은 학생이 함께하는 학교를 만들었습니다!':total===baseline.total?'인구 변화 속에서 기준선 수준의 학교를 지켰습니다.':'인구 기준선과의 차이를 돌아보며 다음 학교 이야기를 준비해 보세요.'}`;
+    $('choices').innerHTML='<button class="primary" id="endingRestart">새로운 교장 인생 시작 <span>↻</span></button>';$('endingRestart').onclick=reset;
+  }else{
+    const ev=currentEvent();$('eventTitle').textContent=ev.title;$('eventDesc').textContent=ev.desc;
+    $('choices').innerHTML=ev.options.map((o,i)=>`<div class="choice-group"><button class="choice ${s.chosen&&s.chosenIndex===i?'picked':''}" ${s.chosen?'disabled':''} data-choice="${i}" aria-describedby="choiceAssumption"><span class="number">${s.chosen&&s.chosenIndex===i?'✓':String(i+1).padStart(2,'0')}</span><span class="choice-copy"><b>${esc(o[0])}</b><small>${esc(o[1])}</small></span></button>${evidenceMarkup(o)}</div>`).join('');
+  }
+  updateForecast(school,total);draw();
+}
+function choose(i){if(!s||s.chosen||s.done||!Number.isInteger(i)||i<0||i>2)return;const ev=currentEvent(),o=ev.options[i];if(!o)return;for(const[k,v]of Object.entries(o[2]))s[k]=k==='money'?Math.max(-50,s[k]+v):k==='appeal'?clamp(s[k]+v,-15,25):clamp(s[k]+v);s.chosen=true;s.chosenIndex=i;s.eventId=ev.id;s.last=o[3];s.history.push({year:s.year,title:o[0],eventId:ev.id,optionIndex:i});render();animate(o[3]);if(!persist())notify('저장 공간이 부족합니다. 현재 플레이는 계속할 수 있습니다.')}
+function advance(){if(!s||!s.chosen||s.done)return;const followingEventId=nextEventId(s,s.year+1);if(s.eventCatalogVersion!==catalogVersion)s.eventScheduleMode='remaining';s.eventCatalogVersion=catalogVersion;const school=schoolMap.get(s.schoolId),old=PopulationModel.total(s.grades,s.special),previous=PopulationModel.forecast(school,s.year),next=PopulationModel.forecast(school,s.year+1),effects=PopulationModel.effects(s);s.grades=PopulationModel.transition(s.grades,previous,next,effects);s.special=next.special;s.year++;const total=PopulationModel.total(s.grades,s.special);s.money=clamp(s.money+Math.round(16+total/Math.max(1,s.base)*6)-Math.round(s.facilities*.035),-50,250);s.teacher=clamp(s.teacher-2);s.facilities=clamp(s.facilities-2);s.appeal=clamp(s.appeal-1,-15,25);s.points.push({year:s.year,total});const gap=total-next.total;s.last=`${s.year}년, ${total.toLocaleString('ko-KR')}명이 새 학년을 시작합니다. ${old>total?`지난해보다 ${old-total}명 감소.`:old<total?`지난해보다 ${total-old}명 증가.`:'지난해 학생 수 유지.'} 인구 기준선 ${next.total.toLocaleString('ko-KR')}명 대비 ${gap>=0?'+':''}${gap}명입니다.`;s.chosen=false;s.chosenIndex=null;s.done=s.year>=2045;if(!s.done)s.eventId=followingEventId;render();animate(s.done?'🎓 교장 인생의 결말':'🎓 새로운 학년!');persist()}
 function updateForecast(school,total){const base=PopulationModel.forecast(school,s.year),gap=total-base.total;const fx=PopulationModel.effects(s);$('comparison').innerHTML=`<span>인구 기준선<b>${base.total.toLocaleString('ko-KR')}명</b></span><span>내 선택의 차이<b class="${gap>=0?'positive':'negative'}">${gap>=0?'+':''}${gap.toLocaleString('ko-KR')}명</b></span>`;$('chartNote').textContent=`${s.year}년 기준 · 기준선은 자체 추계, 녹색 선은 게임 결과입니다. 현재 정책의 신입생 유입 효과 ${(fx.admission*100)>=0?'+':''}${(fx.admission*100).toFixed(1)}% (게임 가정).`;const played=new Map(s.points.map(p=>[p.year,p.total]));$('forecastTable').innerHTML='<table><thead><tr><th>연도</th><th>인구 기준선</th><th>내 학교</th><th>차이</th></tr></thead><tbody>'+school.forecast.map(p=>{const v=played.get(p.year),diff=v===undefined?null:v-p.total;return `<tr class="${p.year===s.year?'current':''}"><th>${p.year}${p.year===2026?' 공시':''}</th><td>${p.total.toLocaleString('ko-KR')}명</td><td>${v===undefined?'—':v.toLocaleString('ko-KR')+'명'}</td><td>${diff===null?'—':(diff>=0?'+':'')+diff+'명'}</td></tr>`}).join('')+'</tbody></table><p>2026년은 공시 값, 2027~2045년은 자체 추계. 미래의 내 학교 값은 게임을 진행하면 표시됩니다.</p>'}
 function draw(){if(!s||$('game').hidden)return;const school=schoolMap.get(s.schoolId),c=$('chart'),r=c.getBoundingClientRect(),w=Math.max(200,r.width),h=r.height||155,d=Math.min(window.devicePixelRatio||1,3);c.width=w*d;c.height=h*d;const ctx=c.getContext('2d');if(!ctx)return;ctx.scale(d,d);ctx.clearRect(0,0,w,h);const arr=s.points,base=school.forecast,max=Math.max(1,...base.map(x=>x.total),...arr.map(x=>x.total))*1.12,left=39,right=w-14,top=14,bottom=h-24;ctx.strokeStyle='#e7eddf';ctx.fillStyle='#9caa8f';ctx.font='9px system-ui';for(let i=0;i<4;i++){const v=max*(1-i/3),y=top+(bottom-top)*i/3;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();ctx.fillText(Math.round(v).toLocaleString('ko-KR'),1,y+3)}const xx=y=>left+(y-2026)/19*(right-left),yy=v=>bottom-v/max*(bottom-top);ctx.strokeStyle='#a6aea0';ctx.lineWidth=1.7;ctx.setLineDash([4,4]);ctx.beginPath();base.forEach((p,i)=>i?ctx.lineTo(xx(p.year),yy(p.total)):ctx.moveTo(xx(p.year),yy(p.total)));ctx.stroke();ctx.setLineDash([]);ctx.beginPath();arr.forEach((p,i)=>i?ctx.lineTo(xx(p.year),yy(p.total)):ctx.moveTo(xx(p.year),yy(p.total)));ctx.lineTo(xx(arr.at(-1).year),bottom);ctx.lineTo(left,bottom);ctx.closePath();const gradient=ctx.createLinearGradient(0,top,0,bottom);gradient.addColorStop(0,'#79a66940');gradient.addColorStop(1,'#79a66900');ctx.fillStyle=gradient;ctx.fill();ctx.strokeStyle='#38764e';ctx.lineWidth=2.4;ctx.beginPath();arr.forEach((p,i)=>i?ctx.lineTo(xx(p.year),yy(p.total)):ctx.moveTo(xx(p.year),yy(p.total)));ctx.stroke();ctx.fillStyle='#96a387';[2026,2030,2035,2040,2045].forEach(y=>ctx.fillText(y,xx(y)-11,h-6));const last=arr.at(-1);ctx.fillStyle='#dcb65e';ctx.beginPath();ctx.arc(xx(last.year),yy(last.total),4,0,Math.PI*2);ctx.fill();c.setAttribute('aria-label',`회색 인구 기준선: ${base.map(p=>p.year+'년 약 '+p.total+'명').join(', ')}. 내 선택의 결과: ${arr.map(p=>p.year+'년 '+p.total+'명').join(', ')}`)}
 function reset(){if(!s||!confirm(`${schoolMap.get(s.schoolId).name}의 인구 반영판 진행을 지우고 2026년 공시 값에서 다시 시작할까요?`))return;s=initial(schoolMap.get(s.schoolId));persist();render();notify('2026년 실제 공시 학생 수에서 다시 시작했습니다.')}
