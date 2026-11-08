@@ -7,15 +7,15 @@ const dist=path.resolve(__dirname,'../dist');
 const read=name=>fs.readFileSync(path.join(dist,name),'utf8');
 
 // Exercise the actual buildless application with a minimal DOM, without a browser dependency.
-function boot(){
-  const nodes=new Map(),storage=new Map();
+function boot({savedEntries=[],search=''}={}){
+  const nodes=new Map(),storage=new Map(savedEntries),writes=[],scrolls=[];
   const element=id=>{
-    if(!nodes.has(id))nodes.set(id,{id,value:'',hidden:id==='game',disabled:false,innerHTML:'',textContent:'',style:{},className:'',classList:{add(){},remove(){}},getBoundingClientRect(){return {width:400,height:155}},getContext(){return null},setAttribute(){},get offsetWidth(){return 400}});
+    if(!nodes.has(id))nodes.set(id,{id,value:'',hidden:id==='game',disabled:false,innerHTML:'',textContent:'',style:{},className:'',classList:{add(){},remove(){}},getBoundingClientRect(){return {width:400,height:155}},getContext(){return null},setAttribute(){},scrollIntoView(options){scrolls.push({id,options})},get offsetWidth(){return 400}});
     return nodes.get(id);
   };
-  const context=vm.createContext({console,URL,URLSearchParams,location:{href:'https://example.com/game/',search:''},document:{getElementById:element,title:''},window:{scrollTo(){},devicePixelRatio:1},history:{replaceState(){}},localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,v)},addEventListener(){},setTimeout(){return 1},clearTimeout(){},confirm(){return true}});
+  const context=vm.createContext({console,URL,URLSearchParams,location:{href:'https://example.com/game/'+search,search},document:{getElementById:element,title:''},window:{scrollTo(){},matchMedia(){return {matches:false}},devicePixelRatio:1},history:{replaceState(){}},localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>{writes.push({key:k,value:v});storage.set(k,v)}},addEventListener(){},setTimeout(){return 1},clearTimeout(){},confirm(){return true}});
   for(const name of ['schools.js','events.js','evidence.js','simulation.js','app.js'])vm.runInContext(read(name),context,{filename:name});
-  return {run:source=>vm.runInContext(source,context),nodes,storage};
+  return {run:source=>vm.runInContext(source,context),nodes,storage,writes,scrolls};
 }
 const game=boot();
 const catalogue=game.run('events');
@@ -128,4 +128,95 @@ assert.ok(game.nodes.get('eventTitle').textContent.includes('2045'));
 // Existing title-only journals remain readable, with no invented evidence association.
 game.run("s=initial(SCHOOLS[0]);s.history=[{year:2026,title:'이전 판의 결정'}];render()");
 assert.ok(game.nodes.get('history').innerHTML.includes('이전 판의 결정'));
-console.log(JSON.stringify({status:'passed',events:catalogue.length,choices:catalogue.length*3,sources:Object.keys(sources).length,fullPlaythroughs:3,legacySaveCases:38,legacyJournalContinuation:true,legacyEnding:true,endingYear:2045},null,2));
+
+// Forecast browsing renders the neutral model, before any explicit game start or storage write.
+const preview=boot();
+assert.equal(preview.writes.length,0);
+assert.equal(preview.run('s'),null);
+const roster=preview.run('SCHOOLS');
+const originalForecasts=preview.run('JSON.stringify(SCHOOLS.map(school=>school.forecast))');
+function markedRows(markup,tag,className){
+  const pattern=tag==='tr'?'<tr\\b[^>]*>[\\s\\S]*?</tr>':`<${tag}\\b[^>]*>`;
+  return [...markup.matchAll(new RegExp(pattern, 'g'))].filter(match=>new RegExp(`class="[^"]*\\b${className}\\b`).test(match[0])).map(match=>{
+    const year=Number(match[0].match(/data-year="(\d+)"/)?.[1]);
+    const total=Number(match[0].match(/data-total="(\d+)"/)?.[1]);
+    assert.ok(Number.isFinite(year)&&Number.isFinite(total),`${className}: displayed data must be finite`);
+    if(tag==='tr')assert.ok(match[0].replace(/<[^>]+>/g,'').includes(total.toLocaleString('ko-KR')),`${className}: table text must show its model total`);
+    return {year,total,tag:match[0]};
+  });
+}
+for(let i=0;i<roster.length;i++){
+  preview.run(`selectSchool(SCHOOLS[${i}].id)`);
+  const school=roster[i],markup=preview.nodes.get('forecastPreview').innerHTML;
+  const summary=preview.run('baselineSummary(selected)');
+  assert.equal(summary.startTotal,school.forecast[0].total);
+  assert.equal(summary.endTotal,school.forecast.at(-1).total);
+  assert.equal(summary.change,school.forecast.at(-1).total-school.forecast[0].total);
+  assert.equal(summary.points.length,20);
+  for(const [tag,className,expected] of [['circle','baseline-point',school.forecast],['tr','baseline-annual-row',school.forecast],['tr','baseline-milestone',school.forecast.filter(point=>[2030,2035,2040,2045].includes(point.year))]]){
+    const shown=markedRows(markup,tag,className);
+    assert.equal(shown.length,expected.length,`${school.name}: ${className} count`);
+    shown.forEach((point,j)=>assert.deepEqual({year:point.year,total:point.total},{year:expected[j].year,total:expected[j].total},`${school.name}: ${className} must display actual model values`));
+  }
+  assert.match(markup,/<svg\b[^>]*aria-label="[^"]+"/);
+  assert.match(markup,/<title[\s>]/);
+  const axis=markup.match(/class="baseline-ylabels"[^>]*>([\s\S]*?)<\/div>/)?.[1];
+  assert.ok(axis,'Chart requires a readable vertical axis');
+  const axisValues=[...axis.matchAll(/>([\d,.]+)<\/span>/g)].map(match=>Number(match[1].replaceAll(',','')));
+  assert.equal(axisValues.length,3);
+  assert.ok(axisValues.every(Number.isInteger),'Student count axis labels must be whole numbers');
+  assert.equal(axisValues.at(-1),0,'Chart baseline must begin at zero students');
+  const chartPoints=markedRows(markup,'circle','baseline-point');
+  let priorX=-Infinity;
+  for(const point of chartPoints){
+    const x=Number(point.tag.match(/cx="([\d.]+)"/)?.[1]),y=Number(point.tag.match(/cy="([\d.]+)"/)?.[1]);
+    assert.ok(Number.isFinite(x)&&Number.isFinite(y)&&x>priorX&&y>=0&&y<=200,'Twenty annual points must have valid, increasing chart positions');
+    priorX=x;
+  }
+  assert.ok(!/NaN|Infinity/.test(markup));
+}
+assert.equal(preview.run('JSON.stringify(SCHOOLS.map(school=>school.forecast))'),originalForecasts,'Preview must not alter the demographic forecast');
+assert.equal(preview.writes.length,0,'Browsing all schools must not write saved progress');
+assert.equal(preview.run('s'),null,'Browsing must not initialize a game');
+for(const [name,region,change,sign] of [['동해초등학교','포항',-100,'decline'],['옥성초등학교','구미',1,'increase'],['순흥초등학교','영주',0,'stable']]){
+  const summary=preview.run(`baselineSummary(SCHOOLS.find(school=>school.name===${JSON.stringify(name)}&&school.region===${JSON.stringify(region)}))`);
+  assert.equal(summary.change,change);
+  assert.ok(Number.isFinite(summary.percent));
+  if(sign==='decline'){assert.ok(summary.percent<0);assert.match(summary.changeText,/-|−|감소/)}
+  else if(sign==='increase'){assert.ok(summary.percent>0);assert.match(summary.changeText,/\+|증가/)}
+  else {assert.equal(summary.percent,0);assert.match(summary.changeText,/0|변화 없|유지/)}
+  if(name==='동해초등학교')assert.match(summary.percentText,/-37[.]7%|−37[.]7%/);
+  if(name==='옥성초등학교')assert.match(summary.percentText,/\+6[.]7%/);
+  assert.ok(!/-0(?:[.,]0+)?%/.test(summary.percentText),'Do not display negative zero');
+}
+const zero=preview.run("(()=>{const school={...SCHOOLS[0],base:0,forecast:SCHOOLS[0].forecast.map(point=>({...point,total:point.year===2045?5:0}))};return {summary:baselineSummary(school),markup:baselinePreviewMarkup(school)}})()");
+assert.equal(zero.summary.startTotal,0);
+assert.equal(zero.summary.change,5);
+assert.equal(zero.summary.percent,null,'A zero base has no defined percentage change');
+assert.ok(!/NaN|Infinity/.test(zero.markup));
+
+// An existing 2040 game still opens onto the original baseline and resumes only on explicit start.
+const schoolId=roster[0].id,saveKey='gyeongbuk-principal-population-v3:'+schoolId;
+const saved=preview.run('(()=>{const state=initial(SCHOOLS[0]);state.year=2040;state.rep=90;state.appeal=20;state.grades=state.grades.map(value=>value*1.3);state.eventId=events[14].id;return JSON.stringify(state)})()');
+const savedEntries=[[saveKey,saved],['gyeongbuk-principal-last',schoolId]];
+for(const search of ['', '?school='+encodeURIComponent(schoolId)]){
+  const returning=boot({savedEntries,search});
+  assert.equal(returning.writes.length,0,'Saved/query-preselected preview must be read-only');
+  assert.equal(returning.storage.get(saveKey),saved);
+  assert.equal(returning.run('s'),null);
+  assert.equal(returning.run('baselineSummary(selected).startTotal'),roster[0].base);
+  assert.equal(returning.run('baselineSummary(selected).endTotal'),roster[0].forecast.at(-1).total);
+  assert.match(returning.nodes.get('start').innerHTML,/2040/);
+  returning.run('selectSchool(SCHOOLS[1].id);selectSchool(SCHOOLS[0].id)');
+  assert.equal(returning.writes.length,0,'Rapid school changes must not contaminate a saved game');
+  assert.equal(returning.storage.get(saveKey),saved);
+  returning.nodes.get('start').onclick();
+  assert.equal(returning.run('s.year'),2040);
+  assert.equal(returning.run('s.rep'),90);
+  assert.equal(returning.run('s.appeal'),20);
+  assert.equal(returning.run('JSON.stringify(s.grades)'),JSON.stringify(JSON.parse(saved).grades));
+  assert.ok(returning.writes.length>0,'Explicit start may persist the resumed game');
+  assert.equal(returning.nodes.get('setup').hidden,true);
+  assert.equal(returning.nodes.get('game').hidden,false);
+}
+console.log(JSON.stringify({status:'passed',events:catalogue.length,choices:catalogue.length*3,sources:Object.keys(sources).length,fullPlaythroughs:3,legacySaveCases:38,legacyJournalContinuation:true,legacyEnding:true,baselineSchools:roster.length,baselineYears:20,previewStorageIsolation:true,endingYear:2045},null,2));

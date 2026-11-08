@@ -49,14 +49,92 @@
 .history .evidence-sources>li{padding:10px 0}
 @media(max-width:650px){.choice-assumption{font-size:11px}.evidence-details>summary{padding:10px 2px;min-height:40px}.evidence-toggle{margin-left:9px}}
 
+.setup{display:block;min-height:calc(100dvh - 145px)}
+.setup-heading{margin:0 0 27px;max-width:75ch}
+.setup-heading h1{margin:0 0 10px;font-size:30px;line-height:1.4;letter-spacing:-1px;color:#244a3b;text-wrap:balance}
+.setup-heading p{margin:0;color:#52665a;font-size:14px;line-height:1.8}
+.setup-mobile-break{display:none}
+.setup-grid{display:grid;grid-template-columns:minmax(260px,.75fr) minmax(0,1.6fr);gap:25px;align-items:start}
+.setup .picker{padding:24px;margin:0;min-width:0}
+.setup .picker h2{font-size:19px;line-height:1.5}
+.setup .picker-intro{font-size:12px;line-height:1.8;color:#52665a;margin:5px 0 16px}
+.setup .picker>label{font-size:13px;color:#354f40;margin-top:16px}
+.setup select,.setup .searchbox{height:44px}
+.setup input[type=search]::placeholder{color:#657563;opacity:1}
+.setup .results-meta{margin:14px 0 8px}
+.setup .results-meta small{font-size:12px;color:#52665a}
+.setup .school-list{height:228px;scrollbar-color:#9eafa0 #f1f4ed}
+.setup .school-option{min-height:44px;font-size:13px;color:#344f3c;padding:10px 12px;gap:8px}
+.setup .school-option>span{min-width:0;overflow-wrap:anywhere}
+.setup .school-option small{font-size:12px;color:#52665a;flex-shrink:0}
+.setup .no-results{font-size:13px;color:#52665a;line-height:1.8}
+.setup .selected-info{min-height:58px;padding-top:15px;margin-top:13px;color:#52665a;font-size:13px;line-height:1.7;overflow-wrap:anywhere}
+.setup .selected-info b{font-size:14px;color:#2b503b;line-height:1.6}
+.setup .selected-info small{font-size:12px;color:#52665a;line-height:1.7}
+.setup .text-button{font-size:13px;min-height:44px;color:#365e46;margin-top:9px}
+.baseline-jump{display:inline-block;margin-top:8px;padding:9px 0;color:#245a40;font-size:13px;line-height:1.7;text-underline-offset:3px}
+.setup .baseline-panel{min-width:0;padding:27px 30px}
+.setup .forecast-preview{border:0;border-radius:0;background:transparent;padding:0;margin:0;scroll-margin-top:18px;font-variant-numeric:tabular-nums}
+.setup .forecast-preview>p{font-size:13px;line-height:1.8;color:#526356;margin:7px 0}
+.baseline-report-header h2{font-size:23px;line-height:1.5;letter-spacing:-.7px;overflow-wrap:anywhere}
+.baseline-report-header p{font-size:15px;line-height:1.7;color:#405c49;margin:5px 0 0}
+.baseline-range{display:flex;align-items:center;gap:25px;margin:24px 0 8px}
+.baseline-range>div{min-width:0}
+.baseline-range>div>span{display:block;font-size:12px;line-height:1.6;color:#526356}
+.baseline-range strong{display:block;font-size:34px;line-height:1.5;letter-spacing:-.8px;color:#285e42;font-weight:750}
+.baseline-range small{font-size:16px;font-weight:500;letter-spacing:0;margin-left:4px}
+.baseline-arrow{font-size:24px;color:#7a907d;margin-top:17px}
+.setup .forecast-preview>.baseline-change{font-size:14px;line-height:1.7;color:#354f40;margin:6px 0 0}
+.baseline-change b{font-weight:750}
+.baseline-direction{margin-top:4px}
+.baseline-chart{margin:24px 0 20px}
+.baseline-chart-heading{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 0 12px;color:#395b43;font-size:13px;font-weight:650;line-height:1.7}
+.baseline-chart-heading span{font-size:12px;font-weight:400;color:#526356;white-space:nowrap}
+.baseline-chart-body{position:relative;height:235px;padding-left:43px}
+.baseline-svg{display:block;position:absolute;top:0;left:43px;width:calc(100% - 43px);height:210px;overflow:visible}
+.baseline-svg path,.baseline-svg polyline,.baseline-svg circle{vector-effect:non-scaling-stroke}
+.baseline-grid{stroke:#e1e7dd;stroke-width:1;fill:none}
+.baseline-zero{stroke:#8b9c88;stroke-width:1;fill:none}
+.baseline-line{fill:none;stroke:#457450;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.baseline-point{fill:#fff;stroke:#457450;stroke-width:1.8}
+.baseline-ylabels{position:absolute;left:0;top:0;width:36px;color:#526356;font-size:12px;line-height:1}
+.baseline-ylabels>span{position:absolute;right:0;transform:translateY(-50%)}
+.baseline-xlabels{position:absolute;left:43px;right:0;top:217px;height:18px;color:#526356;font-size:12px;line-height:1.4}
+.baseline-xlabels>span{position:absolute;transform:translateX(-50%)}
+.baseline-xlabels>.first{transform:none}
+.baseline-xlabels>.last{transform:translateX(-100%)}
+.setup .baseline-milestones,.setup .baseline-details table{width:100%;border-collapse:collapse;font-size:13px;line-height:1.7;text-align:right;color:#3c5844;font-variant-numeric:tabular-nums}
+.baseline-milestones caption{text-align:left;font-size:14px;font-weight:700;color:#2e503c;padding:0 0 8px}
+.setup .baseline-milestones th,.setup .baseline-milestones td,.setup .baseline-details th,.setup .baseline-details td{padding:8px 0;border-bottom:1px solid #e5eadf}
+.setup .baseline-milestones th:first-child,.setup .baseline-details th:first-child{text-align:left}
+.setup .baseline-milestones thead th,.setup .baseline-details thead th{font-size:12px;font-weight:500;color:#526356}
+.setup .baseline-milestones tbody th,.setup .baseline-details tbody th{font-weight:500}
+.setup .forecast-preview>.baseline-note{margin:15px 0;font-size:12px;line-height:1.85;color:#4d6352}
+.baseline-details{border-top:1px solid #e5eadf;color:#4d6352;font-size:13px;line-height:1.85}
+.baseline-details>summary{cursor:pointer;padding:12px 0;min-height:44px;color:#365b42;overflow-wrap:anywhere}
+.baseline-details p{margin:0 0 12px;max-width:70ch;overflow-wrap:anywhere}
+.baseline-details a{text-underline-offset:3px;overflow-wrap:anywhere}
+.setup .baseline-details table{margin:0 0 16px}
+.baseline-start{margin-top:19px;padding-top:18px;border-top:1px solid #dfe6d8}
+.setup .baseline-start .primary{width:100%;font-size:14px;min-height:48px;line-height:1.6;white-space:normal;gap:8px}
+.baseline-empty{min-height:440px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;max-width:52ch}
+.baseline-empty h2{font-size:22px;line-height:1.6;margin-bottom:10px;letter-spacing:-.6px;text-wrap:balance}
+.baseline-empty p{font-size:14px;line-height:1.9;color:#526356;margin:5px 0}
+@media(max-width:850px){.setup-grid{grid-template-columns:minmax(240px,.8fr) minmax(0,1.3fr);gap:18px}.setup .picker{padding:20px}.setup .baseline-panel{padding:23px}.baseline-range{gap:16px}.baseline-range strong{font-size:30px}.baseline-report-header h2{font-size:22px}.baseline-chart-heading{font-size:12px}}
+@media(max-width:650px){.setup{display:block;min-height:0}.setup-heading{margin-bottom:20px}.setup-heading h1{font-size:25px;line-height:1.45;letter-spacing:-.7px}.setup-heading p{font-size:13px;line-height:1.85}.setup-mobile-break{display:block}.setup-grid{display:flex;flex-direction:column;gap:18px;align-items:stretch}.setup .picker{padding:19px}.setup .school-list{height:160px}.setup .picker-intro{margin-bottom:12px}.setup .picker>label{margin-top:13px}.setup .selected-info{min-height:0}.setup .baseline-panel{padding:22px 19px}.baseline-empty{min-height:235px}.baseline-empty h2{font-size:21px}.baseline-empty p{font-size:13px}.baseline-report-header h2{font-size:22px}.baseline-report-header p{font-size:14px}.baseline-range{gap:19px;margin-top:20px}.baseline-range strong{font-size:30px}.baseline-range small{font-size:15px}.baseline-arrow{font-size:20px}.baseline-chart{margin-top:23px}.setup .baseline-milestones,.setup .baseline-details table{font-size:13px}.baseline-start{margin-top:16px}.setup .baseline-start .primary{font-size:13px}}
+@media(max-width:360px){.setup .baseline-panel{padding:20px 15px}.setup .picker{padding:18px}.baseline-range{gap:14px}.baseline-range strong{font-size:29px}.baseline-range>div>span{font-size:12px}.baseline-chart-heading{align-items:flex-start}.baseline-chart-heading span{font-size:12px}.baseline-chart-body{padding-left:36px}.baseline-svg{left:36px;width:calc(100% - 36px)}.baseline-ylabels{width:30px}.baseline-xlabels{left:36px}}
+
 </style>
 </head>
 <body>
 <header class="topbar"><a class="brand" href="./"><span class="brand-icon">🏫</span><span>우리 학교의 내일<small>경북 초등학교 · 인구 반영판</small></span></a><span class="edition">SCHOOL LIFE SIMULATOR</span></header>
 <main>
 <section id="setup" class="setup">
-  <div class="intro"><div class="eyebrow">교장실로의 첫 출근</div><h1>어느 학교의<br><em>내일</em>을 만들어 볼까요?</h1><p>작은 결정이 모여, 학교의 미래가 됩니다.<br>경북의 초등학교를 선택하고 현재 학생 수에서 출발해<br class="desktop"> 인구 변화 속 학교의 미래를 바꿔 보세요.</p><div class="intro-art" aria-hidden="true"><span class="intro-cloud">☁️</span><span class="intro-sun">☀️</span><div class="intro-school">🏫</div><span class="intro-kids">🌳　🧒　👧　🌷</span><div class="intro-ground"></div></div><div class="intro-facts"><span><b>22</b>개 시군</span><span><b id="schoolCount">474</b>개 학교·분교</span><span><b>20</b>년의 이야기</span></div></div>
-  <div class="picker card"><div class="flex"><h2>나의 학교 선택</h2><span class="pill">01 / 첫 부임</span></div><label for="region">지역</label><select id="region"><option value="">경북 전체</option></select><label for="search">학교 이름 검색</label><div class="searchbox"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="예: 동해, 경주, 초곡" autocomplete="off"></div><div class="flex results-meta"><small id="resultCount" aria-live="polite"></small><small>학교를 눌러 선택하세요</small></div><div id="schoolList" class="school-list" aria-label="학교 목록"></div><div id="selectedInfo" class="selected-info">학교를 선택하면 이곳에 표시됩니다.</div><div id="forecastPreview" class="forecast-preview"><p>학교를 선택하면 공시 학생 수와 미래 예상이 표시됩니다.</p></div><button id="start" class="primary" disabled>학교를 선택해 주세요 <span>→</span></button><button id="cancelSetup" class="text-button" hidden>현재 학교로 돌아가기</button><p class="source-note">현재: 학교알리미 2026년 공시(특수·순회학급 포함). 미래: 학교별 학년 구성·최근 공시 추세와 경북 6~11세 중위 인구추계로 계산한 자체 모형입니다. 공식 학교별 학생배치계획은 반영되지 않았습니다.</p></div>
+  <div class="setup-heading"><h1>우리 학교의 학생 수,<br class="setup-mobile-break"> 앞으로 어떻게 바뀔까요?</h1><p>학교를 고르면 추가 정책을 반영하지 않은 2045년까지의 기본 전망을 볼 수 있습니다.</p></div>
+  <div class="setup-grid">
+    <div class="picker card"><h2>학교 선택</h2><p class="picker-intro">경북 22개 시군 · <span id="schoolCount">474</span>개 학교·분교</p><label for="region">지역</label><select id="region"><option value="">경북 전체</option></select><label for="search">학교 이름 검색</label><div class="searchbox"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="예: 동해, 경주, 초곡" autocomplete="off"></div><div class="results-meta"><small id="resultCount" aria-live="polite"></small></div><div id="schoolList" class="school-list" aria-label="학교 목록"></div><div id="selectedInfo" class="selected-info" aria-live="polite">학교를 선택해 주세요.</div><a id="previewLink" class="baseline-jump" href="#forecastPreview" hidden>선택한 학교 전망으로 이동</a><button id="cancelSetup" class="text-button" hidden>현재 게임으로 돌아가기</button></div>
+    <section class="baseline-panel card" aria-label="선택한 학교의 기본 학생 수 전망"><div id="forecastPreview" class="forecast-preview"><div class="baseline-empty"><h2>학교의 기본 전망을 먼저 확인하세요</h2><p>학교를 선택하면 2026년 공시 학생 수와 2045년까지의 변화가 여기에 표시됩니다.</p><p>전망을 확인한 뒤 게임에서 교장의 선택을 시작할 수 있습니다.</p></div></div><div class="baseline-start"><button id="start" class="primary" disabled>학교를 선택해 주세요 <span>→</span></button></div></section>
+  </div>
 </section>
 <section id="game" hidden>
   <div class="game-heading"><div><div class="eyebrow" id="location"></div><h1 id="schoolName"></h1><p class="subtitle">당신의 선택으로 자라는, 우리 학교의 이야기.</p></div><div class="toolbar"><button id="switchSchool" class="secondary">학교 변경</button><button id="save" class="secondary">저장</button><button id="restart" class="icon-button" aria-label="현재 학교 새 게임">↻</button></div></div>
@@ -1344,7 +1422,32 @@ function loadSave(id){try{
 }catch{return null}}
 function persist(){try{localStorage.setItem(STORE+s.schoolId,JSON.stringify(s));localStorage.setItem(META,s.schoolId);return true}catch{return false}}
 function listSchools(){const region=$('region').value,query=$('search').value.trim().replace(/\s/g,'').toLowerCase();const found=SCHOOLS.filter(x=>(!region||x.region===region)&&(!query||(x.name+x.region+x.address).replace(/\s/g,'').toLowerCase().includes(query)));$('resultCount').textContent=`총 ${found.length}개 학교·분교`;$('schoolList').innerHTML=found.length?found.map(x=>`<button class="school-option${selected?.id===x.id?' selected':''}" data-school="${esc(x.id)}" aria-pressed="${selected?.id===x.id}"><span>${esc(x.name)}</span><small>${esc(x.region)} ${selected?.id===x.id?'✓':'›'}</small></button>`).join(''):'<div class="no-results">검색 결과가 없습니다. 지역이나 학교명을 바꿔 보세요.</div>'}
-function selectSchool(id){selected=schoolMap.get(id);if(!selected)return;const saved=loadSave(id);$('selectedInfo').innerHTML=`<b>🏫 ${esc(selected.name)}</b><small>${esc(selected.address)} · ${esc(selected.type)} · 2026년 공시</small>`;$('start').disabled=false;$('start').innerHTML=(saved?`${saved.year}년부터 이어하기`:'실제 학생 수로 교장 부임하기')+' <span>→</span>';const f30=PopulationModel.forecast(selected,2030),f45=PopulationModel.forecast(selected,2045);$('forecastPreview').innerHTML=`<div class="forecast-start"><span>2026년 공시 재학생</span><b>${selected.base.toLocaleString('ko-KR')}<small>명</small></b></div><div class="grade-chips">${selected.grades.map((v,i)=>`<span>${i+1}학년<b>${v}명</b></span>`).join('')}</div><small class="special-note">특수·순회학급 별도 집계 ${selected.special}명 포함</small><div class="forecast-future"><span>2030년 자체 추계<b>약 ${f30.total.toLocaleString('ko-KR')}명</b></span><span>2045년 자체 추계<b>약 ${f45.total.toLocaleString('ko-KR')}명</b></span></div><p class="history-note">공시 추이: ${Object.entries(selected.history).map(([y,n])=>y+'년 '+n.toLocaleString('ko-KR')+'명').join(' → ')}</p><p class="model-note">학교별 미래 값은 공시 학년 구성·최근 추세·경북 학령인구 전망으로 계산합니다. 교육청의 공식 학교별 예상 학생 수는 아닙니다.</p>`;listSchools()}
+function baselineSummary(school){
+  const points=Array.from({length:20},(_,i)=>{const year=2026+i;return {year,total:PopulationModel.forecast(school,year).total}});
+  const startTotal=points[0].total,endTotal=points[19].total,change=endTotal-startTotal;
+  const percent=startTotal>0?change/startTotal*100:null;
+  const roundedPercent=percent===null?null:Math.round(percent*10)/10;
+  const changeText=`${change>0?'+':''}${change===0?0:change.toLocaleString('ko-KR')}명`;
+  const percentText=roundedPercent===null?'비율 계산 불가 · 2026년 0명':`${roundedPercent>0?'+':''}${(roundedPercent===0?0:roundedPercent).toFixed(1)}%`;
+  return {points,startTotal,endTotal,change,percent,changeText,percentText};
+}
+function baselineChartMarkup(school,summary=baselineSummary(school)){
+  const maxTotal=Math.max(1,...summary.points.map(p=>p.total)),target=maxTotal*1.12,magnitude=10**Math.floor(Math.log10(target));
+  const step=[1,2,3,4,5,6,8,10].find(value=>value>=target/magnitude)||10;
+  const axisMax=Math.max(2,Math.ceil(step*magnitude/2)*2);
+  const xx=year=>5+(year-2026)/19*590,yy=total=>200-total/axisMax*190;
+  const line=summary.points.map(p=>`${xx(p.year).toFixed(2)},${yy(p.total).toFixed(2)}`).join(' ');
+  const ticks=[2026,2030,2035,2040,2045];
+  const label=`${school.name}, 추가 정책을 반영하지 않은 학생 수 전망. 2026년 ${summary.startTotal}명, 2045년 ${summary.endTotal}명. 세로축은 0명부터 시작합니다. 20개 연도의 값은 연도별 표에서 확인할 수 있습니다.`;
+  return `<div class="baseline-chart"><p class="baseline-chart-heading">2026–2045년 학생 수 흐름 <span>단위: 명</span></p><div class="baseline-chart-body"><div class="baseline-ylabels" aria-hidden="true"><span style="top:10px">${axisMax.toLocaleString('ko-KR')}</span><span style="top:105px">${(axisMax/2).toLocaleString('ko-KR',{maximumFractionDigits:1})}</span><span style="top:200px">0</span></div><svg class="baseline-svg" viewBox="0 0 600 210" preserveAspectRatio="none" role="img" aria-label="${esc(label)}"><title>${esc(school.name)} · 추가 정책 미반영 학생 수 전망</title><path class="baseline-grid" d="M5 10H595M5 105H595"/><path class="baseline-zero" d="M5 200H595"/><polyline class="baseline-line" points="${line}"/>${summary.points.map(p=>`<circle class="baseline-point" data-year="${p.year}" data-total="${p.total}" cx="${xx(p.year).toFixed(2)}" cy="${yy(p.total).toFixed(2)}" r="2.8"><title>${p.year}년 ${p.total.toLocaleString('ko-KR')}명</title></circle>`).join('')}</svg><div class="baseline-xlabels" aria-hidden="true">${ticks.map(year=>`<span class="${year===2026?'first':year===2045?'last':''}" style="left:${((xx(year)/600)*100).toFixed(2)}%">${year}</span>`).join('')}</div></div></div>`;
+}
+function baselinePreviewMarkup(school){
+  const summary=baselineSummary(school),milestones=summary.points.filter(p=>[2030,2035,2040,2045].includes(p.year));
+  const observed=Object.entries(school.history||{}).filter(([year,total])=>Number(year)>=2024&&Number(year)<=2026&&Number.isFinite(total)).sort(([a],[b])=>Number(a)-Number(b));
+  const direction=summary.change<0?'2045년은 2026년보다 적을 것으로 추계됩니다.':summary.change>0?'2045년은 2026년보다 많을 것으로 추계됩니다.':'2045년은 2026년과 같은 수준으로 추계됩니다.';
+  return `<div class="baseline-report-header"><h2>${esc(school.name)}</h2><p>추가 정책을 시행하지 않는다면</p></div><div class="baseline-range"><div><span>2026년 공시</span><strong>${summary.startTotal.toLocaleString('ko-KR')}<small>명</small></strong></div><span class="baseline-arrow" aria-hidden="true">→</span><div><span>2045년 자체 추계</span><strong>${summary.endTotal.toLocaleString('ko-KR')}<small>명</small></strong></div></div><p class="baseline-change">2026년 대비 <b>${summary.changeText}</b> <span>(${summary.percentText})</span></p><p class="baseline-direction">${direction}</p>${baselineChartMarkup(school,summary)}<table class="baseline-milestones"><caption>중간 연도 전망</caption><thead><tr><th scope="col">연도</th><th scope="col">추가 정책 미반영 학생 수</th></tr></thead><tbody>${milestones.map(p=>`<tr class="baseline-milestone" data-year="${p.year}" data-total="${p.total}"><th scope="row">${p.year}년</th><td>${p.total.toLocaleString('ko-KR')}명</td></tr>`).join('')}</tbody></table><p class="baseline-note">2026년은 공시, 2027~2045년은 자체 추계입니다. 게임의 추가 정책과 저장된 선택 효과는 반영하지 않았습니다.</p><details class="baseline-details baseline-annual"><summary>2026~2045년 연도별 학생 수 보기</summary><table><caption class="sr-only">${esc(school.name)}의 연도별 기본 전망</caption><thead><tr><th scope="col">연도</th><th scope="col">학생 수</th><th scope="col">구분</th></tr></thead><tbody>${summary.points.map(p=>`<tr class="baseline-annual-row" data-year="${p.year}" data-total="${p.total}"><th scope="row">${p.year}년</th><td>${p.total.toLocaleString('ko-KR')}명</td><td>${p.year===2026?'공시':'자체 추계'}</td></tr>`).join('')}</tbody></table></details><details class="baseline-details baseline-observed"><summary>2024~2026년 과거 공시 기록 보기</summary><p>아래는 과거 관측값이며 미래 추계와 구분됩니다.</p><table><caption class="sr-only">${esc(school.name)}의 과거 공시 학생 수</caption><thead><tr><th scope="col">공시 연도</th><th scope="col">학생 수</th></tr></thead><tbody>${observed.map(([year,total])=>`<tr><th scope="row">${esc(year)}년</th><td>${total.toLocaleString('ko-KR')}명</td></tr>`).join('')}</tbody></table></details><details class="baseline-details baseline-method"><summary>계산 방법 · 공식 출처 · 전망의 한계</summary><p>현재 학생 수는 <a href="https://www.schoolinfo.go.kr/ng/go/pnnggo_a01_l2.do" target="_blank" rel="noopener noreferrer">학교알리미 학년별·학급별 학생수</a>의 2024·2025·2026년 공시를 사용합니다. 시작 합계는 1~6학년과 별도 집계된 특수·순회학급을 포함한 ‘학생수(계)’입니다. 공시 후 전·출입은 반영하지 않습니다.</p><p>학교별 기존 학년의 진급, 최근 동일 학교의 진급 코호트 증감, 최근 입학생 규모를 결합합니다. 작은 학교의 변동은 200명 관측에 해당하는 보정으로 완화하고, 과거 추세의 영향은 5년 단위로 줄입니다.</p><p>도 전체 일반학급 기준선은 <a href="https://www.kostat.go.kr/boardDownload.es?bid=207&amp;list_no=431113&amp;seq=1" target="_blank" rel="noopener noreferrer">통계청 2024.05.28 장래인구추계(시도편), 통계표 인쇄 59쪽</a>의 경북 6~11세 중위추계(천 명 단위 반올림)에 맞춥니다. 특수·순회학급은 학년 분포가 없어 지역 기준선 비율로 별도 변화시킵니다. 시군별 공식 인구추계 원표는 반영하지 않았으며, 시군 차이는 최근 3년 실제 재학생 비중 변화에서 계산한 모형 가정입니다.</p><p>2027년 이후의 수치는 교육청의 공식 학교별 예상 학생 수나 확정된 미래가 아닙니다. 통학구역 변경, 학교 신설·통폐합, 주택 개발계획과 공식 학교별 학생배치계획은 자동 반영하지 않습니다.</p></details>`;
+}
+function selectSchool(id){selected=schoolMap.get(id);if(!selected)return;const saved=loadSave(id);$('selectedInfo').innerHTML=`<b>${esc(selected.name)}</b><small>${esc(selected.address)} · ${esc(selected.type)}</small>`;$('start').disabled=false;$('start').innerHTML=(saved?`${saved.year}년 게임 이어하기`:'이 전망을 바꿔보기 · 게임 시작')+' <span>→</span>';$('forecastPreview').innerHTML=baselinePreviewMarkup(selected);$('previewLink').hidden=false;listSchools()}
 function showSetup(){if(s){persist();$('cancelSetup').hidden=false;selected=schoolMap.get(s.schoolId);$('region').value=selected.region;$('search').value='';selectSchool(selected.id)}$('setup').hidden=false;$('game').hidden=true;window.scrollTo({top:0,behavior:'instant'})}
 function enterGame(){if(!selected)return;const saved=loadSave(selected.id);s=saved||initial(selected);$('setup').hidden=true;$('game').hidden=false;persist();render();const url=new URL(location.href);url.searchParams.set('school',s.schoolId);history.replaceState(null,'',url);window.scrollTo({top:0,behavior:'instant'});if(saved)notify(`${saved.year}년의 학교 이야기를 이어갑니다.`)}
 function currentEvent(){return eventMap.get(s.eventId)||eventMap.get(s.eventCatalogVersion===catalogVersion?scheduledEventId(s.year):legacyEventId(s.year))||events[0]}

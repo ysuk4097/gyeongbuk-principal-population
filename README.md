@@ -2,6 +2,8 @@
 
 Buildless HTML game. `dist/` is the complete static application.
 
+Before playing, select a school to read its baseline forecast with no additional game policy effects: the 2026 public enrollment count, the 2027–2045 model trajectory, milestone counts, and an annual table. This uses the existing school forecast, independently of any saved game. Historical observations are shown separately from future estimates. School selection and forecast browsing do not create or change saved progress; the explicit game button starts a new game or resumes the existing one.
+
 ## GitHub Pages
 
 Play: https://ysuk4097.github.io/gyeongbuk-principal-population/
@@ -28,4 +30,4 @@ Each choice discloses one of three evidence levels in Korean: a reported case, i
 
 All point changes, admissions percentages, and transfer coefficients remain **game assumptions**, not estimates measured in those sources. The demographic dataset and forecast model are unchanged.
 
-Run `node scripts/verify-events.cjs` to check all 57 choices and source references, three complete playthroughs, finite transitions, and legacy saves across all playable years. Run `node scripts/build-standalone.cjs --check` to verify the offline edition matches the web files.
+Run `node scripts/verify-events.cjs` to check all 57 choices and source references, three complete playthroughs, finite transitions, legacy saves, all 474 baseline previews, and preview storage isolation. Run `node scripts/build-standalone.cjs --check` to verify the offline edition matches the web files.

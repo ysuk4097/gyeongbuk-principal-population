@@ -1,5 +1,6 @@
 {
-  "edition": "population-v3-events-evidence",
+  "edition": "population-v3-baseline-first",
+  "preview": "2026 observed enrollment and 2027–2045 neutral baseline before explicit game start",
   "original_source_commit": "f85ffd303c9d628d312653e43a973cef04251c7e",
   "published_url": "https://ysuk4097.github.io/gyeongbuk-principal-population/",
   "decisions": 19,
@@ -7,5 +8,5 @@
   "schools": 474,
   "source_year": 2026,
   "future": "2027–2045 school-specific model outputs, not official enrollment plans",
-  "standalone_sha256": "3fa0087d53ce992d012c330a45aaa128f92ea33bbe0df59d61f0370c014741fe"
+  "standalone_sha256": "cd3dc84b1ae248e8db6e9e03795635bdd5f96c46bacaab07ca84bc3059557cce"
 }
