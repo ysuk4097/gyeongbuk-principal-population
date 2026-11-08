@@ -57,6 +57,9 @@ const OrganizationModel = (() => {
     if (ending && ['merged', 'closed'].includes(ending.kind) && validYear(ending.year) && Number.isInteger(ending.students) && ending.students >= 0) {
       state.ending = {kind: ending.kind, year: ending.year, students: ending.students};
       state.pending = null;
+    } else if (ending?.kind === 'zero-enrollment' && validYear(ending.year) && ending.year > 0 && ending.students === 0 && ending.automatic === true && ending.gameRule === true) {
+      state.ending = {kind: 'zero-enrollment', reason: 'zero-enrollment', year: ending.year, students: 0, automatic: true, gameRule: true};
+      state.pending = null;
     }
     if (Array.isArray(raw.log)) {
       for (const entry of raw.log) {
@@ -185,6 +188,16 @@ const OrganizationModel = (() => {
     state.pending = null;
   }
 
+  function autoClose(org, assessment, year) {
+    const state = normalize(org);
+    if (state.ending || assessment?.total !== 0 || !validYear(year) || year === 0) return {state, changed: false};
+    // This user-selected game rule is separate from verified school closure calendars.
+    state.ending = {kind: 'zero-enrollment', reason: 'zero-enrollment', year, students: 0, automatic: true, gameRule: true};
+    state.pending = null;
+    state.log.push({year, kind: 'automatic-zero-enrollment', title: '전체 학생 0명으로 게임 규칙에 따른 자동 폐교'});
+    return {state, changed: true};
+  }
+
   function act(org, action, assessment, year) {
     const state = normalize(org);
     const result = (accepted, message) => ({state, accepted, message});
@@ -245,6 +258,6 @@ const OrganizationModel = (() => {
     return result(true, title + ' 기록을 남겼습니다.');
   }
 
-  return {initial, normalize, assess, sync, act};
+  return {initial, normalize, assess, sync, autoClose, act};
 })();
 if (typeof module !== 'undefined') module.exports = OrganizationModel;

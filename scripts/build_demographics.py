@@ -243,12 +243,12 @@ metadata = {
     'schoolSource': 'https://www.schoolinfo.go.kr/ng/go/pnnggo_a01_l2.do',
     'schoolSourceTitle': '학교알리미 학년별·학급별 학생수, 2024·2025·2026년 공시',
     'province': province, 'regionProjection': region_projection, 'regionalForecasts': regional, 'schoolCalendar': calendar,
-    'forecastAssumptions': {'primary': '최근 학교별 입학생 점유율 추세 지속', 'comparison': '입학생 점유율 고정',
+    'forecastAssumptions': {'primary': '최근 학교별 1학년 재학생 점유율 추세 지속', 'comparison': '1학년 재학생 점유율 고정',
                             'note': '두 경로 모두 모형 가정이며 어느 쪽의 장기 정확도가 더 높은지 검증한 것이 아님. 게임은 기본 모형을 사용.'},
     'intakeShareFixedRegional': {r: {'totals': data['totals'], 'unassignedTotals': data['unassignedTotals']} for r, data in fixed_regional.items()},
     'validation': validation, 'schools': len(schools), 'officialSchoolForecast': False,
     'regularTotals': {y: sum(regular(x) for x in rows) for y, rows in annual.items()},
-    'method': '시군별 2026년 공시 재학생 합계에 공식 6~11세 인구의 증감 비율을 적용해 지역 목표를 설정. 최근 3년 입학생 가중치와 시군 6세 인구, 학교별 입학생 점유율의 보정 추세(관측 입학생수/(입학생수+30), 연 -15~+15% 제한)를 지속하는 가정으로 배분. 기존 학생 평균에서 신입생을 생성하는 하한과 과거 추세를 강제로 없애는 감쇠를 제거. 진급비율은 200명 보정·0.94~1.06 제한. 특수·순회 인원은 일반학년 변화에 연동하며 별도 영구 하한을 두지 않음. 확인된 폐교 일정 이후 학교 인원은 0명, 수용학교 확인 시 해당 학교로, 미확인 시 별도 모형 배치풀로 진급학생을 이동. 배치풀은 졸업에 따라 소멸. 학교 합계+배치학교 미확인 모형 인원을 최대잔여법으로 시군 목표와 일치시킴. 공식 추계의 회복 경로를 보장으로 해석할 수 없으며, 2043~2045년은 별도 연장 가정. 일정 미확인 학교는 존치 가정. 공식 학교별 학생배치계획이 아님.'
+    'method': '시군별 2026년 공시 재학생 합계에 공식 6~11세 인구의 증감 비율을 적용해 지역 목표를 설정. 최근 3년 1학년 재학생 가중치와 시군 6세 인구, 학교별 1학년 재학생 점유율의 보정 추세(관측 1학년 인원/(1학년 인원+30), 연 -15~+15% 제한)를 지속하는 가정으로 배분. 이는 입학일 당시 입학생 수와 다른 지표이며 별도 입학생 전망은 실제 입학생 공시를 사용한다. 기존 학생 평균에서 1학년 인원을 생성하는 하한과 과거 추세를 강제로 없애는 감쇠를 제거. 진급비율은 200명 보정·0.94~1.06 제한. 특수·순회 인원은 일반학년 변화에 연동하며 별도 영구 하한을 두지 않음. 확인된 폐교 일정 이후 학교 인원은 0명, 수용학교 확인 시 해당 학교로, 미확인 시 별도 모형 배치풀로 진급학생을 이동. 배치풀은 졸업에 따라 소멸. 학교합계+배치학교 미확인 모형 인원을 최대잔여법으로 시군 목표와 일치시킴. 공식 추계의 회복 경로를 보장으로 해석할 수 없으며, 2043~2045년은 별도 연장 가정. 일정 미확인 학교는 존치 가정. 공식 학교별 학생배치계획이 아님.'
 }
 (ROOT / 'dist/schools.js').write_text('const SCHOOLS=' + json.dumps(schools, ensure_ascii=False, separators=(',', ':')) + ';\nconst DEMOGRAPHICS=' + json.dumps(metadata, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf8', newline='\n')
 print(json.dumps({'schools': len(schools), 'regions': len(regional), 'students2026': sum(s['base'] for s in schools), 'studentForecast2045': sum(s['forecast'][-1]['total'] for s in schools), 'validation': validation}, ensure_ascii=False))

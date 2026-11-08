@@ -26,8 +26,12 @@ jobs:
         uses: actions/checkout@v6
       - name: Verify population model
         run: node scripts/verify-population.cjs
+      - name: Verify published admissions and forecasts
+        run: node scripts/verify-admissions.cjs
       - name: Verify organization policy scenarios
         run: node scripts/verify-organization.cjs
+      - name: Verify peer retention events
+        run: node scripts/verify-retention.cjs
       - name: Verify confirmed school calendar transitions
         run: node scripts/verify-lifecycle.cjs
       - name: Verify events, evidence, and save compatibility

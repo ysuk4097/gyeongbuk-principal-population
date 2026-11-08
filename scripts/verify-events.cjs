@@ -10,16 +10,34 @@ const read=name=>fs.readFileSync(path.join(dist,name),'utf8');
 function boot({savedEntries=[],search=''}={}){
   const nodes=new Map(),storage=new Map(savedEntries),writes=[],scrolls=[];
   const element=id=>{
-    if(!nodes.has(id))nodes.set(id,{id,value:'',hidden:id==='game',disabled:false,innerHTML:'',textContent:'',style:{},className:'',classList:{add(){},remove(){}},querySelectorAll(){return []},getBoundingClientRect(){return {width:400,height:155}},getContext(){return null},setAttribute(){},scrollIntoView(options){scrolls.push({id,options})},get offsetWidth(){return 400}});
+    if(!nodes.has(id))nodes.set(id,{id,value:'',hidden:id==='game',disabled:false,innerHTML:'',textContent:'',style:{},className:'',attributes:{},classList:{add(){},remove(){}},querySelectorAll(){return []},getBoundingClientRect(){return {width:400,height:155}},getContext(){return null},setAttribute(name,value){this.attributes[name]=String(value)},getAttribute(name){return this.attributes[name]??null},scrollIntoView(options){scrolls.push({id,options})},get offsetWidth(){return 400}});
     return nodes.get(id);
   };
   const context=vm.createContext({console,URL,URLSearchParams,location:{href:'https://example.com/game/'+search,search},document:{getElementById:element,querySelectorAll(){return []},title:''},window:{scrollTo(){},matchMedia(){return {matches:false}},devicePixelRatio:1},history:{replaceState(){}},localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>{writes.push({key:k,value:v});storage.set(k,v)}},addEventListener(){},setTimeout(){return 1},clearTimeout(){},confirm(){return true}});
-  for(const name of ['schools.js','events.js','evidence.js','simulation.js','organization-policy.js','organization.js','lifecycle.js','app.js'])vm.runInContext(read(name),context,{filename:name});
+  for(const name of ['schools.js','admissions.js','events.js','evidence.js','simulation.js','organization-policy.js','organization.js','lifecycle.js','retention-evidence.js','retention.js','app.js'])vm.runInContext(read(name),context,{filename:name});
   return {run:source=>vm.runInContext(source,context),nodes,storage,writes,scrolls};
 }
 const game=boot();
+function assertCurrentGrades(instance){
+  const assessment=instance.run('organizationAssessment()'),markup=instance.nodes.get('currentGrades').innerHTML;
+  const rows=[...markup.matchAll(/<[^>]+class="[^"]*\bcurrent-grade\b[^>]*>/g)].filter(match=>/data-grade="/.test(match[0]));
+  assert.equal(rows.length,7,'Current grade distribution must always show six grades and special separately');
+  let total=0;
+  rows.forEach((match,i)=>{
+    assert.equal(match[0].match(/data-grade="([^"]+)"/)?.[1],i<6?String(i+1):'special');
+    const value=Number(match[0].match(/data-total="(\d+)"/)?.[1]);
+    assert.equal(value,i<6?assessment.grades[i]:assessment.specialCount);total+=value;
+  });
+  assert.equal(total,instance.run('PopulationModel.total(s.grades,s.special)'));
+}
 const catalogue=game.run('events');
 const sources=game.run('POLICY_SOURCES');
+const retentionSources=game.run('RetentionEvidenceSources');
+for(const source of Object.values(retentionSources)){
+  for(const key of ['title','publisher','date','finding','limitations'])assert.ok(source[key]?.trim());
+  assert.equal(new URL(source.url).protocol,'https:');
+}
+for(const id of game.run('RetentionModel.assess(initial(SCHOOLS[0])).sourceIds'))assert.ok(retentionSources[id],`Unknown retention source ${id}`);
 assert.equal(catalogue.length,19,'The 2026–2044 decisions should each have a unique event');
 assert.equal(new Set(catalogue.map(e=>e.id)).size,catalogue.length);
 for(const event of catalogue){
@@ -136,6 +154,10 @@ assert.equal(preview.writes.length,0);
 assert.equal(preview.run('s'),null);
 const roster=preview.run('SCHOOLS');
 const demographics=preview.run('DEMOGRAPHICS');
+const admissions=preview.run('ADMISSIONS');
+const originalAdmissions=preview.run('JSON.stringify(ADMISSIONS)');
+assert.equal(admissions.version,1);
+assert.equal(admissions.forecastEndYear,2045);
 assert.equal(demographics.populationModelVersion,'municipal-lifecycle-2024-v2');
 assert.equal(Object.keys(demographics.regionalForecasts).length,22);
 const originalForecasts=preview.run('JSON.stringify(SCHOOLS.map(school=>school.forecast))');
@@ -153,6 +175,33 @@ for(let i=0;i<roster.length;i++){
   preview.run(`selectSchool(SCHOOLS[${i}].id)`);
   const school=roster[i],markup=preview.nodes.get('forecastPreview').innerHTML;
   const summary=preview.run('baselineSummary(selected)');
+  const incoming=admissions.bySchoolCode[school.code];
+  assert.ok(incoming,`${school.name}: admissions reference must match school code`);
+  assert.equal(incoming.code,school.code);
+  const admissionsMarkup=preview.run('baselineAdmissionsMarkup(selected)');
+  const intakeRows=[...admissionsMarkup.matchAll(/<tr\b[^>]*class="[^"]*\badmissions-row\b[^>]*>[\s\S]*?<\/tr>/g)];
+  assert.equal(intakeRows.length,22);
+  intakeRows.forEach((match,j)=>{
+    const point=incoming.points[j],row=match[0];
+    assert.equal(Number(row.match(/data-year="(\d+)"/)?.[1]),2024+j);
+    assert.equal(point.year,2024+j);
+    assert.equal(row.match(/data-kind="([^"]+)"/)?.[1],point.kind);
+    assert.equal(row.match(/data-total="([^"]*)"/)?.[1],point.total===null?'':String(point.total),'Unknown observed admissions must remain missing, never invented zero');
+    if(point.total!==null)assert.ok(row.replace(/<[^>]+>/g,'').includes(point.total.toLocaleString('ko-KR')));
+  });
+  assert.ok(admissionsMarkup.includes('2045'));
+  const intakePoints=[...admissionsMarkup.matchAll(/<circle\b[^>]*class="[^"]*\badmissions-point\b[^>]*>/g)];
+  assert.equal(intakePoints.length,20);
+  intakePoints.forEach((match,j)=>{
+    assert.equal(Number(match[0].match(/data-year="(\d+)"/)?.[1]),2026+j);
+    assert.equal(Number(match[0].match(/data-total="(\d+)"/)?.[1]),incoming.points[j+2].total);
+  });
+  const firstZero=school.forecast.find(point=>point.total===0)?.year??null;
+  assert.equal(preview.run('baselineZeroEnrollmentYear(selected)'),firstZero);
+  const zeroMarker=preview.run('baselineZeroEnrollmentMarkup(selected)');
+  if(firstZero!==null&&!preview.run(`LifecycleModel.closureFor(selected,${firstZero},DEMOGRAPHICS.schoolCalendar)`)){
+    assert.ok(zeroMarker.includes(String(firstZero))&&zeroMarker.includes('게임'),'Neutral zero marker must disclose its year and game-only meaning');
+  }else assert.equal(zeroMarker,'','Official calendar ending takes priority over model-zero marker');
   assert.equal(summary.startTotal,school.forecast[0].total);
   assert.equal(summary.endTotal,school.forecast.at(-1).total);
   assert.equal(summary.change,school.forecast.at(-1).total-school.forecast[0].total);
@@ -209,8 +258,18 @@ for(let i=0;i<roster.length;i++){
   }
 }
 assert.equal(preview.run('JSON.stringify(SCHOOLS.map(school=>school.forecast))'),originalForecasts,'Preview must not alter the demographic forecast');
+assert.equal(preview.run('JSON.stringify(ADMISSIONS)'),originalAdmissions,'Admissions browsing must not rewrite the separate reference series');
 assert.equal(preview.writes.length,0,'Browsing all schools must not write saved progress');
 assert.equal(preview.run('s'),null,'Browsing must not initialize a game');
+const nakdong=roster.find(school=>school.name==='낙동초등학교');
+assert.ok(nakdong);
+assert.equal(nakdong.grades[0],0);
+assert.equal(admissions.bySchoolCode[nakdong.code].observed['2026'],2,'Gross admissions and enrolled first grade are separate verified statistics');
+const nakdongView=boot({search:'?school='+encodeURIComponent(nakdong.id)});
+nakdongView.nodes.get('start').onclick();
+const currentNakdong=nakdongView.nodes.get('currentGrades').innerHTML.replace(/<[^>]+>/g,'');
+assert.match(currentNakdong,/1학년\s*재학생\s*0명/);
+assert.match(currentNakdong,/2026년\s*공시\s*입학생\s*2명/,'Sourced admissions must actually render beside current enrolled first grade');
 for(const [start,end,change,sign] of [[265,165,-100,'decline'],[15,16,1,'increase'],[19,19,0,'stable']]){
   const summary=preview.run(`baselineSummary({...SCHOOLS[0],forecast:SCHOOLS[0].forecast.map(point=>({...point,total:point.year===2026?${start}:point.year===2045?${end}:point.total}))})`);
   assert.equal(summary.change,change);
@@ -342,4 +401,119 @@ assert.equal(oldClosing.run('JSON.stringify(s.history)'),JSON.stringify(JSON.par
 assert.ok(oldClosing.run('s.points.filter(point=>point.year>=2027).every(point=>point.total===0)'));
 const savedEnding=oldClosing.run('JSON.stringify(s.lifecycle.ending)');oldClosing.run('persist();s=loadSave(s.schoolId);render()');
 assert.equal(oldClosing.run('JSON.stringify(s.lifecycle.ending)'),savedEnding,'Reload cannot duplicate or replace the preserved snapshot');
-console.log(JSON.stringify({status:'passed',events:catalogue.length,choices:catalogue.length*3,sources:Object.keys(sources).length,fullPlaythroughs:3,legacySaveCases:38,legacyJournalContinuation:true,legacyEnding:true,baselineSchools:roster.length,baselineYears:20,previewStorageIsolation:true,organizationEndings:2,calendarClosures:closingSchools.length,legacyCalendarReconciliation:true,endingYear:2045},null,2));
+
+// Game-only zero closure: natural play reaches zero, freezes immediately, and preserves history.
+const natural=boot();
+natural.run("selectSchool('의성-금성초등학교가음분교장');enterGame();s.happy=75");
+while(natural.run('s.year')<2030){
+  assert.ok(natural.run('PopulationModel.total(s.grades,s.special)>0'));
+  assert.equal(natural.run('s.organization.ending'),null);
+  natural.run('choose(2);advance()');
+}
+assert.equal(natural.run('PopulationModel.total(s.grades,s.special)'),0);
+assert.equal(natural.run('s.organization.ending.kind'),'zero-enrollment');
+assert.equal(natural.run('s.organization.ending.reason'),'zero-enrollment');
+assert.equal(natural.run('s.organization.ending.gameRule'),true);
+assert.equal(natural.run('s.organization.ending.automatic'),true);
+assert.equal(natural.run('s.lifecycle.ending'),null,'Game zero rule must not fabricate an official closure');
+assert.equal(natural.run('s.done'),false);
+assert.equal(natural.run('s.history.length'),4);
+assert.equal(natural.run('s.points.at(-1).total'),0);
+assertCurrentGrades(natural);
+assert.equal(natural.nodes.get('next').disabled,true);
+assert.match(natural.nodes.get('organizationEnding').innerHTML,/0명/);
+assert.match(natural.nodes.get('chartNote').textContent,/종료/);
+assert.equal((natural.nodes.get('yard').innerHTML.match(/class="person"/g)||[]).length,0);
+const naturalEnded=natural.run('JSON.stringify(s)');
+natural.run("choose(0);advance();organizationAction('start-consultation')");
+assert.equal(natural.run('JSON.stringify(s)'),naturalEnded,'No policy can restart an automatic ending');
+natural.run('persist();s=loadSave(s.schoolId);render()');
+assert.equal(natural.run('JSON.stringify(s)'),naturalEnded,'Reload must preserve a zero ending without duplicate logs');
+
+// Legacy current-zero saves migrate in memory, without deleting their positive prior progress.
+for(const endingYear of [2034,2045]){
+  const raw=preview.run(`(()=>{const state=initial(SCHOOLS[0]);state.year=${endingYear};state.grades=[0,0,0,0,0,0];state.special=0;state.done=${endingYear===2045};state.last='이전 결정 기록';state.history=[{year:${endingYear-1},title:'보존할 결정'}];state.points=[{year:2026,total:state.base},{year:${endingYear-1},total:7},{year:${endingYear},total:0}];return JSON.stringify(state)})()`);
+  const zeroSave=boot({savedEntries:[[saveKey,raw]],search:'?school='+encodeURIComponent(schoolId)});
+  assert.equal(zeroSave.writes.length,0);
+  assert.equal(zeroSave.storage.get(saveKey),raw);
+  zeroSave.nodes.get('start').onclick();
+  assert.equal(zeroSave.run('s.organization.ending.kind'),'zero-enrollment');
+  assert.equal(zeroSave.run('s.organization.ending.year'),endingYear);
+  assert.equal(zeroSave.run('s.done'),endingYear===2045);
+  for(const key of ['year','grades','special','history','points','money','rep','teacher','happy','facilities','appeal','last'])assert.equal(zeroSave.run(`JSON.stringify(s.${key})`),JSON.stringify(JSON.parse(raw)[key]),`Automatic ending must preserve ${key}`);
+  assert.equal(zeroSave.nodes.get('next').disabled,true);
+  assertCurrentGrades(zeroSave);
+  assert.match(zeroSave.nodes.get('narrative').textContent,/0명|종료/);
+  assert.match(zeroSave.nodes.get('chartNote').textContent,/종료/);
+  const migrated=zeroSave.run('JSON.stringify(s)');zeroSave.run('persist();s=loadSave(s.schoolId);render()');
+  assert.equal(zeroSave.run('JSON.stringify(s)'),migrated);
+}
+
+// A single special pupil or another occupied grade keeps the school open; yard counts stay exact.
+for(const [grades,special] of [[[0,0,0,0,0,0],1],[[0,1,0,0,0,0],0],[[.49,0,0,0,0,0],.01]]){
+  const raw=preview.run(`(()=>{const state=initial(SCHOOLS[0]);state.grades=${JSON.stringify(grades)};state.special=${special};return JSON.stringify(state)})()`);
+  const one=boot({savedEntries:[[saveKey,raw]],search:'?school='+encodeURIComponent(schoolId)});one.nodes.get('start').onclick();
+  assert.equal(one.run('PopulationModel.total(s.grades,s.special)'),1);
+  assert.equal(one.run('s.organization.ending'),null);
+  assertCurrentGrades(one);
+  assert.equal((one.nodes.get('yard').innerHTML.match(/class="person"/g)||[]).length,1);
+  one.run('choose(0)');assert.equal(one.run('s.chosen'),true,'One pupil must still allow an annual choice');
+}
+const officialZeroRaw=preview.run(`(()=>{const state=initial(schoolMap.get(${JSON.stringify(legacyClosed.id)}));state.year=2030;state.grades=[0,0,0,0,0,0];state.special=0;return JSON.stringify(state)})()`);
+const officialZero=boot({savedEntries:[[calendarKey,officialZeroRaw]],search:'?school='+encodeURIComponent(legacyClosed.id)});officialZero.nodes.get('start').onclick();
+assert.ok(officialZero.run('s.lifecycle.ending'),'Official date must reconcile before game-zero ending');
+assert.equal(officialZero.run('s.organization.ending'),null);
+assertCurrentGrades(officialZero);
+
+function retentionFixture({happy=60,special=0,grades=[1,0,0,0,0,0]}={}){
+  const fixture=boot();
+  fixture.run(`selectSchool(SCHOOLS[0].id);enterGame();s.year=2028;s.grades=${JSON.stringify(grades)};s.special=${special};s.happy=${happy};s.money=100;s.chosen=true;s.chosenIndex=0;s.history=[{year:2028,title:'보존할 연간 선택'}];s.points=[{year:2026,total:s.base},{year:2027,total:4},{year:2028,total:PopulationModel.total(s.grades,s.special)}];s.organization=OrganizationModel.initial();s.retention=RetentionModel.sync(RetentionModel.initial(),s);render()`);
+  return fixture;
+}
+// Ignoring the visible risk must be equivalent to the disclosed monitoring choice.
+const ignored=retentionFixture(),monitored=retentionFixture();
+assert.ok(ignored.run('s.retention.pending'));
+assert.match(ignored.nodes.get('retentionContent').innerHTML,/1명/);
+const annualJournal=ignored.run('JSON.stringify(s.history)');
+ignored.run('advance()');monitored.run("retentionAction('monitor');advance()");
+for(const key of ['year','grades','special','money','happy','history','points'])assert.equal(ignored.run(`JSON.stringify(s.${key})`),monitored.run(`JSON.stringify(s.${key})`),'Unresolved advance cannot bypass the monitoring consequence');
+assert.equal(ignored.run('s.year'),2028,'Loss-to-zero must stop before the normal year transition');
+assert.equal(ignored.run('s.organization.ending.kind'),'zero-enrollment');
+assert.equal(ignored.run('s.retention.history.length'),1);
+assert.equal(ignored.run('s.retention.history[0].loss'),1);
+assert.equal(ignored.run('s.retention.history[0].before'),1);
+assert.equal(ignored.run('s.retention.history[0].after'),0);
+assert.equal(ignored.run('s.history&&JSON.stringify(s.history)'),annualJournal);
+assertCurrentGrades(ignored);
+const retainedEnd=ignored.run('JSON.stringify(s)');ignored.run("retentionAction('monitor');advance();choose(1)");
+assert.equal(ignored.run('JSON.stringify(s)'),retainedEnd,'Peer outflow cannot apply twice or restart a zero ending');
+ignored.run('persist();s=loadSave(s.schoolId);render()');
+assert.equal(ignored.run('s.retention.history.length'),1);
+assert.equal(ignored.run('s.organization.ending.kind'),'zero-enrollment');
+
+const protectedSpecial=retentionFixture({grades:[1,0,0,0,0,0],special:1});
+protectedSpecial.run("retentionAction('monitor')");
+assert.equal(protectedSpecial.run('s.special'),1,'Regular-only transfer must preserve special pupils');
+assert.equal(protectedSpecial.run('PopulationModel.total(s.grades,s.special)'),1);
+assert.equal(protectedSpecial.run('s.organization.ending'),null);
+assert.equal(protectedSpecial.run('s.retention.history[0].gradeLosses.reduce((sum,item)=>sum+item.count,0)'),1);
+assertCurrentGrades(protectedSpecial);
+
+const supported=retentionFixture({grades:[1,1,0,0,0,0]});
+const supportedCount=supported.run('PopulationModel.total(s.grades,s.special)');
+supported.run("retentionAction('joint-curriculum')");
+assert.equal(supported.run('PopulationModel.total(s.grades,s.special)'),supportedCount);
+assert.equal(supported.run('s.money'),88);
+assert.equal(supported.run('s.happy'),66);
+assert.equal(supported.run('s.retention.history[0].loss'),0);
+assertCurrentGrades(supported);
+
+const highHappiness=retentionFixture({happy:75});
+assert.equal(highHappiness.run('s.retention.pending'),null,'High happiness must suppress the extra event');
+assert.equal(highHappiness.run('s.retention.history.filter(entry=>entry.loss>0).length'),0);
+const becomesHappy=retentionFixture();
+becomesHappy.run('s.happy=75;s.retention=RetentionModel.sync(s.retention,s);render()');
+assert.equal(becomesHappy.run('s.retention.pending'),null,'Annual choice raising happiness can cancel pending risk');
+assert.equal(becomesHappy.run('PopulationModel.total(s.grades,s.special)'),1);
+assertCurrentGrades(becomesHappy);
+console.log(JSON.stringify({status:'passed',events:catalogue.length,choices:catalogue.length*3,sources:Object.keys(sources).length,fullPlaythroughs:3,legacySaveCases:38,legacyJournalContinuation:true,legacyEnding:true,baselineSchools:roster.length,baselineYears:20,previewStorageIsolation:true,organizationEndings:2,calendarClosures:closingSchools.length,legacyCalendarReconciliation:true,automaticZeroEnding:true,zeroEndingSaveMigration:true,specialPupilStaysOpen:true,officialCalendarPriority:true,retentionDefaultMatchesMonitor:true,happy75SuppressesExtraLoss:true,currentGradeTotalsExact:true,endingYear:2045},null,2));

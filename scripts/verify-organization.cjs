@@ -85,7 +85,7 @@ assert.equal(invalid.log.length, 1);
 
 let state = model.sync(freeze(model.initial()), freeze(zero), 2026);
 assert.equal(state.pending.kind, 'zero-enrollment');
-assert.equal(state.ending, null, 'Even zero enrollment never automatically closes a school');
+assert.equal(state.ending, null, 'sync remains review-only until the separate game-rule helper runs');
 assert.deepEqual(model.sync(freeze(state), zero, 2027), state, 'Stable condition is independent of year');
 let action = model.act(freeze(state), 'support', zero, 2026);
 assert.ok(action.accepted);
@@ -136,7 +136,7 @@ for (const endAction of ['merge', 'close']) {
   assert.equal(state.consultation.stage, 'ready');
   assert.equal(model.act(state, 'prepare-support', assessment, 2027).accepted, false);
   assert.equal(model.act(state, endAction, assessment, 2027).accepted, false);
-  assert.equal(model.sync(state, zero, 2045).ending, null, 'A later zero count is still not consent to an ending');
+  assert.equal(model.sync(state, zero, 2045).ending, null, 'sync does not replace the automatic helper or bypass manual year gates');
   const finished = model.act(freeze(state), endAction, assessment, 2028);
   assert.ok(finished.accepted);
   assert.deepEqual(finished.state.ending, {kind: endAction === 'merge' ? 'merged' : 'closed', year: 2028, students: assessment.total});
@@ -151,6 +151,57 @@ assert.equal(state.consultation.stage, 'none');
 assert.deepEqual(state.combinedGroups, applied.combinedGroups);
 assert.equal(model.act(state, 'continue-operation', allPairs, 2026).accepted, false);
 assert.equal(model.act(state, 'unknown-action', allPairs, 2026).accepted, false);
+
+// Only the combined, rounded physical total triggers the automatic game ending.
+const zeroPending = freeze(model.sync(model.initial(), freeze(zero), 2028));
+const zeroPendingJson = json(zeroPending);
+const automaticallyClosed = model.autoClose(zeroPending, zero, 2028);
+assert.ok(automaticallyClosed.changed);
+assert.deepEqual(automaticallyClosed.state.ending, {kind: 'zero-enrollment', reason: 'zero-enrollment', year: 2028, students: 0, automatic: true, gameRule: true});
+assert.equal(automaticallyClosed.state.pending, null, 'A completed automatic ending has no actionable zero review');
+assert.deepEqual(automaticallyClosed.state.log.slice(0, -1), zeroPending.log, 'Existing organization history is preserved');
+assert.equal(automaticallyClosed.state.log.at(-1).kind, 'automatic-zero-enrollment');
+assert.ok(!Object.hasOwn(automaticallyClosed.state.log.at(-1), 'sourceIds'), 'A game rule must not cite policy as a closure mandate');
+assert.equal(json(zeroPending), zeroPendingJson, 'Automatic closure must not mutate input organization state');
+assert.deepEqual(model.normalize(JSON.parse(json(automaticallyClosed.state))), automaticallyClosed.state);
+for (const nextYear of [2028, 2030]) {
+  const repeated = model.autoClose(freeze(automaticallyClosed.state), zero, nextYear);
+  assert.equal(repeated.changed, false);
+  assert.deepEqual(repeated.state, automaticallyClosed.state, 'Repeated calls and reloads cannot duplicate automatic records');
+}
+const resetClosure = model.autoClose(model.initial(), zero, 2028);
+assert.ok(resetClosure.changed);
+assert.equal(resetClosure.state.log.length, 1, 'A reset starts a fresh game with one automatic record');
+for (const openAssessment of [
+  assess([0, 0, 0, 0, 0, 0], {special: 1}),
+  assess([1, 0, 0, 0, 0, 0]),
+  noIncoming,
+  assess([.49, 0, 0, 0, 0, 0], {special: .01}),
+  assess([.5, 0, 0, 0, 0, 0]),
+  assess([0, 0, 0, 0, 0, 0], {special: .5})
+]) {
+  const assessmentJson = json(openAssessment);
+  assert.ok(openAssessment.total >= 1);
+  const unchanged = model.autoClose(freeze(model.initial()), freeze(openAssessment), 2028);
+  assert.equal(unchanged.changed, false);
+  assert.deepEqual(unchanged.state, model.initial(), 'Any physical student keeps the game open');
+  assert.equal(json(openAssessment), assessmentJson);
+}
+assert.equal(model.autoClose(model.initial(), assess([.49, 0, 0, 0, 0, 0]), 2028).changed, true, 'Use the combined headline rounding, not fractional grade presence');
+assert.equal(model.autoClose(model.initial(), assess([0, 0, 0, 0, 0, 0], {special: .49}), 2028).changed, true);
+for (const invalidYear of [0, -1, 2028.5, '2028', undefined]) assert.equal(model.autoClose(model.initial(), zero, invalidYear).changed, false);
+for (const kind of ['merged', 'closed']) {
+  const priorEnding = freeze({...model.initial(), ending: {kind, year: 2027, students: 9}, log: [{year: 2027, kind, title: '기존 수동 결말'}]});
+  const unchanged = model.autoClose(priorEnding, zero, 2028);
+  assert.equal(unchanged.changed, false);
+  assert.deepEqual(unchanged.state, priorEnding, 'An existing manual ending cannot be overwritten');
+}
+const externalGame = freeze({grades: [0, 0, 0, 0, 0, 0], special: 0, money: 120, rep: 70, history: [{year: 2027, title: '연간 선택'}], organization: model.initial()});
+const externalJson = json(externalGame);
+model.autoClose(externalGame.organization, zero, 2028);
+assert.equal(json(externalGame), externalJson, 'The helper cannot change external game counts, metrics or annual history');
+assert.equal(model.act(automaticallyClosed.state, 'continue-operation', zero, 2028).accepted, false);
+assert.deepEqual(model.sync(automaticallyClosed.state, zero, 2029), automaticallyClosed.state);
 
 const schools = vm.runInNewContext(read('schools.js') + '\nSCHOOLS;');
 assert.equal(schools.length, 474);
@@ -176,4 +227,4 @@ assert.equal(json(schools), snapshot, 'Organization assessment never modifies so
 const globalContext = vm.createContext({});
 vm.runInContext(read('organization-policy.js') + '\n' + read('organization.js'), globalContext);
 assert.equal(vm.runInContext('OrganizationModel.assess([1,2,10,10,10,10]).pairCandidates.length', globalContext), 1);
-console.log(JSON.stringify({status: 'passed', forecasts, schools: schools.length, referenceYear: policy.referenceYear, nonAdjacentPairs: true, maximumMatching: true, exactHeadlineTotals: true, immutableState: true, stableReviewKeys: true, consultationYearGates: true, explicitEndingsOnly: true}, null, 2));
+console.log(JSON.stringify({status: 'passed', forecasts, schools: schools.length, referenceYear: policy.referenceYear, nonAdjacentPairs: true, maximumMatching: true, exactHeadlineTotals: true, immutableState: true, stableReviewKeys: true, consultationYearGates: true, manualEndingsPreserved: true, automaticZeroGameRule: true}, null, 2));
