@@ -14,10 +14,10 @@
     "project_name": "gyeongbuk-principal-population",
     "deployment_method": "direct-upload",
     "production_branch": "main",
-    "deployment_id": "cd21b7a5-5889-4760-b0e6-66b1afde3b65",
-    "source_commit": "ff3217960a3c5c0e0885041037d872bbe5ccdfaf",
-    "artifact_zip_sha256": "215909e941df77f1cd2e7ce26b6897979235b27a87cc7853ee333a2db6185bd8",
-    "uploaded_files": 9
+    "deployment_id": "24116b5f-d4de-415a-9518-9e77bf78bafa",
+    "source_commit": "b9bdbec2fe7b85173e51e174bfb9b74afc795ad2",
+    "artifact_zip_sha256": "54d4fd84489f985b84c6816e4218aba4ff4655fca280dc014b085021c7690187",
+    "uploaded_files": 10
   },
   "decisions": 19,
   "evidence_checked": "2026-11-08",
