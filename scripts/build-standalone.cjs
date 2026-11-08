@@ -5,14 +5,15 @@ const crypto=require('node:crypto');
 const assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..');
 const dist=path.join(root,'dist');
-let html=fs.readFileSync(path.join(dist,'index.html'),'utf8');
+const readText=file=>fs.readFileSync(file,'utf8').replace(/\r\n?/g,'\n');
+let html=readText(path.join(dist,'index.html'));
 html=html.replace(/<link rel="stylesheet" href="([^"?]+)(?:\?[^\"]*)?">/g,(_,name)=>{
   assert.equal(path.basename(name),name,'Stylesheet must be a local file');
-  return '<style>\n'+fs.readFileSync(path.join(dist,name),'utf8').replace(/<\/style/gi,'<\\/style')+'\n</style>';
+  return '<style>\n'+readText(path.join(dist,name)).replace(/<\/style/gi,'<\\/style')+'\n</style>';
 });
 html=html.replace(/<script src="([^"?]+)(?:\?[^\"]*)?"><\/script>/g,(_,name)=>{
   assert.equal(path.basename(name),name,'Script must be a local file');
-  return '<script>\n'+fs.readFileSync(path.join(dist,name),'utf8').replace(/<\/script/gi,'<\\/script')+'\n</script>';
+  return '<script>\n'+readText(path.join(dist,name)).replace(/<\/script/gi,'<\\/script')+'\n</script>';
 });
 assert.ok(!/<script\b[^>]*\bsrc=|<link\b[^>]*rel="stylesheet"/i.test(html),'Standalone must embed all application assets');
 const sha=crypto.createHash('sha256').update(html).digest('hex');

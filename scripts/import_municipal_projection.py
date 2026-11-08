@@ -82,7 +82,7 @@ def main():
         'regions': regions
     }
     output = ROOT / 'data/source/municipal-projection.json'
-    output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf8')
+    output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf8', newline='\n')
     print(json.dumps({'regions': len(regions)-1, 'years': len(years), 'sha256': result['originalSha256']}, ensure_ascii=False))
 
 

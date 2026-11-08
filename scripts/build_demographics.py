@@ -156,5 +156,5 @@ metadata = {
     'regularTotals': {y: sum(regular(x) for x in rows) for y, rows in annual.items()},
     'method': '시군별 2026년 실제 재학생 합계 × 공식 6~11세 인구추계의 2026년 대비 비율을 지역 목표로 설정. 학교별 학년 진급, 최근 3년 입학생 가중치와 시군 6세 인구 비율, 동일 학교 진급 코호트 증감(200명 보정·0.94~1.06 제한·5년 감쇠)을 결합해 배분. 특수·순회학급은 별도 비중 유지. 최대잔여법으로 학교별 표시 합계를 시군 목표에 일치시킴. 2043~2045년은 2042년 지역 수준을 경북 시도추계 증감비율로 연장한 가정. 통학구역·주택개발·신설·통폐합 미반영. 공식 학교별 학생배치계획이 아님.'
 }
-(ROOT / 'dist/schools.js').write_text('const SCHOOLS=' + json.dumps(schools, ensure_ascii=False, separators=(',', ':')) + ';\nconst DEMOGRAPHICS=' + json.dumps(metadata, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf8')
+(ROOT / 'dist/schools.js').write_text('const SCHOOLS=' + json.dumps(schools, ensure_ascii=False, separators=(',', ':')) + ';\nconst DEMOGRAPHICS=' + json.dumps(metadata, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf8', newline='\n')
 print(json.dumps({'schools': len(schools), 'regions': len(regional), 'students2026': sum(s['base'] for s in schools), 'studentForecast2045': sum(s['forecast'][-1]['total'] for s in schools), 'validation': validation}, ensure_ascii=False))
