@@ -113,3 +113,42 @@
 @media(max-width:850px){.setup-grid{grid-template-columns:minmax(240px,.8fr) minmax(0,1.3fr);gap:18px}.setup .picker{padding:20px}.setup .baseline-panel{padding:23px}.baseline-range{gap:16px}.baseline-range strong{font-size:30px}.baseline-report-header h2{font-size:22px}.baseline-chart-heading{font-size:12px}}
 @media(max-width:650px){.setup{display:block;min-height:0}.setup-heading{margin-bottom:20px}.setup-heading h1{font-size:25px;line-height:1.45;letter-spacing:-.7px}.setup-heading p{font-size:13px;line-height:1.85}.setup-mobile-break{display:block}.setup-grid{display:flex;flex-direction:column;gap:18px;align-items:stretch}.setup .picker{padding:19px}.setup .school-list{height:160px}.setup .picker-intro{margin-bottom:12px}.setup .picker>label{margin-top:13px}.setup .selected-info{min-height:0}.setup .baseline-panel{padding:22px 19px}.baseline-empty{min-height:235px}.baseline-empty h2{font-size:21px}.baseline-empty p{font-size:13px}.baseline-report-header h2{font-size:22px}.baseline-report-header p{font-size:14px}.baseline-range{gap:19px;margin-top:20px}.baseline-range strong{font-size:30px}.baseline-range small{font-size:15px}.baseline-arrow{font-size:20px}.baseline-chart{margin-top:23px}.setup .baseline-milestones,.setup .baseline-details table{font-size:13px}.baseline-start{margin-top:16px}.setup .baseline-start .primary{font-size:13px}}
 @media(max-width:360px){.setup .baseline-panel{padding:20px 15px}.setup .picker{padding:18px}.baseline-range{gap:14px}.baseline-range strong{font-size:29px}.baseline-range>div>span{font-size:12px}.baseline-chart-heading{align-items:flex-start}.baseline-chart-heading span{font-size:12px}.baseline-chart-body{padding-left:36px}.baseline-svg{left:36px;width:calc(100% - 36px)}.baseline-ylabels{width:30px}.baseline-xlabels{left:36px}}
+
+.organization-card{margin-top:20px;min-width:0;color:#4c634e;font-size:13px;line-height:1.85}
+.organization-card h2{font-size:18px;line-height:1.6;margin:0;color:#2c523c;letter-spacing:-.4px}
+.organization-card h3{font-size:14px;line-height:1.7;color:#2c523c;margin:16px 0 6px}
+.organization-card p{margin:8px 0;max-width:70ch;overflow-wrap:anywhere}
+.organization-card .organization-reference{font-size:12px;color:#4d6b51;margin:4px 0 14px}
+.organization-summary{font-weight:650;color:#3b5c42}
+.organization-actions{display:flex;flex-wrap:wrap;gap:8px;margin:13px 0 16px}
+.organization-actions .secondary{font-size:13px;line-height:1.7;min-height:44px;max-width:100%;white-space:normal;overflow-wrap:anywhere;padding:10px 12px;min-width:0}
+.organization-actions .secondary:active:enabled{background:#e6efdf}
+.organization-details{border-top:1px solid #e2e8dc;font-size:13px;line-height:1.85;color:#4c634e;margin-top:8px}
+.organization-details>summary{padding:12px 0;min-height:44px;color:#365b42;cursor:pointer;overflow-wrap:anywhere}
+.organization-details p{margin:0 0 12px;overflow-wrap:anywhere}
+.organization-details a{text-underline-offset:3px;overflow-wrap:anywhere}
+.organization-card .evidence-source-meta,.organization-preview .evidence-source-meta{font-size:12px;color:#536b55}
+.organization-grade-table{width:100%;border-collapse:collapse;font-size:12px;line-height:1.8;margin:0 0 14px;text-align:left;font-variant-numeric:tabular-nums}
+.organization-grade-table th,.organization-grade-table td{padding:8px 4px;border-bottom:1px solid #e5eadf;overflow-wrap:anywhere}
+.organization-grade-table th{font-weight:500}
+.organization-grade-table td:nth-child(2),.organization-grade-table th:nth-child(2){text-align:right;white-space:nowrap}
+.organization-grade-table th:first-child{white-space:nowrap;padding-left:0}
+.organization-grade-table td:last-child{padding-right:0}
+.organization-log ol{margin:0 0 14px;padding-left:22px}
+.organization-log li{padding:5px 0;overflow-wrap:anywhere}
+.organization-log b{font-weight:650}
+.organization-card .organization-message{margin:10px 0 0;color:#24563c;font-size:13px}
+.organization-card .organization-message:empty{margin:0}
+.organization-ending{margin:0 0 20px;padding:20px 24px;border:1px solid #b8cdb0;border-radius:16px;background:#eef5e8;color:#31553c;font-size:13px;line-height:1.85}
+.organization-ending h2{font-size:20px;line-height:1.6;margin:0 0 7px;color:#285139}
+.organization-ending p{margin:0;max-width:75ch;overflow-wrap:anywhere}
+.organization-marker{display:block;color:#4c634e;font-size:12px;line-height:1.8;white-space:normal;overflow-wrap:anywhere}
+.setup .organization-preview table th:first-child{white-space:nowrap;padding-right:12px}
+.setup .organization-preview table td{text-align:left}
+.organization-preview .organization-sources{margin-top:0}
+@media(max-width:650px){.organization-card{order:3;width:100%;margin:0;padding:21px}.journal{order:4}.organization-actions{flex-direction:column;align-items:stretch}.organization-actions .secondary{width:100%;text-align:left}.organization-ending{padding:18px;margin-bottom:16px}.organization-ending h2{font-size:18px}.organization-grade-table{font-size:12px}.organization-grade-table th,.organization-grade-table td{padding:8px 3px}}
+.setup .baseline-region th:first-child{white-space:nowrap;padding-right:8px}
+.setup .baseline-region td{white-space:nowrap}
+#populationMethod{color:#4c634e;font-size:12px;line-height:1.85}
+#populationMethod p{max-width:75ch;overflow-wrap:anywhere}
+#populationMethod a{text-underline-offset:3px;overflow-wrap:anywhere}

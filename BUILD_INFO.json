@@ -1,5 +1,10 @@
 {
-  "edition": "population-v3-baseline-first",
+  "edition": "population-v3-organization-scenarios",
+  "organization_policy_reference_year": 2026,
+  "organization_policy_checked": "2026-11-08",
+  "population_model_version": "municipal-2024-v1",
+  "municipal_projection_end_year": 2042,
+  "municipal_extension_years": "2043–2045 model assumptions",
   "preview": "2026 observed enrollment and 2027–2045 neutral baseline before explicit game start",
   "original_source_commit": "f85ffd303c9d628d312653e43a973cef04251c7e",
   "published_url": "https://gyeongbuk-principal-population.pages.dev/",
@@ -16,5 +21,5 @@
   "schools": 474,
   "source_year": 2026,
   "future": "2027–2045 school-specific model outputs, not official enrollment plans",
-  "standalone_sha256": "cd3dc84b1ae248e8db6e9e03795635bdd5f96c46bacaab07ca84bc3059557cce"
+  "standalone_sha256": "49a593d24903cf7e7b039a71c903ec365dd957afd85380e7850edd91ab1e9792"
 }
