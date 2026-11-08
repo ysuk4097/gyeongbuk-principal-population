@@ -4,7 +4,15 @@ Buildless HTML game. `dist/` is the complete static application.
 
 Before playing, select a school to read its baseline forecast with no additional game policy effects: the 2026 public enrollment count, the 2027–2045 model trajectory, milestone counts, and an annual table. This uses the existing school forecast, independently of any saved game. Historical observations are shown separately from future estimates. School selection and forecast browsing do not create or change saved progress; the explicit game button starts a new game or resumes the existing one.
 
-## GitHub Pages
+## Cloudflare Pages
+
+Play: https://gyeongbuk-principal-population.pages.dev/
+
+The Cloudflare project `gyeongbuk-principal-population` publishes the complete `dist/` directory through Direct Upload. In the Cloudflare dashboard, open this existing Pages project, create a production deployment, and upload `dist/` or a ZIP containing its files with `index.html` at the archive root. After authenticating Wrangler, the equivalent command is `npx wrangler pages deploy dist --project-name gyeongbuk-principal-population --branch main`.
+
+Cloudflare updates use this upload step. The GitHub Actions workflow below continues to publish the GitHub Pages mirror when `main` changes. Progress is stored per website address; saves on GitHub Pages, Cloudflare Pages, and the offline edition are separate.
+
+## GitHub Pages mirror
 
 Play: https://ysuk4097.github.io/gyeongbuk-principal-population/
 

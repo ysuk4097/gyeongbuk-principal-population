@@ -2,7 +2,15 @@
   "edition": "population-v3-baseline-first",
   "preview": "2026 observed enrollment and 2027–2045 neutral baseline before explicit game start",
   "original_source_commit": "f85ffd303c9d628d312653e43a973cef04251c7e",
-  "published_url": "https://ysuk4097.github.io/gyeongbuk-principal-population/",
+  "published_url": "https://gyeongbuk-principal-population.pages.dev/",
+  "github_pages_url": "https://ysuk4097.github.io/gyeongbuk-principal-population/",
+  "cloudflare": {
+    "project_name": "gyeongbuk-principal-population",
+    "deployment_method": "direct-upload",
+    "production_branch": "main",
+    "deployment_id": "bd406504-f775-4052-89b5-da9567a083be",
+    "source_commit": "8daca2bccaada56d4b8f1fa3e724eeaeaddc1ad3"
+  },
   "decisions": 19,
   "evidence_checked": "2026-11-08",
   "schools": 474,

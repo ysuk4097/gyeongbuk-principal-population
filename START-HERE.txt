@@ -6,7 +6,7 @@
    전망을 본 뒤 게임 시작·이어하기 버튼을 누르세요. 전망만 둘러보는 동안 저장한 게임은 바뀌지 않습니다.
 3. 매년 정책을 선택하고 다음 해로 진행합니다.
 별도 설치·서버·인터넷 연결 없이 실행되는 단일 HTML 파일입니다.
-온라인 실행 주소: https://ysuk4097.github.io/gyeongbuk-principal-population/
+온라인 실행 주소: https://gyeongbuk-principal-population.pages.dev/
 
 [포함된 내용]
 - 경북 22개 시군, 2026년 공시 대상 학교·분교 474곳
