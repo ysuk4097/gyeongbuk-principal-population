@@ -14,7 +14,7 @@ function boot({savedEntries=[],search=''}={}){
     return nodes.get(id);
   };
   const context=vm.createContext({console,URL,URLSearchParams,location:{href:'https://example.com/game/'+search,search},document:{getElementById:element,querySelectorAll(){return []},title:''},window:{scrollTo(){},matchMedia(){return {matches:false}},devicePixelRatio:1},history:{replaceState(){}},localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>{writes.push({key:k,value:v});storage.set(k,v)}},addEventListener(){},setTimeout(){return 1},clearTimeout(){},confirm(){return true}});
-  for(const name of ['schools.js','admissions.js','events.js','evidence.js','simulation.js','organization-policy.js','organization.js','lifecycle.js','retention-evidence.js','retention.js','app.js'])vm.runInContext(read(name),context,{filename:name});
+  for(const name of ['schools.js','admissions.js','events.js','evidence.js','simulation.js','organization-policy.js','organization.js','lifecycle.js','retention-evidence.js','retention.js','learning-evidence.js','learning.js','app.js'])vm.runInContext(read(name),context,{filename:name});
   return {run:source=>vm.runInContext(source,context),nodes,storage,writes,scrolls};
 }
 const game=boot();
@@ -30,9 +30,30 @@ function assertCurrentGrades(instance){
   });
   assert.equal(total,instance.run('PopulationModel.total(s.grades,s.special)'));
 }
+function assertLearningReport(instance,type){
+  const markup=instance.nodes.get('learningReport').innerHTML;
+  const row=markup.match(/<tr\b[^>]*class="[^"]*\blearning-result-row\b[^>]*>/)?.[0];
+  assert.ok(row,'An ending must immediately render its comparison report');
+  assert.equal(row.match(/data-endtype="([^"]+)"/)?.[1],type);
+  assert.equal(Number(row.match(/data-year="(\d+)"/)?.[1]),instance.run('s.year'));
+  assert.equal(Number(row.match(/data-baseline="(\d+)"/)?.[1]),instance.run('PopulationModel.forecast(schoolMap.get(s.schoolId),s.year).total'));
+  assert.equal(Number(row.match(/data-game="(\d+)"/)?.[1]),instance.run('PopulationModel.total(s.grades,s.special)'));
+  const buttons=[...instance.nodes.get('budgetContent').innerHTML.matchAll(/<button\b[^>]*data-budget-support="[^"]+"[^>]*>/g)];
+  assert.equal(buttons.length,3);
+  buttons.forEach(button=>assert.match(button[0],/\bdisabled\b/,'Ended games must immediately disable support buttons'));
+}
 const catalogue=game.run('events');
 const sources=game.run('POLICY_SOURCES');
 const retentionSources=game.run('RetentionEvidenceSources');
+const learningEvidence=game.run('LEARNING_EVIDENCE');
+for(const fact of learningEvidence.facts){
+  assert.ok(fact.id&&fact.title&&fact.text);
+  for(const id of fact.sourceIds)assert.ok(learningEvidence.sources[id],`Unknown learning evidence ${id}`);
+}
+for(const source of Object.values(learningEvidence.sources)){
+  for(const key of ['title','publisher','date','finding','limitations'])assert.ok(source[key]?.trim());
+  assert.equal(new URL(source.url).protocol,'https:');
+}
 for(const source of Object.values(retentionSources)){
   for(const key of ['title','publisher','date','finding','limitations'])assert.ok(source[key]?.trim());
   assert.equal(new URL(source.url).protocol,'https:');
@@ -108,12 +129,14 @@ for(const strategy of [0,1,2]){
 
 // Saves made before the event expansion used the original eight-event modulo schedule.
 for(let year=2026;year<2045;year++)for(const chosen of [false,true]){
-  game.run(`s=initial(SCHOOLS[0]);s.year=${year};s.chosen=${chosen};s.chosenIndex=${chosen?2:'null'};delete s.eventId;delete s.eventCatalogVersion;delete s.organization;localStorage.setItem(STORE+s.schoolId,JSON.stringify(s));s=loadSave(s.schoolId)`);
+  game.run(`s=initial(SCHOOLS[0]);s.year=${year};s.chosen=${chosen};s.chosenIndex=${chosen?2:'null'};delete s.eventId;delete s.eventCatalogVersion;delete s.organization;delete s.budget;localStorage.setItem(STORE+s.schoolId,JSON.stringify(s));s=loadSave(s.schoolId)`);
   assert.ok(game.run('s'),`${year}: legacy save must load`);
   assert.equal(game.run('currentEvent().id'),catalogue[(year-2026)%8].id,`${year}: preserve original current event`);
   assert.equal(game.run('s.chosen'),chosen);
   assert.equal(game.run('s.chosenIndex'),chosen?2:null);
   assert.equal(game.run('s.organization.version'),1,'Pre-organization saves receive default organization state');
+  assert.equal(game.run('s.budget.start.year'),year,'Old-save ledger must begin at the saved year');
+  assert.equal(game.run('s.budget.start.legacy'),true);
   game.run('render()');
   if(chosen){const old=game.run('JSON.stringify(s)');game.run('choose(0)');assert.equal(game.run('JSON.stringify(s)'),old)}
   else game.run('choose(2)');
@@ -126,7 +149,7 @@ for(let year=2026;year<2045;year++)for(const chosen of [false,true]){
 // A real pre-expansion journal has title/year entries only, including the selected 2034 repeat.
 const oldJournal=catalogue.slice(0,8).map((event,i)=>({year:2026+i,title:event.options[0][0]}));
 oldJournal.push({year:2034,title:catalogue[0].options[2][0]});
-game.run(`s=initial(SCHOOLS[0]);s.year=2034;s.grades=PopulationModel.forecast(SCHOOLS[0],2034).grades.slice();s.history=${JSON.stringify(oldJournal)};s.chosen=true;s.chosenIndex=2;s.money=110;s.rep=44;delete s.eventId;delete s.eventCatalogVersion;localStorage.setItem(STORE+s.schoolId,JSON.stringify(s));s=loadSave(s.schoolId)`);
+game.run(`s=initial(SCHOOLS[0]);s.year=2034;s.grades=PopulationModel.forecast(SCHOOLS[0],2034).grades.slice();s.history=${JSON.stringify(oldJournal)};s.chosen=true;s.chosenIndex=2;s.money=110;s.rep=44;delete s.eventId;delete s.eventCatalogVersion;delete s.budget;localStorage.setItem(STORE+s.schoolId,JSON.stringify(s));s=loadSave(s.schoolId)`);
 assert.equal(game.run('currentEvent().id'),catalogue[0].id);
 const oldChoice=game.run('JSON.stringify(s)');game.run('choose(0)');
 assert.equal(game.run('JSON.stringify(s)'),oldChoice,'Loading a selected old event must not apply another choice');
@@ -141,7 +164,7 @@ for(let year=2035;year<2045;year++){
   game.run('choose(0);advance()');
 }
 assert.ok(game.run('s.done&&s.year===2045'));
-game.run('s=initial(SCHOOLS[0]);s.year=2045;s.done=true;delete s.eventId;delete s.eventCatalogVersion;localStorage.setItem(STORE+s.schoolId,JSON.stringify(s));s=loadSave(s.schoolId);render()');
+game.run('s=initial(SCHOOLS[0]);s.year=2045;s.done=true;delete s.eventId;delete s.eventCatalogVersion;delete s.budget;localStorage.setItem(STORE+s.schoolId,JSON.stringify(s));s=loadSave(s.schoolId);render()');
 assert.ok(game.run('s.done'),'An old completed save must remain at the ending');
 assert.ok(game.nodes.get('eventTitle').textContent.includes('2045'));
 // Existing title-only journals remain readable, with no invented evidence association.
@@ -161,6 +184,7 @@ assert.equal(admissions.forecastEndYear,2045);
 assert.equal(demographics.populationModelVersion,'municipal-lifecycle-2024-v2');
 assert.equal(Object.keys(demographics.regionalForecasts).length,22);
 const originalForecasts=preview.run('JSON.stringify(SCHOOLS.map(school=>school.forecast))');
+const comparedRegions=new Set();
 function markedRows(markup,tag,className){
   const pattern=tag==='tr'?'<tr\\b[^>]*>[\\s\\S]*?</tr>':`<${tag}\\b[^>]*>`;
   return [...markup.matchAll(new RegExp(pattern, 'g'))].filter(match=>new RegExp(`class="[^"]*\\b${className}\\b`).test(match[0])).map(match=>{
@@ -226,6 +250,25 @@ for(let i=0;i<roster.length;i++){
     assert.ok(text.includes(region.population[year].toLocaleString('ko-KR'))&&text.includes(region.totals[year].toLocaleString('ko-KR')),'Regional details distinguish resident population and calibrated enrollment target');
   });
   assert.match(markup,/2043[\s\S]*2045[\s\S]*연장/);
+  if(!comparedRegions.has(school.region)){
+    const otherRegion=Object.keys(demographics.regionalForecasts).find(name=>name!==school.region);
+    for(const compare of ['province',otherRegion]){
+      const comparison=preview.run(`regionComparisonTableMarkup(selected,${JSON.stringify(compare)})`);
+      const rows=[...comparison.matchAll(/<tr\b[^>]*class="[^"]*\bregion-comparison-row\b[^>]*>/g)];
+      assert.equal(rows.length,6,'Regional comparison requires three common years for each side');
+      for(const match of rows){
+        const regionKey=match[0].match(/data-region="([^"]+)"/)?.[1],year=Number(match[0].match(/data-year="(\d+)"/)?.[1]);
+        assert.ok([school.region,compare].includes(regionKey));
+        assert.ok([2026,2030,2045].includes(year));
+        const parts=regionKey==='province'?Object.values(demographics.regionalForecasts):[demographics.regionalForecasts[regionKey]];
+        const target=parts.reduce((sum,part)=>sum+(year===2026?part.observed2026:part.totals[year]),0);
+        const population=parts.reduce((sum,part)=>sum+part.population[year],0);
+        assert.equal(Number(match[0].match(/data-target="([^"]+)"/)?.[1]),target);
+        assert.ok(Math.abs(Number(match[0].match(/data-population="([^"]+)"/)?.[1])-population)<1e-6);
+      }
+    }
+    comparedRegions.add(school.region);
+  }
   const comparisons=[...markup.matchAll(/<tr\b[^>]*class="[^"]*\bbaseline-share-comparison\b[^>]*>[\s\S]*?<\/tr>/g)];
   assert.equal(comparisons.length,3);
   comparisons.forEach((match,j)=>{
@@ -289,7 +332,7 @@ assert.ok(!/NaN|Infinity/.test(zero.markup));
 
 // An existing 2040 game still opens onto the original baseline and resumes only on explicit start.
 const schoolId=roster[0].id,saveKey='gyeongbuk-principal-population-v3:'+schoolId;
-const saved=preview.run('(()=>{const state=initial(SCHOOLS[0]);state.year=2040;state.rep=90;state.appeal=20;state.grades=state.grades.map(value=>value*1.3);state.eventId=events[14].id;return JSON.stringify(state)})()');
+const saved=preview.run('(()=>{const state=initial(SCHOOLS[0]);state.year=2040;state.rep=90;state.appeal=20;state.grades=state.grades.map(value=>value*1.3);state.eventId=events[14].id;delete state.budget;return JSON.stringify(state)})()');
 const savedEntries=[[saveKey,saved],['gyeongbuk-principal-last',schoolId]];
 for(const search of ['', '?school='+encodeURIComponent(schoolId)]){
   const returning=boot({savedEntries,search});
@@ -338,6 +381,7 @@ for(const endingAction of ['merge','close']){
   assert.equal(scenario.run('s.organization.ending.kind'),endingAction==='merge'?'merged':'closed');
   assert.equal(scenario.run('s.organization.ending.students'),lastTotal);
   assert.equal(scenario.run('s.done'),false,'Early organization ending is distinct from the 2045 ending');
+  assertLearningReport(scenario,endingAction==='merge'?'manual-merged':'manual-closed');
   assert.equal(scenario.run('JSON.stringify({grades:s.grades,special:s.special,history:s.history,points:s.points})'),beforeEnding);
   assert.equal(scenario.nodes.get('next').disabled,true);
   const ended=scenario.run('JSON.stringify(s)');scenario.run('choose(0);advance()');
@@ -385,7 +429,7 @@ for(const school of closingSchools){
   assert.equal(flow.run('PopulationModel.total(s.grades,s.special)'),0);
 }
 const legacyClosed=closingSchools[0];
-const legacyCalendar=preview.run(`(()=>{const school=schoolMap.get(${JSON.stringify(legacyClosed.id)}),state=initial(school);state.year=2030;state.grades=[1,2,3,4,5,6];state.special=2;state.history=[{year:2029,title:'이전 모형의 가상 결정'}];state.points=Array.from({length:5},(_,i)=>({year:2026+i,total:i===0?school.base:25-i}));delete state.lifecycle;return JSON.stringify(state)})()`);
+const legacyCalendar=preview.run(`(()=>{const school=schoolMap.get(${JSON.stringify(legacyClosed.id)}),state=initial(school);state.year=2030;state.grades=[1,2,3,4,5,6];state.special=2;state.history=[{year:2029,title:'이전 모형의 가상 결정'}];state.points=Array.from({length:5},(_,i)=>({year:2026+i,total:i===0?school.base:25-i}));delete state.lifecycle;delete state.budget;return JSON.stringify(state)})()`);
 const calendarKey='gyeongbuk-principal-population-v3:'+legacyClosed.id;
 const oldClosing=boot({savedEntries:[[calendarKey,legacyCalendar]],search:'?school='+encodeURIComponent(legacyClosed.id)});
 assert.equal(oldClosing.writes.length,0);
@@ -432,7 +476,7 @@ assert.equal(natural.run('JSON.stringify(s)'),naturalEnded,'Reload must preserve
 
 // Legacy current-zero saves migrate in memory, without deleting their positive prior progress.
 for(const endingYear of [2034,2045]){
-  const raw=preview.run(`(()=>{const state=initial(SCHOOLS[0]);state.year=${endingYear};state.grades=[0,0,0,0,0,0];state.special=0;state.done=${endingYear===2045};state.last='이전 결정 기록';state.history=[{year:${endingYear-1},title:'보존할 결정'}];state.points=[{year:2026,total:state.base},{year:${endingYear-1},total:7},{year:${endingYear},total:0}];return JSON.stringify(state)})()`);
+  const raw=preview.run(`(()=>{const state=initial(SCHOOLS[0]);state.year=${endingYear};state.grades=[0,0,0,0,0,0];state.special=0;state.done=${endingYear===2045};state.last='이전 결정 기록';state.history=[{year:${endingYear-1},title:'보존할 결정'}];state.points=[{year:2026,total:state.base},{year:${endingYear-1},total:7},{year:${endingYear},total:0}];delete state.budget;return JSON.stringify(state)})()`);
   const zeroSave=boot({savedEntries:[[saveKey,raw]],search:'?school='+encodeURIComponent(schoolId)});
   assert.equal(zeroSave.writes.length,0);
   assert.equal(zeroSave.storage.get(saveKey),raw);
@@ -516,4 +560,74 @@ becomesHappy.run('s.happy=75;s.retention=RetentionModel.sync(s.retention,s);rend
 assert.equal(becomesHappy.run('s.retention.pending'),null,'Annual choice raising happiness can cancel pending risk');
 assert.equal(becomesHappy.run('PopulationModel.total(s.grades,s.special)'),1);
 assertCurrentGrades(becomesHappy);
-console.log(JSON.stringify({status:'passed',events:catalogue.length,choices:catalogue.length*3,sources:Object.keys(sources).length,fullPlaythroughs:3,legacySaveCases:38,legacyJournalContinuation:true,legacyEnding:true,baselineSchools:roster.length,baselineYears:20,previewStorageIsolation:true,organizationEndings:2,calendarClosures:closingSchools.length,legacyCalendarReconciliation:true,automaticZeroEnding:true,zeroEndingSaveMigration:true,specialPupilStaysOpen:true,officialCalendarPriority:true,retentionDefaultMatchesMonitor:true,happy75SuppressesExtraLoss:true,currentGradeTotalsExact:true,endingYear:2045},null,2));
+
+// Budget decisions commit only once, cannot overspend, and retain old unknown financial history.
+function budgetFixture(money,year=2027){
+  const fixture=boot();
+  fixture.run(`selectSchool(SCHOOLS[0].id);enterGame();s.year=${year};s.money=${money};s.happy=75;s.eventId=events[1].id;s.chosen=false;s.chosenIndex=null;s.history=[];s.points=[{year:2026,total:s.base},{year:${year},total:PopulationModel.total(s.grades,s.special)}];s.retention=RetentionModel.initial();s.budget=BudgetModel.initial(s,{legacy:true});render()`);
+  return fixture;
+}
+function assertBudgetBalances(fixture){
+  assert.ok(fixture.run('Math.abs(s.budget.start.balance+s.budget.entries.reduce((sum,entry)=>sum+entry.amount,0)-s.money)<1e-8'),'Recorded budget flows must reconcile exactly to the visible balance');
+}
+const scarce=budgetFixture(-10);
+const beforeRejected=scarce.run('JSON.stringify(s)');scarce.run('choose(0)');
+assert.equal(scarce.run('JSON.stringify(s)'),beforeRejected,'Unaffordable choice cannot apply money or other effects');
+const beforeGrant=scarce.run('JSON.stringify({grades:s.grades,special:s.special,history:s.history,chosen:s.chosen,teacher:s.teacher,happy:s.happy,rep:s.rep,facilities:s.facilities,points:s.points})');
+scarce.run("budgetSupportAction('transport')");
+assert.equal(scarce.run('s.money'),14);
+assert.equal(scarce.run('s.budget.grants.length'),1);
+assert.equal(scarce.run('JSON.stringify({grades:s.grades,special:s.special,history:s.history,chosen:s.chosen,teacher:s.teacher,happy:s.happy,rep:s.rep,facilities:s.facilities,points:s.points})'),beforeGrant,'Support only funds the budget, without automatic students or wellbeing gains');
+const funded=scarce.run('JSON.stringify(s)');scarce.run("budgetSupportAction('learning');budgetFallbackAction()");
+assert.equal(scarce.run('JSON.stringify(s)'),funded,'Duplicate support is blocked and fallback disappears when an ordinary option becomes affordable');
+scarce.run('choose(2)');
+assert.equal(scarce.run('s.money'),6);
+assert.equal(scarce.run('s.budget.entries.filter(entry=>entry.kind===\'policy\').length'),1);
+const paid=scarce.run('JSON.stringify(s)');scarce.run('choose(2)');
+assert.equal(scarce.run('JSON.stringify(s)'),paid);
+assertBudgetBalances(scarce);
+scarce.run('advance()');
+assert.equal(scarce.run('s.budget.entries.filter(entry=>entry.kind===\'allocation\').length'),1);
+assertBudgetBalances(scarce);
+const beforeEarlyGrant=scarce.run('s.money');scarce.run("budgetSupportAction('learning')");
+assert.equal(scarce.run('s.money'),beforeEarlyGrant,'Support cannot repeat before three years pass');
+scarce.run("s.year=2030;budgetSupportAction('learning');s.year=2033;budgetSupportAction('shared-curriculum')");
+assert.equal(scarce.run('s.budget.grants.length'),3);
+const maxGrants=scarce.run('s.money');scarce.run("s.year=2036;budgetSupportAction('transport')");
+assert.equal(scarce.run('s.money'),maxGrants);
+scarce.run('persist();s=loadSave(s.schoolId);render()');
+assert.equal(scarce.run('s.budget.grants.length'),3);
+assertBudgetBalances(scarce);
+
+const noProjects=budgetFixture(-20);
+const noProjectMetrics=noProjects.run('JSON.stringify({grades:s.grades,special:s.special,money:s.money,rep:s.rep,happy:s.happy,teacher:s.teacher,facilities:s.facilities,appeal:s.appeal})');
+noProjects.run('budgetFallbackAction()');
+assert.equal(noProjects.run('s.chosen'),true);
+assert.equal(noProjects.run('s.chosenIndex'),null);
+assert.equal(noProjects.run('s.history.at(-1).budgetFallback'),true);
+assert.equal(noProjects.run('s.budget.entries.at(-1).amount'),0);
+assert.equal(noProjects.run('JSON.stringify({grades:s.grades,special:s.special,money:s.money,rep:s.rep,happy:s.happy,teacher:s.teacher,facilities:s.facilities,appeal:s.appeal})'),noProjectMetrics);
+const fallbackOnce=noProjects.run('JSON.stringify(s)');noProjects.run('budgetFallbackAction();choose(2)');
+assert.equal(noProjects.run('JSON.stringify(s)'),fallbackOnce,'Fallback counts as the one annual decision');
+noProjects.run('advance()');
+assert.equal(noProjects.run('s.year'),2028,'No-project fallback must allow normal annual progression');
+assertBudgetBalances(noProjects);
+
+const cap=budgetFixture(245);
+cap.run("budgetSupportAction('learning');s.chosen=true;advance()");
+assert.ok(cap.run('s.budget.entries.find(entry=>entry.kind===\'allocation\').amount<0'),'Existing annual cap adjustment must be captured as the actual signed net');
+assertBudgetBalances(cap);
+for(const stopped of [natural,ignored,officialZero,oldClosing]){
+  const unchanged=stopped.run('JSON.stringify(s)');stopped.run("budgetSupportAction('learning')");
+  assert.equal(stopped.run('JSON.stringify(s)'),unchanged,'No grant may revive an ended run');
+  const report=stopped.run('learningReportMarkup(s)');
+  assert.ok(report.includes('추가 정책을 반영하지 않은 기준선'));
+  assert.ok(report.includes(String(stopped.run('s.year'))));
+}
+assert.equal(comparedRegions.size,22);
+for(const [instance,type] of [[natural,'automatic-zero'],[ignored,'automatic-zero'],[officialZero,'official-calendar']])assertLearningReport(instance,type);
+const normalReport=boot();
+normalReport.run('selectSchool(SCHOOLS[0].id);enterGame();s.year=2045;s.done=true;s.grades=PopulationModel.forecast(SCHOOLS[0],2045).grades.slice();s.special=PopulationModel.forecast(SCHOOLS[0],2045).special;s.organization=OrganizationModel.initial();render()');
+assertLearningReport(normalReport,'normal');
+assert.ok(!normalReport.nodes.get('eventDesc').textContent.includes('종합점수'),'Normal ending must not rate large enrollment as inherent success');
+console.log(JSON.stringify({status:'passed',events:catalogue.length,choices:catalogue.length*3,sources:Object.keys(sources).length,fullPlaythroughs:3,legacySaveCases:38,legacyJournalContinuation:true,legacyEnding:true,baselineSchools:roster.length,baselineYears:20,previewStorageIsolation:true,organizationEndings:2,calendarClosures:closingSchools.length,legacyCalendarReconciliation:true,automaticZeroEnding:true,zeroEndingSaveMigration:true,specialPupilStaysOpen:true,officialCalendarPriority:true,retentionDefaultMatchesMonitor:true,happy75SuppressesExtraLoss:true,currentGradeTotalsExact:true,regionalLearningComparisons:comparedRegions.size,budgetAffordability:true,supportLimits:true,ledgerReconciles:true,noProjectFallback:true,allEndingReports:true,endingYear:2045},null,2));

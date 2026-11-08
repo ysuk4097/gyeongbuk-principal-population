@@ -58,6 +58,16 @@ Run `node scripts/verify-retention.cjs` to verify conditions, responses, cooldow
 
 Current first-through-sixth-grade counts and separately counted special/itinerant pupils are always visible beneath the main statistics and sum exactly to the displayed enrollment total.
 
+## Learning through regional and budget tradeoffs
+
+The pre-game regional comparison separates observed 2026 school enrollment, future calibrated enrollment goals and projected resident population. Comparing the selected municipality with another municipality or the current 22-municipality province aggregate illustrates different trajectories without treating projected share changes as measured migration. The collapsed context uses verified sources, including the recent national birth rebound and the lag before new births enter school cohorts. A principal's recruitment can redistribute pupils between schools without increasing regional births.
+
+Paid annual choices and peer-support responses require enough available game points. If every original annual choice is unaffordable, a zero-cost no-new-project decision allows progression without direct student or metric effects. Optional institutional support adds exactly 24 points for a recorded learning, transport or shared-curriculum intention, at most three times and at least three years apart. The purpose is not an enforced spending restriction; the points, limits and timing are game assumptions rather than actual grant eligibility or KRW. Support does not itself add students or improve satisfaction. The existing annual 250-point cap can absorb part of a high balance; ledger entries record the actual signed change, including that adjustment.
+
+`dist/learning.js` tracks policy spending/inflows, peer-support spending, the annual net allocation and grants with unique transaction IDs. New games start their ledger in 2026; older saves anchor it at their current year and balance, explicitly leaving prior financial history unknown. No prior expenditure is inferred from old decisions. Every ending compares the same-year no-additional-policy baseline with the game state, wellbeing and recorded resources, then offers open reflection on access, cooperation and opportunity costs. It does not grade larger schools as inherently better or attribute simulated enrollment differences causally to grants.
+
+Run `node scripts/verify-learning.cjs` for pure support and ledger invariants. Application checks cover affordability, the no-project fallback, actual balance reconciliation, legacy anchors and reports for normal, zero-enrollment, manual and official-calendar endings.
+
 ## Published admissions and separate admission forecasts
 
 `dist/admissions.js` contains code-matched Schoolinfo admissions observations for 2024–2026 and a separate reference series through 2045. Published admissions count actual entrants at admission day, whereas the grade-one enrollment snapshot is another statistic with a different reference period. Their difference alone does not establish that pupils transferred or why the values differ. Unknown historical records remain missing rather than zero.

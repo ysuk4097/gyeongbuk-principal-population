@@ -32,6 +32,8 @@ jobs:
         run: node scripts/verify-organization.cjs
       - name: Verify peer retention events
         run: node scripts/verify-retention.cjs
+      - name: Verify learning budget support and ledger
+        run: node scripts/verify-learning.cjs
       - name: Verify confirmed school calendar transitions
         run: node scripts/verify-lifecycle.cjs
       - name: Verify events, evidence, and save compatibility
