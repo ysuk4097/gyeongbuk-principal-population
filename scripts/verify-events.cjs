@@ -6,11 +6,40 @@ const assert=require('node:assert/strict');
 const dist=path.resolve(__dirname,'../dist');
 const read=name=>fs.readFileSync(path.join(dist,name),'utf8');
 
+// Native disclosure structure is part of the accessible default workflow.
+function indexStructure(html=read('index.html')){
+  const root={tag:'root',attrs:{},parent:null},stack=[root],nodes=[];
+  const voidTags=new Set(['area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr']);
+  for(const token of html.matchAll(/<\/?([a-z][a-z0-9-]*)\b[^>]*>/gi)){
+    const tag=token[1].toLowerCase();
+    if(token[0].startsWith('</')){while(stack.length>1){const node=stack.pop();if(node.tag===tag)break}continue}
+    const attrs={};
+    for(const attr of token[0].slice(tag.length+1,-1).matchAll(/([^\s=/>]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g))attrs[attr[1]]=attr[2]??attr[3]??attr[4]??true;
+    const node={tag,attrs,parent:stack.at(-1)};nodes.push(node);
+    if(!voidTags.has(tag)&&!token[0].endsWith('/>'))stack.push(node);
+  }
+  return {nodes,byId:id=>nodes.find(node=>node.attrs.id===id),detailsAncestors:node=>{const result=[];for(let parent=node?.parent;parent;parent=parent.parent)if(parent.tag==='details')result.push(parent);return result}};
+}
+const structure=indexStructure();
+for(const id of ['gameDataDetails','operationDetails','metricsDetails']){
+  const node=structure.byId(id);
+  assert.equal(node?.tag,'details',`${id} must use native keyboard-accessible details`);
+  assert.ok(!Object.hasOwn(node.attrs,'open'),`${id} must start collapsed`);
+  assert.ok(structure.nodes.some(child=>child.parent===node&&child.tag==='summary'),`${id} needs a direct summary`);
+}
+for(const [id,parent] of [['currentGrades','gameDataDetails'],['budgetPanel','gameDataDetails'],['organizationPanel','operationDetails'],['history','operationDetails'],['chart','metricsDetails']])assert.ok(structure.detailsAncestors(structure.byId(id)).some(node=>node.attrs.id===parent),`${id} belongs in its secondary disclosure`);
+for(const id of ['scene','choices','next','retentionAdvanceHint','retentionPanel','start'])assert.equal(structure.detailsAncestors(structure.byId(id)).length,0,`${id} must remain outside collapsed secondary content`);
+assert.ok(read('index.html').indexOf('id="choices"')<read('index.html').indexOf('id="scene"'),'Yearly decision must precede the decorative scene in narrow-screen reading order');
+assert.equal(structure.nodes.filter(node=>node.attrs.id==='next').length,1,'There must be one Next action');
+let nextWithinDecision=false;
+for(let node=structure.byId('next').parent;node;node=node.parent)if(String(node.attrs.class).split(/\s+/).includes('decision-card'))nextWithinDecision=true;
+assert.ok(nextWithinDecision,'Next stays with the yearly decision, before the scene');
+
 // Exercise the actual buildless application with a minimal DOM, without a browser dependency.
 function boot({savedEntries=[],search=''}={}){
   const nodes=new Map(),storage=new Map(savedEntries),writes=[],scrolls=[];
   const element=id=>{
-    if(!nodes.has(id))nodes.set(id,{id,value:'',hidden:id==='game',disabled:false,innerHTML:'',textContent:'',style:{},className:'',attributes:{},classList:{add(){},remove(){}},querySelectorAll(){return []},getBoundingClientRect(){return {width:400,height:155}},getContext(){return null},setAttribute(name,value){this.attributes[name]=String(value)},getAttribute(name){return this.attributes[name]??null},scrollIntoView(options){scrolls.push({id,options})},get offsetWidth(){return 400}});
+    if(!nodes.has(id))nodes.set(id,{id,value:'',hidden:id==='game',disabled:false,innerHTML:'',textContent:'',style:{},className:'',attributes:{},listeners:{},classList:{add(){},remove(){}},addEventListener(type,handler){(this.listeners[type]??=[]).push(handler)},dispatchEvent(event){const next={...event,target:this,currentTarget:this};this['on'+event.type]?.(next);for(const handler of this.listeners[event.type]||[])handler(next)},querySelectorAll(){return []},getBoundingClientRect(){return {width:400,height:155}},getContext(){return null},setAttribute(name,value){this.attributes[name]=String(value)},getAttribute(name){return this.attributes[name]??null},scrollIntoView(options){scrolls.push({id,options})},get offsetWidth(){return 400}});
     return nodes.get(id);
   };
   const context=vm.createContext({console,URL,URLSearchParams,location:{href:'https://example.com/game/'+search,search},document:{getElementById:element,querySelectorAll(){return []},title:''},window:{scrollTo(){},matchMedia(){return {matches:false}},devicePixelRatio:1},history:{replaceState(){}},localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>{writes.push({key:k,value:v});storage.set(k,v)}},addEventListener(){},setTimeout(){return 1},clearTimeout(){},confirm(){return true}});
@@ -199,6 +228,17 @@ for(let i=0;i<roster.length;i++){
   preview.run(`selectSchool(SCHOOLS[${i}].id)`);
   const school=roster[i],markup=preview.nodes.get('forecastPreview').innerHTML;
   const summary=preview.run('baselineSummary(selected)');
+  if(i===0){
+    const view=indexStructure(markup),details=view.byId('baselineDataDetails');
+    assert.equal(details?.tag,'details');
+    assert.ok(!Object.hasOwn(details.attrs,'open'),'Additional forecast data starts collapsed');
+    const primaryChart=view.nodes.find(node=>node.tag==='svg'&&String(node.attrs.class).split(/\s+/).includes('baseline-svg')&&!String(node.attrs.class).includes('admissions-svg'));
+    assert.equal(view.detailsAncestors(primaryChart).length,0,'Simple reference chart stays visible');
+    for(const className of ['admissions-row','baseline-annual-row','baseline-milestone']){
+      const row=view.nodes.find(node=>String(node.attrs.class).split(/\s+/).includes(className));
+      assert.ok(view.detailsAncestors(row).includes(details),`${className} belongs inside the single deeper-data disclosure`);
+    }
+  }
   const incoming=admissions.bySchoolCode[school.code];
   assert.ok(incoming,`${school.name}: admissions reference must match school code`);
   assert.equal(incoming.code,school.code);
@@ -551,6 +591,19 @@ assert.equal(supported.run('s.money'),88);
 assert.equal(supported.run('s.happy'),66);
 assert.equal(supported.run('s.retention.history[0].loss'),0);
 assertCurrentGrades(supported);
+
+// Opening secondary areas survives unrelated renders; chart redraws on disclosure opening.
+const disclosureGame=boot();disclosureGame.run('selectSchool(SCHOOLS[0].id);enterGame()');
+for(const id of ['gameDataDetails','operationDetails','metricsDetails'])disclosureGame.run(`$('${id}').open=true`);
+disclosureGame.run("choose(0);budgetSupportAction('learning')");
+for(const id of ['gameDataDetails','operationDetails','metricsDetails'])assert.equal(disclosureGame.run(`$('${id}').open`),true,`${id} must not close on unrelated policy/support rendering`);
+const supportView=indexStructure(disclosureGame.nodes.get('budgetContent').innerHTML);
+const supportButtons=supportView.nodes.filter(node=>node.tag==='button'&&Object.hasOwn(node.attrs,'data-budget-support'));
+assert.equal(supportButtons.length,3);
+supportButtons.forEach(button=>assert.equal(supportView.detailsAncestors(button).length,0,'Support controls require only their single outer disclosure'));
+disclosureGame.nodes.get('chart').width=1;
+disclosureGame.run("$('metricsDetails').dispatchEvent({type:'toggle'})");
+assert.ok(disclosureGame.nodes.get('chart').width>1,'Opening the chart disclosure redraws it at the current width');
 
 const highHappiness=retentionFixture({happy:75});
 assert.equal(highHappiness.run('s.retention.pending'),null,'High happiness must suppress the extra event');

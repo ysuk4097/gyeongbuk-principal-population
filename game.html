@@ -295,10 +295,136 @@
 .learning-report li{margin:8px 0;overflow-wrap:anywhere}
 @media(max-width:650px){.budget-panel{padding:14px 16px}.budget-support-choices{flex-direction:column;align-items:stretch}.learning-report{padding:20px}.learning-report h2{font-size:18px}.learning-comparison,.learning-details{font-size:12px}}
 
+/* Keep annual play in front; secondary data uses native disclosures. */
+.topbar{height:68px}
+.brand small{font-size:12px;color:#52665a;margin-top:3px}
+main{padding-top:24px}
+.setup-heading{margin-bottom:20px}
+.setup .picker,.setup .baseline-panel{border-radius:16px;box-shadow:none}
+.setup .baseline-panel{padding:24px}
+.baseline-range{margin-top:18px}
+.baseline-chart{margin:18px 0 14px}
+.setup .forecast-preview>.baseline-note{margin:12px 0}
+.baseline-start{margin-top:14px;padding-top:14px}
+.game-heading{gap:16px;margin:0 0 16px}
+.game-heading h1{margin:3px 0;font-size:clamp(24px,3vw,32px);letter-spacing:-.03em}
+.game-location{font-size:12px;line-height:1.6;color:#52665a}
+#game #location{font-size:12px;line-height:1.6;color:#52665a;letter-spacing:0}
+.game-heading .subtitle{font-size:12px;color:#52665a}
+#studentMoodSummary{font-size:12px;line-height:1.7;color:#425f49;margin:9px 0 0;overflow-wrap:anywhere}
+.toolbar .secondary,.toolbar .icon-button{min-height:44px}
+.stats{padding:12px 0;border-radius:12px}
+.stat{padding:0 20px}
+.stat small,.stat>span{font-size:12px;line-height:1.5;color:#52665a}
+.stat strong{font-size:28px;line-height:1.25;margin:5px 0 3px}
+.year-track{margin-top:14px}
+.timeline-labels{font-size:12px;color:#52665a;letter-spacing:0;margin:6px 0 14px}
+.game-layout{gap:18px}
+.game-layout>.left-col{grid-column:1;grid-row:1;min-width:0}
+.game-layout>.right-col{grid-column:2;grid-row:1;min-width:0}
+.game-layout .decision-card{padding:20px;border-radius:16px;box-shadow:none}
+.decision-card>.flex{justify-content:flex-end}
+.decision-card .pill{font-size:12px;color:#3f6248;padding:4px 9px}
+.decision-card h2{margin:5px 0 8px;font-size:22px;letter-spacing:-.03em}
+.event-desc{font-size:13px;line-height:1.75;margin:0 0 10px;color:#425f49}
+.choice-assumption,.choice-evidence{font-size:12px;color:#4c634e}
+.choice-assumption{margin-bottom:8px}
+.budget-choice-summary{margin:7px 0}
+.choice-group{margin-top:9px}
+.choice{gap:9px;padding:12px 14px;min-height:0}
+.choice b{font-size:14px;line-height:1.6;margin-bottom:3px}
+.choice small{font-size:12px;line-height:1.75;color:#4c634e}
+.choice-cost{margin:4px 0 0}
+.choice:not(.picked):disabled{opacity:1;background:#f5f6f0;color:#5c6b5a;border-color:#e0e5da}
+.evidence-details>summary{min-height:44px;padding:10px 2px}
+.choice-evidence .evidence-source-meta,.evidence-body .evidence-assumption{font-size:12px}
+.narrative-row{min-height:0;padding:15px 18px 12px}
+.narrative-row p{font-size:13px;line-height:1.75;color:#425f49}
+.narrative-row small{font-size:12px;color:#52665a}
+.advance-row{padding:12px 18px}
+.advance-row>span{font-size:12px;color:#52665a;line-height:1.6}
+.advance-row .primary{min-height:44px;font-size:13px}
+.decision-card>.advance-row{margin-top:12px;padding:14px 0 0}
+.decision-card>.retention-advance-hint{margin-top:12px;padding:12px 0 0;background:transparent}
+.decision-card>.retention-advance-hint:not([hidden])+.advance-row{border-top:0;margin-top:0;padding-top:12px}
+.secondary-disclosure{min-width:0;margin:12px 0 0;border:1px solid var(--line);border-radius:12px;background:#fff;color:#425f49;font-size:13px;line-height:1.8;box-shadow:none}
+.secondary-disclosure>summary{min-height:46px;padding:11px 16px;cursor:pointer;color:#315b40;font-size:13px;font-weight:650;line-height:1.8;overflow-wrap:anywhere;border-radius:11px}
+.secondary-disclosure>summary::marker{color:var(--green)}
+.secondary-disclosure>summary:hover{background:#f3f7ef}
+.secondary-disclosure[open]>summary{border-bottom:1px solid var(--line);border-radius:11px 11px 0 0}
+.secondary-disclosure>.disclosure-content{padding:16px;min-width:0}
+.secondary-disclosure .current-grade-panel,.secondary-disclosure .budget-panel,.secondary-disclosure .organization-card,.secondary-disclosure .journal,.secondary-disclosure .metrics-card{margin:0;border:0;border-radius:0;padding:16px;box-shadow:none}
+.secondary-disclosure .budget-panel{border-top:1px solid var(--line)}
+.secondary-disclosure .journal{border-top:1px solid var(--line)}
+.secondary-disclosure .journal>details>summary{min-height:44px;padding:10px 0}
+.secondary-disclosure .journal summary span{font-size:12px;color:#52665a}
+.secondary-disclosure .metrics-card h2{margin-bottom:12px}
+#metricsDetails .metric-top,#metricsDetails .chart-legend,#metricsDetails .chart-note,#metricsDetails .comparison>span,#metricsDetails .forecast-details,#metricsDetails .forecast-details table,#metricsDetails .forecast-details p{font-size:12px;color:#52665a}
+.secondary-disclosure .baseline-details{margin-top:12px}
+.setup .secondary-disclosure{margin-top:16px}
+.setup .secondary-disclosure>.disclosure-content>.baseline-details:first-child{border-top:0;margin-top:0}
+.game-footer{font-size:12px;color:#52665a;margin-top:20px}
+.game-footer summary{min-height:44px;padding:10px 0;color:#365b42}
+.game-footer>p{font-size:12px;letter-spacing:0;color:#52665a;margin-top:12px;padding-top:14px}
+@media(max-width:650px){
+  .topbar{height:60px;padding:0 16px}
+  .brand{font-size:16px;gap:8px}
+  .brand-icon{font-size:22px;padding:5px;border-radius:11px}
+  .brand small{font-size:12px}
+  main{padding:18px 14px 20px}
+  .setup-heading{margin-bottom:16px}
+  .setup-heading h1{font-size:24px}
+  .setup-grid{gap:14px}
+  .setup .picker,.setup .baseline-panel{padding:18px}
+  .setup .picker-intro{margin-bottom:10px}
+  .setup .school-list{height:144px}
+  .baseline-report-header h2{font-size:21px}
+  .baseline-range{margin-top:14px;gap:18px}
+  .baseline-range strong{font-size:29px}
+  .baseline-chart{margin-top:16px}
+  .game-heading{gap:8px;margin-bottom:12px}
+  .game-heading h1{font-size:24px;line-height:1.35;margin:0}
+  .toolbar{gap:6px;margin:0;justify-content:flex-start;flex-wrap:wrap}
+  .toolbar .secondary{font-size:12px;padding:8px 12px}
+  .toolbar .icon-button{font-size:20px;padding:5px 12px}
+  .stats{padding:10px 0}
+  .stat{padding:0 9px}
+  .stat small,.stat>span{font-size:12px;white-space:normal}
+  .stat strong{font-size:24px;letter-spacing:-.03em;margin:4px 0 2px}
+  .year-track{margin-top:10px}
+  .timeline-labels{margin-bottom:12px;font-size:12px}
+  .game-layout{gap:12px}
+  .game-layout .decision-card{order:0;padding:16px;width:100%}
+  .game-layout .retention-card{order:1;margin:0;padding:16px;width:100%}
+  .game-layout .scene-card{order:2;width:100%;border-radius:16px}
+  .game-layout .secondary-disclosure{order:3;width:100%;margin:0}
+  .decision-card h2{font-size:21px;margin-top:3px}
+  .choice{padding:11px 12px;min-height:0}
+  .choice b{font-size:14px}
+  .choice small,.choice-assumption{font-size:12px}
+  .narrative-row{padding:13px 15px 10px;min-height:0;gap:9px}
+  .narrative-row p,.narrative-row small{font-size:12px}
+  .advance-row{padding:11px 15px}
+  .advance-row>span{font-size:12px}
+  .advance-row .primary{font-size:13px;min-height:44px}
+  .retention-advance-hint{padding:11px 15px}
+  .game-layout .decision-card>.advance-row{padding:12px 0 0}
+  .game-layout .decision-card>.retention-advance-hint{padding:11px 0 0}
+  .secondary-disclosure>summary{padding:11px 14px}
+  .secondary-disclosure>.disclosure-content{padding:14px}
+  .secondary-disclosure .current-grade-panel,.secondary-disclosure .budget-panel,.secondary-disclosure .organization-card,.secondary-disclosure .journal,.secondary-disclosure .metrics-card{padding:14px}
+}
+@media(max-width:360px){
+  main{padding-left:11px;padding-right:11px}
+  .stat{padding:0 7px}
+  .stat strong{font-size:22px}
+  .setup .baseline-panel,.setup .picker{padding:16px}
+}
+
 </style>
 </head>
 <body>
-<header class="topbar"><a class="brand" href="./"><span class="brand-icon">🏫</span><span>우리 학교의 내일<small>경북 초등학교 · 인구 반영판</small></span></a><span class="edition">SCHOOL LIFE SIMULATOR</span></header>
+<header class="topbar"><a class="brand" href="./"><span class="brand-icon">🏫</span><span>우리 학교의 내일<small>경북 초등학교 · 인구 반영판</small></span></a></header>
 <main>
 <section id="setup" class="setup">
   <div class="setup-heading"><h1>우리 학교의 학생 수,<br class="setup-mobile-break"> 앞으로 어떻게 바뀔까요?</h1><p>학교를 고르면 추가 정책을 반영하지 않은 2045년까지의 기본 전망을 볼 수 있습니다.</p></div>
@@ -308,15 +434,17 @@
   </div>
 </section>
 <section id="game" hidden>
-  <div class="game-heading"><div><div class="eyebrow" id="location"></div><h1 id="schoolName"></h1><p class="subtitle">당신의 선택으로 자라는, 우리 학교의 이야기.</p></div><div class="toolbar"><button id="switchSchool" class="secondary">학교 변경</button><button id="save" class="secondary">저장</button><button id="restart" class="icon-button" aria-label="현재 학교 새 게임">↻</button></div></div>
+  <div class="game-heading"><div><h1 id="schoolName"></h1><p id="location" class="game-location"></p></div><div class="toolbar"><button id="switchSchool" class="secondary">학교 변경</button><button id="save" class="secondary">저장</button><button id="restart" class="icon-button" aria-label="현재 학교 새 게임">↻</button></div></div>
   <div id="schoolLifecycleStatus"></div>
-  <div class="stats"><div class="stat"><small>현재 연도</small><strong id="year">2026</strong><span id="career">1년차 교장</span></div><div class="stat"><small>우리 학교 학생</small><strong id="students">257<span>명</span></strong><span id="studentDelta">새로운 시작</span></div><div class="stat"><small>운영 예산</small><strong id="money">100</strong><span>게임 포인트</span></div><div class="stat"><small>학교 평판</small><strong id="rep">50</strong><span>100점 만점</span></div></div><section id="currentGrades" class="current-grade-panel" aria-label="현재 연도 학년별 모형 인원"></section><section id="budgetPanel" class="budget-panel" aria-label="게임 예산과 지원 기록"><div id="budgetContent"></div><p id="budgetMessage" role="status"></p></section><div class="model-banner"><span>📊 2026년 공시 학생 수에서 시작</span><span>인구 전망 + 학교별 진급 + 선택 효과</span></div>
+  <div class="stats"><div class="stat"><small>현재 연도</small><strong id="year">2026</strong><span id="career">1년차 교장</span></div><div class="stat"><small>우리 학교 학생</small><strong id="students">257<span>명</span></strong><span id="studentDelta">새로운 시작</span></div><div class="stat"><small>운영 예산</small><strong id="money">100</strong><span>게임 포인트</span></div><div class="stat"><small>학교 평판</small><strong id="rep">50</strong><span>100점 만점</span></div></div><p id="studentMoodSummary" class="student-mood-summary"></p>
   <div class="year-track"><div id="yearProgress"></div></div><div class="timeline-labels"><span>2026 · 첫 부임</span><span>2045 · 나의 학교 이야기</span></div>
   <div id="lifecycleEnding" class="lifecycle-ending" role="status" hidden></div>
   <div id="organizationEnding" class="organization-ending" role="status" hidden></div>
   <section id="learningReport" class="card learning-report" aria-label="같은 연도의 운영 돌아보기" hidden></section>
-  <div class="game-layout"><div class="left-col"><section class="scene-card"><div class="scene" id="scene"><div class="sun"></div><div class="cloud">☁️</div><div class="cloud second">☁️</div><div class="hill"></div><div class="tree t1">🌳</div><div class="tree t2">🌳</div><div class="school"><div class="school-sign" id="schoolSign"></div><div id="windows" class="windows"></div><div class="door"></div><div class="flag">⚑</div></div><div class="yard" id="yard"></div><div id="situation" class="situation" aria-hidden="true"></div><div class="rainlines"></div><div class="banner"><span id="season">🌸 봄 학기</span><span id="mood">😊 활기찬 학교</span></div><div id="effect" class="effect"></div><div id="confetti" class="confetti"></div></div><div class="narrative-row"><span class="principal" aria-hidden="true">👩‍💼</span><div><small>교장실에서 온 소식</small><p id="narrative" aria-live="polite"></p></div></div><p id="retentionAdvanceHint" class="retention-advance-hint" hidden></p><div class="advance-row"><span id="step">올해의 결정을 내리세요</span><button id="next" class="primary" aria-describedby="retentionAdvanceHint" disabled>다음 해로 <span>→</span></button></div></section><section id="organizationPanel" class="card organization-card" aria-label="학급·학교 운영 검토" hidden><div id="organizationContent"></div><p id="organizationMessage" class="organization-message" role="status"></p></section><section class="card journal"><details open><summary>📖 교장 일지 <span id="historyCount">0개의 기록</span></summary><div class="history" id="history"></div></details></section></div>
-  <div class="right-col"><section class="card decision-card"><div class="flex"><span class="eyebrow">올해의 의사결정</span><span class="pill" id="decisionBadge">선택 대기</span></div><h2 id="eventTitle"></h2><p id="eventDesc" class="event-desc"></p><p id="choiceAssumption" class="choice-assumption">예산·지표·학생 수의 선택 효과는 모두 게임 가정입니다.</p><p id="budgetChoiceSummary" class="budget-choice-summary"></p><div id="choices"></div></section><section id="retentionPanel" class="card retention-card" aria-label="선택형 또래·전학 검토" hidden><div id="retentionContent"></div><p id="retentionMessage" class="retention-message" role="status"></p></section><section class="card metrics-card"><h2>학교의 현재</h2><div class="metrics" id="metrics"></div><div class="chart-heading"><h3>학생 수의 미래</h3><span class="muted">단위: 명</span></div><div class="chart-legend"><span class="base-dot">인구 기준선(자체 추계)</span><span class="play-dot">내 선택의 결과</span></div><canvas id="chart" role="img" aria-label="연도별 학생 수 그래프"></canvas><div id="comparison" class="comparison"></div><p class="chart-note" id="chartNote"></p><details class="forecast-details"><summary>학교별 연도별 예상 보기</summary><div id="forecastTable"></div></details></section></div></div>
+  <div class="game-layout"><div class="right-col"><section class="card decision-card"><div class="decision-status"><span class="pill" id="decisionBadge">선택 대기</span></div><h2 id="eventTitle"></h2><p id="eventDesc" class="event-desc"></p><p id="choiceAssumption" class="choice-assumption">예산·지표·학생 수의 선택 효과는 모두 게임 가정입니다.</p><p id="budgetChoiceSummary" class="budget-choice-summary"></p><div id="choices"></div><p id="retentionAdvanceHint" class="retention-advance-hint" hidden></p><div class="advance-row"><span id="step">올해의 결정을 내리세요</span><button id="next" class="primary" aria-describedby="retentionAdvanceHint" disabled>다음 해로 <span>→</span></button></div></section><section id="retentionPanel" class="card retention-card" aria-label="선택형 또래·전학 검토" hidden><div id="retentionContent"></div><p id="retentionMessage" class="retention-message" role="status"></p></section></div><div class="left-col"><section class="scene-card"><div class="scene" id="scene"><div class="sun"></div><div class="cloud">☁️</div><div class="cloud second">☁️</div><div class="hill"></div><div class="tree t1">🌳</div><div class="tree t2">🌳</div><div class="school"><div class="school-sign" id="schoolSign"></div><div id="windows" class="windows"></div><div class="door"></div><div class="flag">⚑</div></div><div class="yard" id="yard"></div><div id="situation" class="situation" aria-hidden="true"></div><div class="rainlines"></div><div class="banner"><span id="season">🌸 봄 학기</span><span id="mood">😊 활기찬 학교</span></div><div id="effect" class="effect"></div><div id="confetti" class="confetti"></div></div><div class="narrative-row"><span class="principal" aria-hidden="true">👩‍💼</span><div><small>교장실에서 온 소식</small><p id="narrative" aria-live="polite"></p></div></div></section></div></div>
+  <details id="gameDataDetails" class="secondary-disclosure game-secondary"><summary>학년·예산·지원</summary><section id="currentGrades" class="current-grade-panel" aria-label="현재 연도 학년별 모형 인원"></section><section id="budgetPanel" class="budget-panel" aria-label="게임 예산과 지원 기록"><div id="budgetContent"></div><p id="budgetMessage" role="status"></p></section></details>
+  <details id="operationDetails" class="secondary-disclosure game-secondary"><summary>운영 검토·일지</summary><div id="schoolLifecycleData"></div><section id="organizationPanel" class="card organization-card" aria-label="학급·학교 운영 검토" hidden><div id="organizationContent"></div><p id="organizationMessage" class="organization-message" role="status"></p></section><section class="card journal"><h2>교장 일지 <span id="historyCount">0개의 기록</span></h2><div class="history" id="history"></div></section></details>
+  <details id="metricsDetails" class="secondary-disclosure game-secondary"><summary>학교 지표·학생 수 전망</summary><section class="card metrics-card"><div class="metrics" id="metrics"></div><div class="chart-heading"><h3>학생 수의 미래</h3><span class="muted">단위: 명</span></div><div class="chart-legend"><span class="base-dot">인구 기준선(자체 추계)</span><span class="play-dot">내 선택의 결과</span></div><canvas id="chart" role="img" aria-label="연도별 학생 수 그래프"></canvas><div id="comparison" class="comparison"></div><p class="chart-note" id="chartNote"></p><details class="forecast-details"><summary>학교별 연도별 예상 보기</summary><div id="forecastTable"></div></details></section></details>
   <footer class="game-footer"><details><summary>게임 방법 · 인구 전망과 계산 근거</summary><p>매년 정책 하나를 선택한 뒤 ‘다음 해로’를 누르세요. 예산·만족도·시설·평판·전입 매력이 달라지고, 다음 해 신입생과 전·출입에 가상 효과가 누적됩니다. 회색 점선은 정책 효과를 제외한 기준선, 녹색 선은 플레이 결과입니다. 예산·운영 지표의 변화량과 학생 수 효과의 모든 계수는 게임 가정이며, 출처에서 추정한 정책 효과가 아닙니다.</p><p>선택지의 ‘사례 근거’는 학생 유입이 함께 관찰된 사례, ‘간접 근거’는 교육·돌봄·정책 운영을 뒷받침하는 자료입니다. 사례는 선택 하나의 인과효과를 증명하지 않습니다. ‘직접 근거 미확인’은 해당 선택의 학생 수 증가를 입증할 자료를 연결하지 못한 경우입니다. 출처의 내용과 한계는 선택 전후에 펼쳐볼 수 있으며, 새로 남긴 교장 일지에서도 확인할 수 있습니다. 정책 근거 확인일: <span id="evidenceChecked">2026-11-08</span>.</p><div id="populationMethod"></div><div id="populationRecovery"></div><p>진행 상황은 현재 브라우저에 학교별로 저장됩니다. 기존 인구 반영판의 현재 사건과 이미 내린 선택은 이어지며, 다음 해부터 확장된 사건을 만납니다. 이전 가상 규모판의 저장은 덮어쓰지 않습니다.</p></details><p>우리 학교의 내일 · GYEONGBUK SCHOOL STORIES</p></footer>
 </section>
 </main><div id="toast" role="status" class="toast"></div>
@@ -2472,7 +2600,7 @@ function lifecycleSnapshotMarkup(record){
 }
 function renderLifecycle(){
   const school=schoolMap.get(s.schoolId),record=s.lifecycle?.ending;
-  $('schoolLifecycleStatus').innerHTML=lifecycleStatusMarkup(school);
+  $('schoolLifecycleStatus').innerHTML=baselineScheduleNoticeMarkup(school);$('schoolLifecycleData').innerHTML=lifecycleStatusMarkup(school);
   $('lifecycleEnding').hidden=!record;
   if(!record)return;
   $('narrative').textContent=record.legacyAdjustment?'운영 종료 이후의 가상 진행은 원본 기록에 보존하고, 표시 인원을 조정했습니다.':'확인된 학교 운영 종료 일정에 따른 졸업·배치 모의 기록을 남겼습니다.';
@@ -2503,7 +2631,7 @@ function baselineRegionComparisonMarkup(school,comparisonRegion='province'){
 }
 function renderBudget(){
   const ledger=BudgetModel.normalize(s.budget,s),summary=BudgetModel.summary(ledger),purposes={learning:'학습 지원',transport:'통학 지원','shared-curriculum':'공동 교육과정'},kindLabels={policy:'연간 정책',retention:'또래 검토',allocation:'연간 배정 순액',support:'목적별 게임 지원'};
-  $('budgetContent').innerHTML=`<div class="budget-heading"><h2>게임 예산</h2><b>잔액 ${s.money.toLocaleString('ko-KR')} 게임 포인트</b></div><p>기록된 정책·또래 검토 지출 ${(summary.policySpending+summary.retentionSpending).toLocaleString('ko-KR')}포인트 · 받은 게임 지원 ${summary.supportTotal.toLocaleString('ko-KR')}포인트</p><details class="learning-details"><summary>목적별 추가 지원 · 예산 기록 보기</summary><p>추가 게임 지원은 1회 +24포인트, 한 게임 최대 3회이며 3년 간격입니다. 정한 목적을 기록하고, 받은 포인트는 운영 예산과 함께 사용합니다. 실제 원화나 법적 지원 자격을 뜻하지 않고 학생 증가를 자동으로 만들지 않습니다.</p><div class="budget-support-choices">${Object.entries(purposes).map(([purpose,label])=>{const preview=BudgetModel.support(s.budget,s,purpose);return `<button type="button" class="secondary" data-budget-support="${purpose}" ${preview.accepted?'':'disabled'}>${label} 목적 · +24 게임 포인트</button>`}).join('')}</div><p>남은 지원 ${summary.remainingGrants}회 · 다음 지원 참고 연도 ${summary.nextSupportYear}년. 다음 해 예산을 배정할 때 잔액이 250포인트를 넘으면 250으로 맞춥니다. 예산 기록에는 실제 변동 금액을 표시합니다.</p><p>${ledger.start.legacy?`이전 저장의 ${ledger.start.year}년 잔액 ${ledger.start.balance}포인트부터 기록했습니다. 그 이전 수입·지출은 알 수 없어 추정하지 않습니다.`:`새 게임의 ${ledger.start.year}년 예산 ${ledger.start.balance}포인트에서 기록을 시작했습니다.`}</p><table class="budget-ledger"><caption>기록된 예산 흐름 · 게임 포인트</caption><thead><tr><th scope="col">연도·내용</th><th scope="col">실제 증감</th><th scope="col">잔액</th></tr></thead><tbody>${ledger.entries.map(entry=>`<tr data-budget-id="${esc(entry.id)}"><th scope="row">${entry.year}년 · ${esc(entry.label||kindLabels[entry.kind])}${entry.purpose?` · ${esc(purposes[entry.purpose]||'')}`:''}</th><td>${entry.amount>0?'+':''}${entry.amount.toLocaleString('ko-KR')}</td><td>${entry.balanceAfter.toLocaleString('ko-KR')}</td></tr>`).join('')||'<tr><td colspan="3">아직 기록된 예산 흐름이 없습니다.</td></tr>'}</tbody></table>${learningEvidenceMarkup(['public-support'])}</details>`;
+  $('budgetContent').innerHTML=`<div class="budget-heading"><h2>게임 예산</h2><b>잔액 ${s.money.toLocaleString('ko-KR')} 게임 포인트</b></div><p>기록된 정책·또래 검토 지출 ${(summary.policySpending+summary.retentionSpending).toLocaleString('ko-KR')}포인트 · 받은 게임 지원 ${summary.supportTotal.toLocaleString('ko-KR')}포인트</p><div class="budget-secondary-content"><p>추가 게임 지원은 1회 +24포인트, 한 게임 최대 3회이며 3년 간격입니다. 정한 목적을 기록하고, 받은 포인트는 운영 예산과 함께 사용합니다. 실제 원화나 법적 지원 자격을 뜻하지 않고 학생 증가를 자동으로 만들지 않습니다.</p><div class="budget-support-choices">${Object.entries(purposes).map(([purpose,label])=>{const preview=BudgetModel.support(s.budget,s,purpose);return `<button type="button" class="secondary" data-budget-support="${purpose}" ${preview.accepted?'':'disabled'}>${label} 목적 · +24 게임 포인트</button>`}).join('')}</div><p>남은 지원 ${summary.remainingGrants}회 · 다음 지원 참고 연도 ${summary.nextSupportYear}년. 다음 해 예산을 배정할 때 잔액이 250포인트를 넘으면 250으로 맞춥니다. 예산 기록에는 실제 변동 금액을 표시합니다.</p><p>${ledger.start.legacy?`이전 저장의 ${ledger.start.year}년 잔액 ${ledger.start.balance}포인트부터 기록했습니다. 그 이전 수입·지출은 알 수 없어 추정하지 않습니다.`:`새 게임의 ${ledger.start.year}년 예산 ${ledger.start.balance}포인트에서 기록을 시작했습니다.`}</p><table class="budget-ledger"><caption>기록된 예산 흐름 · 게임 포인트</caption><thead><tr><th scope="col">연도·내용</th><th scope="col">실제 증감</th><th scope="col">잔액</th></tr></thead><tbody>${ledger.entries.map(entry=>`<tr data-budget-id="${esc(entry.id)}"><th scope="row">${entry.year}년 · ${esc(entry.label||kindLabels[entry.kind])}${entry.purpose?` · ${esc(purposes[entry.purpose]||'')}`:''}</th><td>${entry.amount>0?'+':''}${entry.amount.toLocaleString('ko-KR')}</td><td>${entry.balanceAfter.toLocaleString('ko-KR')}</td></tr>`).join('')||'<tr><td colspan="3">아직 기록된 예산 흐름이 없습니다.</td></tr>'}</tbody></table>${learningEvidenceMarkup(['public-support'])}</div>`;
   $('budgetMessage').textContent='';$('budgetChoiceSummary').textContent=`현재 잔액 ${s.money.toLocaleString('ko-KR')} 게임 포인트 · 유료 정책은 필요한 예산이 있을 때만 선택할 수 있습니다.`;
 }
 function learningReportMarkup(state=s){
@@ -2516,7 +2644,7 @@ function learningReportMarkup(state=s){
 function renderLearningReport(){const markup=learningReportMarkup(s);$('learningReport').hidden=!markup;$('learningReport').innerHTML=markup}
 function annualOptionCost(option){return Math.max(0,-(option?.[2]?.money||0))}
 function annualChoicesMarkup(ev){
-  return ev.options.map((option,i)=>{const cost=annualOptionCost(option),affordable=BudgetModel.canAfford(s,cost),disabled=s.chosen||s.done||s.organization?.ending||s.lifecycle?.ending||!affordable;return `<div class="choice-group"><button class="choice ${s.chosen&&s.chosenIndex===i?'picked':''}" ${disabled?'disabled':''} data-choice="${i}" aria-describedby="choiceAssumption budgetChoiceSummary"><span class="number">${s.chosen&&s.chosenIndex===i?'✓':String(i+1).padStart(2,'0')}</span><span class="choice-copy"><b>${esc(option[0])}</b><small>${esc(option[1])}</small></span></button><p class="choice-cost">${cost?`필요 ${cost} 게임 포인트${affordable?'':' · 현재 잔액 부족'}`:'추가 게임 예산 없이 선택 가능'}</p>${evidenceMarkup(option)}</div>`}).join('')+(budgetFallbackAvailable()?'<button type="button" id="budgetFallback" class="secondary budget-fallback">예산 부족 · 추가 사업 없이 운영 유지</button>':'');
+  return ev.options.map((option,i)=>{const cost=annualOptionCost(option),affordable=BudgetModel.canAfford(s,cost),disabled=s.chosen||s.done||s.organization?.ending||s.lifecycle?.ending||!affordable;return `<div class="choice-group"><button class="choice ${s.chosen&&s.chosenIndex===i?'picked':''}" ${disabled?'disabled':''} data-choice="${i}" aria-describedby="choiceAssumption budgetChoiceSummary"><span class="choice-copy"><b>${s.chosen&&s.chosenIndex===i?'선택 완료 · ':''}${esc(option[0])}</b><small>${esc(option[1])}</small></span></button><p class="choice-cost">${cost?`필요 ${cost} 게임 포인트${affordable?'':' · 현재 잔액 부족'}`:'추가 게임 예산 없이 선택 가능'}</p>${evidenceMarkup(option)}</div>`}).join('')+(budgetFallbackAvailable()?'<button type="button" id="budgetFallback" class="secondary budget-fallback">예산 부족 · 추가 사업 없이 운영 유지</button>':'');
 }
 function budgetFallbackAvailable(){return !!s&&!s.chosen&&!s.done&&!s.lifecycle?.ending&&!s.organization?.ending&&currentEvent().options.every(option=>!BudgetModel.canAfford(s,annualOptionCost(option)))}
 function commitBudgetCandidate(flow,candidate){
@@ -2795,13 +2923,21 @@ function baselineRecoveryMarkup(school){
   const minimum=region.minimum,recovery=region.recovery,change=recovery.change,years=[...new Set([2026,minimum.year,recovery.year])].sort((a,b)=>a-b);
   return `<details class="baseline-details baseline-recovery"><summary>왜 감소가 멈추나요?</summary>${LifecycleModel.closureFor(school,2045,DEMOGRAPHICS.schoolCalendar)?'<p>이 학교의 0명은 확인된 운영 종료 일정의 반영입니다. 아래 시군 인구 경로는 이 학교의 존치 여부와 구분합니다.</p>':''}<p>${esc(school.region)}의 공식 6~11세 인구추계는 2026년 ${region.population[2026].toLocaleString('ko-KR')}명, 범위 내 최저인 ${minimum.year}년 ${minimum.population.toLocaleString('ko-KR')}명, ${recovery.year}년 ${recovery.population.toLocaleString('ko-KR')}명입니다. 최저 연도 대비 ${change>0?'+':''}${change.toLocaleString('ko-KR')}명인 추계 경로를 참고합니다.</p><table><caption class="sr-only">${esc(school.region)}의 공식 인구추계 최저 연도와 이후 경로</caption><thead><tr><th scope="col">연도</th><th scope="col">6~11세 거주인구</th></tr></thead><tbody>${years.map(year=>`<tr class="baseline-recovery-row" data-year="${year}" data-population="${region.population[year]}"><th scope="row">${year}년${year===minimum.year?' (최저)':''}</th><td>${region.population[year].toLocaleString('ko-KR')}명</td></tr>`).join('')}</tbody></table><p>학교별 곡선은 이 시군 인구 경로와 1학년 재학생 점유율·진급 추세의 배분 가정을 함께 반영합니다. 출생아와 6~11세 인구는 다른 연령 집단이며, 정체·반등은 학교 존치나 실제 학생 수의 보장이 아닙니다. </p><p>${sourceLink({title:reference.title,url:reference.source})}의 가정에 따른 추계입니다. 2043~2045년은 별도 자체 연장입니다.</p>${baselineShareComparisonMarkup(school)}</details>`;
 }
-function baselinePopulationPreviewMarkup(school){
-  const summary=baselineSummary(school),milestones=summary.points.filter(p=>[2030,2035,2040,2045].includes(p.year));
+function baselinePopulationDataMarkup(school){
+  const summary=baselineSummary(school),milestones=summary.points.filter(point=>[2030,2035,2040,2045].includes(point.year));
   const observed=Object.entries(school.history||{}).filter(([year,total])=>Number(year)>=2024&&Number(year)<=2026&&Number.isFinite(total)).sort(([a],[b])=>Number(a)-Number(b));
-  const direction=summary.change<0?'2045년은 2026년보다 적을 것으로 추계됩니다.':summary.change>0?'2045년은 2026년보다 많을 것으로 추계됩니다.':'2045년은 2026년과 같은 수준으로 추계됩니다.';
-  return `<div class="baseline-report-header"><h2>${esc(school.name)}</h2><p>추가 게임 정책을 반영하지 않은 전망</p></div>${lifecycleStatusMarkup(school)}<div class="baseline-range"><div><span>2026년 재학생 공시</span><strong>${summary.startTotal.toLocaleString('ko-KR')}<small>명</small></strong></div><span class="baseline-arrow" aria-hidden="true">→</span><div><span>2045년 재학생 모형</span><strong>${summary.endTotal.toLocaleString('ko-KR')}<small>명</small></strong></div></div><p class="baseline-change">2026년 대비 <b>${summary.changeText}</b> <span>(${summary.percentText})</span></p><p class="baseline-direction">${direction}</p>${baselineAdmissionsMarkup(school)}${baselineChartMarkup(school,summary)}${baselineZeroEnrollmentMarkup(school)}<table class="baseline-milestones"><caption>중간 연도 전망</caption><thead><tr><th scope="col">연도</th><th scope="col">추가 정책 미반영 학생 수</th></tr></thead><tbody>${milestones.map(p=>`<tr class="baseline-milestone" data-year="${p.year}" data-total="${p.total}"><th scope="row">${p.year}년</th><td>${p.total.toLocaleString('ko-KR')}명</td></tr>`).join('')}</tbody></table><p class="baseline-note">${baselineModelNote()}</p><details class="baseline-details baseline-annual"><summary>2026~2045년 연도별 학생 수 보기</summary><table><caption class="sr-only">${esc(school.name)}의 연도별 기본 전망</caption><thead><tr><th scope="col">연도</th><th scope="col">학생 수</th><th scope="col">구분</th></tr></thead><tbody>${summary.points.map(p=>`<tr class="baseline-annual-row" data-year="${p.year}" data-total="${p.total}"><th scope="row">${p.year}년</th><td>${p.total.toLocaleString('ko-KR')}명</td><td>${baselinePointType(p.year,school)}</td></tr>`).join('')}</tbody></table></details><details class="baseline-details baseline-observed"><summary>2024~2026년 과거 공시 기록 보기</summary><p>아래는 과거 관측값이며 미래 추계와 구분됩니다.</p><table><caption class="sr-only">${esc(school.name)}의 과거 공시 학생 수</caption><thead><tr><th scope="col">공시 연도</th><th scope="col">학생 수</th></tr></thead><tbody>${observed.map(([year,total])=>`<tr><th scope="row">${esc(year)}년</th><td>${total.toLocaleString('ko-KR')}명</td></tr>`).join('')}</tbody></table></details>${baselineMethodMarkup()}`;
+  return `${lifecycleStatusMarkup(school)}${baselineAdmissionsMarkup(school)}${baselineZeroEnrollmentMarkup(school)}<table class="baseline-milestones"><caption>중간 연도 전망</caption><thead><tr><th scope="col">연도</th><th scope="col">추가 정책 미반영 학생 수</th></tr></thead><tbody>${milestones.map(p=>`<tr class="baseline-milestone" data-year="${p.year}" data-total="${p.total}"><th scope="row">${p.year}년</th><td>${p.total.toLocaleString('ko-KR')}명</td></tr>`).join('')}</tbody></table><p class="baseline-note">${baselineModelNote()}</p><details class="baseline-details baseline-annual"><summary>2026~2045년 연도별 학생 수 보기</summary><table><caption class="sr-only">${esc(school.name)}의 연도별 기본 전망</caption><thead><tr><th scope="col">연도</th><th scope="col">학생 수</th><th scope="col">구분</th></tr></thead><tbody>${summary.points.map(p=>`<tr class="baseline-annual-row" data-year="${p.year}" data-total="${p.total}"><th scope="row">${p.year}년</th><td>${p.total.toLocaleString('ko-KR')}명</td><td>${baselinePointType(p.year,school)}</td></tr>`).join('')}</tbody></table></details><details class="baseline-details baseline-observed"><summary>2024~2026년 과거 공시 기록 보기</summary><p>아래는 과거 관측값이며 미래 추계와 구분됩니다.</p><table><caption class="sr-only">${esc(school.name)}의 과거 공시 학생 수</caption><thead><tr><th scope="col">공시 연도</th><th scope="col">학생 수</th></tr></thead><tbody>${observed.map(([year,total])=>`<tr><th scope="row">${esc(year)}년</th><td>${total.toLocaleString('ko-KR')}명</td></tr>`).join('')}</tbody></table></details>${baselineMethodMarkup()}`;
 }
-function baselinePreviewMarkup(school){return baselinePopulationPreviewMarkup(school)+baselineRegionMarkup(school)+baselineRegionComparisonMarkup(school)+baselineRecoveryMarkup(school)+baselineOrganizationMarkup(school)}
+function baselineScheduleNoticeMarkup(school){
+  const changes=schoolCalendarChanges(school),kinds={closure:'폐교',branch:'분교장 전환',rename:'교명 변경',affiliation:'소속 변경'};
+  if(!changes.length)return '';
+  return `<p class="baseline-status-notice">확인된 일정: ${changes.map(change=>`${esc(change.effectiveDate)} ${esc(kinds[change.kind]||'학교 개편')} ${change.status==='effective'?'시행 확인':'의결·예정'}`).join(' · ')}</p>`;
+}
+function baselinePopulationPreviewMarkup(school){
+  const summary=baselineSummary(school),zeroYear=baselineZeroEnrollmentYear(school),showZero=zeroYear!==null&&!LifecycleModel.closureFor(school,zeroYear,DEMOGRAPHICS.schoolCalendar);
+  return `<div class="baseline-report-header"><h2>${esc(school.name)}</h2></div>${baselineScheduleNoticeMarkup(school)}<div class="baseline-range"><div><span>2026년 재학생 공시</span><strong>${summary.startTotal.toLocaleString('ko-KR')}<small>명</small></strong></div><span class="baseline-arrow" aria-hidden="true">→</span><div><span>2045년 재학생 모형</span><strong>${summary.endTotal.toLocaleString('ko-KR')}<small>명</small></strong></div></div><p class="baseline-change">2026년 대비 <b>${summary.changeText}</b> (${summary.percentText})</p>${baselineChartMarkup(school,summary)}${showZero?`<p class="baseline-status-notice">${zeroYear}년 기준 전망 재학생 0명 · 게임에서는 모의 운영 종료 (실제 폐교 확정 아님)</p>`:''}<p class="baseline-note">2026년 공시 기준 · 추가 정책 미반영. 이후는 공식 학생배치계획이 아닌 조건부 모형입니다.</p>`;
+}
+function baselinePreviewMarkup(school){return baselinePopulationPreviewMarkup(school)+`<details id="baselineDataDetails" class="secondary-disclosure"><summary>자료·다른 전망 보기</summary><div class="disclosure-content">${baselinePopulationDataMarkup(school)}${baselineRegionMarkup(school)}${baselineRegionComparisonMarkup(school)}${baselineRecoveryMarkup(school)}${baselineOrganizationMarkup(school)}</div></details>`}
 function selectSchool(id){selected=schoolMap.get(id);if(!selected)return;const saved=loadSave(id);$('selectedInfo').innerHTML=`<b>${esc(selected.name)}</b><small>${esc(selected.address)} · ${esc(selected.type)}</small>`;$('start').disabled=false;$('start').innerHTML=(saved?((saved.lifecycle?.ending||saved.organization?.ending?.kind==='zero-enrollment')?`${saved.year}년 운영 종료 기록 보기`:`${saved.year}년 게임 이어하기`):schoolCalendarChanges(selected).some(change=>change.kind==='closure')?'2026년 공시부터 가상 운영':'이 전망을 바꿔보기 · 게임 시작')+' <span>→</span>';$('forecastPreview').innerHTML=baselinePreviewMarkup(selected);$('previewLink').hidden=false;listSchools()}
 function showSetup(){if(s){persist();$('cancelSetup').hidden=false;selected=schoolMap.get(s.schoolId);$('region').value=selected.region;$('search').value='';selectSchool(selected.id)}$('setup').hidden=false;$('game').hidden=true;window.scrollTo({top:0,behavior:'instant'})}
 function enterGame(){if(!selected)return;const saved=loadSave(selected.id);s=saved||initial(selected);reconcileLifecycle(s.year);s=reconcileZeroEnrollment(s).state;syncOrganization();syncRetention();$('setup').hidden=true;$('game').hidden=false;persist();render();const url=new URL(location.href);url.searchParams.set('school',s.schoolId);history.replaceState(null,'',url);window.scrollTo({top:0,behavior:'instant'});if(saved)notify(saved.lifecycle?.ending||saved.organization?.ending?`${saved.year}년의 운영 종료 기록을 열었습니다.`:`${saved.year}년의 학교 이야기를 이어갑니다.`)}
@@ -2812,6 +2948,7 @@ function render(){
   renderBudget();
   const school=schoolMap.get(s.schoolId),total=PopulationModel.total(s.grades,s.special),baseline=PopulationModel.forecast(school,s.year),orgEnded=!!s.organization?.ending,actualEnded=!!s.lifecycle?.ending,zeroEnded=s.organization?.ending?.kind==='zero-enrollment',displayName=baseline.displayName||school.name;
   document.title=`${displayName} · 교장 인생 시뮬레이터`;$('location').textContent=`경상북도 ${school.region} · 나의 학교 이야기`;$('schoolName').textContent=displayName;$('year').textContent=s.year;$('students').innerHTML=total.toLocaleString('ko-KR')+'<span>명</span>';$('money').textContent=s.money;$('rep').textContent=s.rep;$('career').textContent=`${s.year-2025}년차 교장`;$('studentDelta').textContent=s.points.length>1?`지난해보다 ${total-s.points[s.points.length-2].total>=0?'+':''}${total-s.points[s.points.length-2].total}명`:'새로운 시작';$('narrative').textContent=s.last;$('next').disabled=!s.chosen||s.done||orgEnded||actualEnded;$('step').textContent=s.done?'20년의 학교 운영을 마쳤습니다':s.chosen?'결정 완료 · 다음 해로 진행':'올해의 결정을 내리세요';$('decisionBadge').textContent=s.done?'운영 종료':s.chosen?'결정 완료 ✓':'선택 대기';$('yearProgress').style.width=((s.year-2026)/19*100)+'%';updateScene();
+  $('studentMoodSummary').textContent=`학생 만족 ${s.happy}점${s.happy>=75?' · 추가 또래 검토 억제':''}`;
   $('metrics').innerHTML=[['학생 만족',s.happy],['교사 만족',s.teacher],['시설 수준',s.facilities],['학교 평판',s.rep]].map(([k,v])=>`<div class="metric"><div class="metric-top"><span>${k}</span><b>${v}<small> / 100</small></b></div><div class="bar"><div style="width:${v}%"></div></div></div>`).join('');
   $('historyCount').textContent=`${s.history.length}개의 기록`;$('history').innerHTML=s.history.slice().reverse().map(historyMarkup).join('')||'아직 일지가 비어 있습니다. 첫 결정을 내려 보세요.';
   $('choiceAssumption').hidden=s.done&&!actualEnded&&!zeroEnded;
@@ -2867,6 +3004,7 @@ function updateForecast(school,total){const base=PopulationModel.forecast(school
 function draw(){if(!s||$('game').hidden)return;const school=schoolMap.get(s.schoolId),c=$('chart'),r=c.getBoundingClientRect(),w=Math.max(200,r.width),h=r.height||155,d=Math.min(window.devicePixelRatio||1,3);c.width=w*d;c.height=h*d;const ctx=c.getContext('2d');if(!ctx)return;ctx.scale(d,d);ctx.clearRect(0,0,w,h);const arr=s.points,base=school.forecast,max=Math.max(1,...base.map(x=>x.total),...arr.map(x=>x.total))*1.12,left=39,right=w-14,top=14,bottom=h-24;ctx.strokeStyle='#e7eddf';ctx.fillStyle='#9caa8f';ctx.font='9px system-ui';for(let i=0;i<4;i++){const v=max*(1-i/3),y=top+(bottom-top)*i/3;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();ctx.fillText(Math.round(v).toLocaleString('ko-KR'),1,y+3)}const xx=y=>left+(y-2026)/19*(right-left),yy=v=>bottom-v/max*(bottom-top);ctx.strokeStyle='#a6aea0';ctx.lineWidth=1.7;ctx.setLineDash([4,4]);ctx.beginPath();base.forEach((p,i)=>i?ctx.lineTo(xx(p.year),yy(p.total)):ctx.moveTo(xx(p.year),yy(p.total)));ctx.stroke();ctx.setLineDash([]);ctx.beginPath();arr.forEach((p,i)=>i?ctx.lineTo(xx(p.year),yy(p.total)):ctx.moveTo(xx(p.year),yy(p.total)));ctx.lineTo(xx(arr.at(-1).year),bottom);ctx.lineTo(left,bottom);ctx.closePath();const gradient=ctx.createLinearGradient(0,top,0,bottom);gradient.addColorStop(0,'#79a66940');gradient.addColorStop(1,'#79a66900');ctx.fillStyle=gradient;ctx.fill();ctx.strokeStyle='#38764e';ctx.lineWidth=2.4;ctx.beginPath();arr.forEach((p,i)=>i?ctx.lineTo(xx(p.year),yy(p.total)):ctx.moveTo(xx(p.year),yy(p.total)));ctx.stroke();ctx.fillStyle='#96a387';[2026,2030,2035,2040,2045].forEach(y=>ctx.fillText(y,xx(y)-11,h-6));const last=arr.at(-1);ctx.fillStyle='#dcb65e';ctx.beginPath();ctx.arc(xx(last.year),yy(last.total),4,0,Math.PI*2);ctx.fill();c.setAttribute('aria-label',`회색 인구 기준선: ${base.map(p=>p.year+'년 약 '+p.total+'명').join(', ')}. 내 선택의 결과: ${arr.map(p=>p.year+'년 '+p.total+'명').join(', ')}`)}
 function reset(){if(!s||!confirm(`${schoolMap.get(s.schoolId).name}의 인구 반영판 진행을 지우고 2026년 공시 값에서 다시 시작할까요?`))return;s=initial(schoolMap.get(s.schoolId));reconcileLifecycle(s.year);s=reconcileZeroEnrollment(s).state;syncOrganization();syncRetention();persist();render();notify('2026년 실제 공시 학생 수에서 다시 시작했습니다.')}
 $('populationMethod').innerHTML=baselinePopulationMethodBody();
+$('metricsDetails').ontoggle=()=>{if($('metricsDetails').open)draw()};
 $('budgetPanel').onclick=e=>{const button=e.target.closest('[data-budget-support]');if(button&&!button.disabled)budgetSupportAction(button.dataset.budgetSupport)};
 $('forecastPreview').onchange=e=>{if(e.target.id==='regionComparison'&&selected)$('regionComparisonContent').innerHTML=regionComparisonTableMarkup(selected,e.target.value)};
 $('retentionPanel').onclick=e=>{const button=e.target.closest('[data-retention-response]');if(button&&!button.disabled)retentionAction(button.dataset.retentionResponse)};

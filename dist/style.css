@@ -284,3 +284,129 @@
 .learning-report ul{padding-left:21px}
 .learning-report li{margin:8px 0;overflow-wrap:anywhere}
 @media(max-width:650px){.budget-panel{padding:14px 16px}.budget-support-choices{flex-direction:column;align-items:stretch}.learning-report{padding:20px}.learning-report h2{font-size:18px}.learning-comparison,.learning-details{font-size:12px}}
+
+/* Keep annual play in front; secondary data uses native disclosures. */
+.topbar{height:68px}
+.brand small{font-size:12px;color:#52665a;margin-top:3px}
+main{padding-top:24px}
+.setup-heading{margin-bottom:20px}
+.setup .picker,.setup .baseline-panel{border-radius:16px;box-shadow:none}
+.setup .baseline-panel{padding:24px}
+.baseline-range{margin-top:18px}
+.baseline-chart{margin:18px 0 14px}
+.setup .forecast-preview>.baseline-note{margin:12px 0}
+.baseline-start{margin-top:14px;padding-top:14px}
+.game-heading{gap:16px;margin:0 0 16px}
+.game-heading h1{margin:3px 0;font-size:clamp(24px,3vw,32px);letter-spacing:-.03em}
+.game-location{font-size:12px;line-height:1.6;color:#52665a}
+#game #location{font-size:12px;line-height:1.6;color:#52665a;letter-spacing:0}
+.game-heading .subtitle{font-size:12px;color:#52665a}
+#studentMoodSummary{font-size:12px;line-height:1.7;color:#425f49;margin:9px 0 0;overflow-wrap:anywhere}
+.toolbar .secondary,.toolbar .icon-button{min-height:44px}
+.stats{padding:12px 0;border-radius:12px}
+.stat{padding:0 20px}
+.stat small,.stat>span{font-size:12px;line-height:1.5;color:#52665a}
+.stat strong{font-size:28px;line-height:1.25;margin:5px 0 3px}
+.year-track{margin-top:14px}
+.timeline-labels{font-size:12px;color:#52665a;letter-spacing:0;margin:6px 0 14px}
+.game-layout{gap:18px}
+.game-layout>.left-col{grid-column:1;grid-row:1;min-width:0}
+.game-layout>.right-col{grid-column:2;grid-row:1;min-width:0}
+.game-layout .decision-card{padding:20px;border-radius:16px;box-shadow:none}
+.decision-card>.flex{justify-content:flex-end}
+.decision-card .pill{font-size:12px;color:#3f6248;padding:4px 9px}
+.decision-card h2{margin:5px 0 8px;font-size:22px;letter-spacing:-.03em}
+.event-desc{font-size:13px;line-height:1.75;margin:0 0 10px;color:#425f49}
+.choice-assumption,.choice-evidence{font-size:12px;color:#4c634e}
+.choice-assumption{margin-bottom:8px}
+.budget-choice-summary{margin:7px 0}
+.choice-group{margin-top:9px}
+.choice{gap:9px;padding:12px 14px;min-height:0}
+.choice b{font-size:14px;line-height:1.6;margin-bottom:3px}
+.choice small{font-size:12px;line-height:1.75;color:#4c634e}
+.choice-cost{margin:4px 0 0}
+.choice:not(.picked):disabled{opacity:1;background:#f5f6f0;color:#5c6b5a;border-color:#e0e5da}
+.evidence-details>summary{min-height:44px;padding:10px 2px}
+.choice-evidence .evidence-source-meta,.evidence-body .evidence-assumption{font-size:12px}
+.narrative-row{min-height:0;padding:15px 18px 12px}
+.narrative-row p{font-size:13px;line-height:1.75;color:#425f49}
+.narrative-row small{font-size:12px;color:#52665a}
+.advance-row{padding:12px 18px}
+.advance-row>span{font-size:12px;color:#52665a;line-height:1.6}
+.advance-row .primary{min-height:44px;font-size:13px}
+.decision-card>.advance-row{margin-top:12px;padding:14px 0 0}
+.decision-card>.retention-advance-hint{margin-top:12px;padding:12px 0 0;background:transparent}
+.decision-card>.retention-advance-hint:not([hidden])+.advance-row{border-top:0;margin-top:0;padding-top:12px}
+.secondary-disclosure{min-width:0;margin:12px 0 0;border:1px solid var(--line);border-radius:12px;background:#fff;color:#425f49;font-size:13px;line-height:1.8;box-shadow:none}
+.secondary-disclosure>summary{min-height:46px;padding:11px 16px;cursor:pointer;color:#315b40;font-size:13px;font-weight:650;line-height:1.8;overflow-wrap:anywhere;border-radius:11px}
+.secondary-disclosure>summary::marker{color:var(--green)}
+.secondary-disclosure>summary:hover{background:#f3f7ef}
+.secondary-disclosure[open]>summary{border-bottom:1px solid var(--line);border-radius:11px 11px 0 0}
+.secondary-disclosure>.disclosure-content{padding:16px;min-width:0}
+.secondary-disclosure .current-grade-panel,.secondary-disclosure .budget-panel,.secondary-disclosure .organization-card,.secondary-disclosure .journal,.secondary-disclosure .metrics-card{margin:0;border:0;border-radius:0;padding:16px;box-shadow:none}
+.secondary-disclosure .budget-panel{border-top:1px solid var(--line)}
+.secondary-disclosure .journal{border-top:1px solid var(--line)}
+.secondary-disclosure .journal>details>summary{min-height:44px;padding:10px 0}
+.secondary-disclosure .journal summary span{font-size:12px;color:#52665a}
+.secondary-disclosure .metrics-card h2{margin-bottom:12px}
+#metricsDetails .metric-top,#metricsDetails .chart-legend,#metricsDetails .chart-note,#metricsDetails .comparison>span,#metricsDetails .forecast-details,#metricsDetails .forecast-details table,#metricsDetails .forecast-details p{font-size:12px;color:#52665a}
+.secondary-disclosure .baseline-details{margin-top:12px}
+.setup .secondary-disclosure{margin-top:16px}
+.setup .secondary-disclosure>.disclosure-content>.baseline-details:first-child{border-top:0;margin-top:0}
+.game-footer{font-size:12px;color:#52665a;margin-top:20px}
+.game-footer summary{min-height:44px;padding:10px 0;color:#365b42}
+.game-footer>p{font-size:12px;letter-spacing:0;color:#52665a;margin-top:12px;padding-top:14px}
+@media(max-width:650px){
+  .topbar{height:60px;padding:0 16px}
+  .brand{font-size:16px;gap:8px}
+  .brand-icon{font-size:22px;padding:5px;border-radius:11px}
+  .brand small{font-size:12px}
+  main{padding:18px 14px 20px}
+  .setup-heading{margin-bottom:16px}
+  .setup-heading h1{font-size:24px}
+  .setup-grid{gap:14px}
+  .setup .picker,.setup .baseline-panel{padding:18px}
+  .setup .picker-intro{margin-bottom:10px}
+  .setup .school-list{height:144px}
+  .baseline-report-header h2{font-size:21px}
+  .baseline-range{margin-top:14px;gap:18px}
+  .baseline-range strong{font-size:29px}
+  .baseline-chart{margin-top:16px}
+  .game-heading{gap:8px;margin-bottom:12px}
+  .game-heading h1{font-size:24px;line-height:1.35;margin:0}
+  .toolbar{gap:6px;margin:0;justify-content:flex-start;flex-wrap:wrap}
+  .toolbar .secondary{font-size:12px;padding:8px 12px}
+  .toolbar .icon-button{font-size:20px;padding:5px 12px}
+  .stats{padding:10px 0}
+  .stat{padding:0 9px}
+  .stat small,.stat>span{font-size:12px;white-space:normal}
+  .stat strong{font-size:24px;letter-spacing:-.03em;margin:4px 0 2px}
+  .year-track{margin-top:10px}
+  .timeline-labels{margin-bottom:12px;font-size:12px}
+  .game-layout{gap:12px}
+  .game-layout .decision-card{order:0;padding:16px;width:100%}
+  .game-layout .retention-card{order:1;margin:0;padding:16px;width:100%}
+  .game-layout .scene-card{order:2;width:100%;border-radius:16px}
+  .game-layout .secondary-disclosure{order:3;width:100%;margin:0}
+  .decision-card h2{font-size:21px;margin-top:3px}
+  .choice{padding:11px 12px;min-height:0}
+  .choice b{font-size:14px}
+  .choice small,.choice-assumption{font-size:12px}
+  .narrative-row{padding:13px 15px 10px;min-height:0;gap:9px}
+  .narrative-row p,.narrative-row small{font-size:12px}
+  .advance-row{padding:11px 15px}
+  .advance-row>span{font-size:12px}
+  .advance-row .primary{font-size:13px;min-height:44px}
+  .retention-advance-hint{padding:11px 15px}
+  .game-layout .decision-card>.advance-row{padding:12px 0 0}
+  .game-layout .decision-card>.retention-advance-hint{padding:11px 0 0}
+  .secondary-disclosure>summary{padding:11px 14px}
+  .secondary-disclosure>.disclosure-content{padding:14px}
+  .secondary-disclosure .current-grade-panel,.secondary-disclosure .budget-panel,.secondary-disclosure .organization-card,.secondary-disclosure .journal,.secondary-disclosure .metrics-card{padding:14px}
+}
+@media(max-width:360px){
+  main{padding-left:11px;padding-right:11px}
+  .stat{padding:0 7px}
+  .stat strong{font-size:22px}
+  .setup .baseline-panel,.setup .picker{padding:16px}
+}

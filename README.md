@@ -4,6 +4,8 @@ Buildless HTML game. `dist/` is the complete static application.
 
 Before playing, select a school to read its baseline forecast with no additional game policy effects: the 2026 public enrollment count, the 2027–2045 model trajectory, milestone counts, and an annual table. This uses the existing school forecast, independently of any saved game. Historical observations are shown separately from future estimates. School selection and forecast browsing do not create or change saved progress; the explicit game button starts a new game or resumes the existing one.
 
+The default view shows a short school overview and reference chart. Admissions, regional comparisons, annual tables and methodology remain under “자료·다른 전망 보기”. During play, the annual decision, school scene and Next action stay primary; native disclosures hold grades/budget/support, operating records and detailed indicators. Support is one disclosure away, while costs and pending transfer consequences stay visible. Opening a chart redraws it, and unrelated actions preserve the open secondary areas.
+
 ## Cloudflare Pages
 
 Play: https://gyeongbuk-principal-population.pages.dev/
@@ -56,7 +58,7 @@ Joint curriculum support costs 12 points and adds six happiness points with no e
 
 Run `node scripts/verify-retention.cjs` to verify conditions, responses, cooldown, save idempotence and exact grade/special-pupil accounting across all retained school forecast states.
 
-Current first-through-sixth-grade counts and separately counted special/itinerant pupils are always visible beneath the main statistics and sum exactly to the displayed enrollment total.
+Current first-through-sixth-grade counts and separately counted special/itinerant pupils are available in “학년·예산·지원” and sum exactly to the displayed enrollment total.
 
 ## Learning through regional and budget tradeoffs
 
@@ -72,7 +74,7 @@ Run `node scripts/verify-learning.cjs` for pure support and ledger invariants. A
 
 `dist/admissions.js` contains code-matched Schoolinfo admissions observations for 2024–2026 and a separate reference series through 2045. Published admissions count actual entrants at admission day, whereas the grade-one enrollment snapshot is another statistic with a different reference period. Their difference alone does not establish that pupils transferred or why the values differ. Unknown historical records remain missing rather than zero.
 
-The interface labels the observed value as “2026년 공시 입학생” and future values as modeled admissions. This additive reference uses the disclosed population and recent admission assumptions; it does not replace enrolled-grade forecasts, player enrollment or gameplay transitions. Its sources, assumptions, coverage and validation are retained in `ADMISSIONS`. The always-visible “1학년 재학생” count continues to use the current game grade allocation and must not be relabeled as pure admissions.
+The interface labels the observed value as “2026년 공시 입학생” and future values as modeled admissions. This additive reference uses the disclosed population and recent admission assumptions; it does not replace enrolled-grade forecasts, player enrollment or gameplay transitions. Its sources, assumptions, coverage and validation are retained in `ADMISSIONS`. The “1학년 재학생” count continues to use the current game grade allocation and must not be relabeled as pure admissions.
 
 `python scripts/build_admissions.py` regenerates the separate series from retained public tables. `node scripts/verify-admissions.cjs` checks the observations against those tables, all 22 annual points per school, missing history, confirmed closures and municipal target reconciliation.
 
