@@ -1,0 +1,275 @@
+{
+  "version": 1,
+  "checked": "2026-11-08",
+  "coverage": "2026년 공시 명단에 포함된 모동초의 2026.9.1 폐교와, 2026.10.15 의결된 2027.3.1 초등학교 개편을 반영. 확인한 일정만 수록하며 이후 미확정 학교는 존치 가정.",
+  "sources": {
+    "gb-2026-second-semester": {
+      "title": "2026학년도 2학기 유·초·중학교 학급 편성 확정",
+      "publisher": "경상북도교육청 행정과",
+      "date": "2026-07-30",
+      "url": "https://www.gbe.kr/news/na/ntt/selectNttInfo.do?mi=17643&nttSn=1633175",
+      "finding": "2026년 9월 1일 자 모동초등학교 폐교와 학급 수 4개에서 0개로의 변경을 명시한다.",
+      "limitations": "학교알리미 2026년 공시와 2학기 편성 자료는 시점이 다르다. 폐교 전 공시 학생 수를 현재 재학생 수로 해석할 수 없다."
+    },
+    "gb-2027-reorganization": {
+      "title": "학령인구 변화와 지역 교육 여건을 반영해 29개교(원) 개편",
+      "publisher": "경상북도교육청 행정과",
+      "date": "2026-10-19",
+      "url": "https://www.gbe.kr/news/na/ntt/selectNttInfo.do?mi=17643&nttSn=1656242",
+      "finding": "2026년 10월 15일 도의회 본회의 최종 의결과 2027년 3월 1일 시행 예정인 개편을 발표했다. 초등학교 폐교 9곳과 분교장 개편·명칭 변경·교명 변경은 서로 다른 조치이다.",
+      "limitations": "장래 시행 일정은 후속 개정으로 바뀔 수 있다. 이 자료는 2045년까지의 전체 폐교 명단이나 수용 학교별 학생 배치 인원을 제공하지 않는다."
+    },
+    "gb-2027-ordinance-review": {
+      "title": "경상북도립학교 설치 조례 일부개정조례안 심사보고서, 3~5쪽",
+      "publisher": "경상북도의회 교육위원회",
+      "date": "2026-10-06 심사·2026-10-15 본회의 의결",
+      "url": "https://council.gb.go.kr/kr/bill/download?uid=3D8E8675C4E4902C88EB434A22F7F6A1",
+      "finding": "폐교 대상 초등학교·분교 9곳의 이름을 명시하고, 이전초의 분교장 전환과 원천·신평분교 소속 변경, 중모초의 중모모동초 교명 변경을 구분한다. 심사결과는 원안가결이다.",
+      "limitations": "수용 학교를 확인하지 못한 경우 특정 학교로 임의 배치하지 않는다. 모형의 배치학교 미확인 인원은 실제 미배치 학생 수가 아니다."
+    }
+  },
+  "changes": [
+    {
+      "changeId": "modong-2026-09",
+      "kind": "closure",
+      "status": "effective",
+      "effectiveDate": "2026-09-01",
+      "firstZeroForecastYear": 2027,
+      "schoolCode": "S150002057",
+      "schoolName": "모동초등학교",
+      "region": "상주",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2026-second-semester",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150002368-2027-03",
+      "kind": "closure",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": 2027,
+      "schoolCode": "S150002368",
+      "schoolName": "월곡초등학교",
+      "region": "안동",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150002318-2027-03",
+      "kind": "closure",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": 2027,
+      "schoolCode": "S150002318",
+      "schoolName": "녹전초등학교",
+      "region": "안동",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150002697-2027-03",
+      "kind": "closure",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": 2027,
+      "schoolCode": "S150002697",
+      "schoolName": "옥대초등학교",
+      "region": "영주",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150003209-2027-03",
+      "kind": "closure",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": 2027,
+      "schoolCode": "S150003209",
+      "schoolName": "안평초등학교",
+      "region": "의성",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150002522-2027-03",
+      "kind": "closure",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": 2027,
+      "schoolCode": "S150002522",
+      "schoolName": "원황초등학교",
+      "region": "영덕",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150002906-2027-03",
+      "kind": "closure",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": 2027,
+      "schoolCode": "S150002906",
+      "schoolName": "상리초등학교",
+      "region": "예천",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150002128-2027-03",
+      "kind": "closure",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": 2027,
+      "schoolCode": "S150002128",
+      "schoolName": "화북초등학교입석분교장",
+      "region": "상주",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150003061-2027-03",
+      "kind": "closure",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": 2027,
+      "schoolCode": "S150003061",
+      "schoolName": "부구초등학교삼당분교장",
+      "region": "울진",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150003100-2027-03",
+      "kind": "closure",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": 2027,
+      "schoolCode": "S150003100",
+      "schoolName": "후포초등학교후포동부분교장",
+      "region": "울진",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150003402-2027-03",
+      "kind": "branch",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": null,
+      "schoolCode": "S150003402",
+      "schoolName": "이전초등학교",
+      "region": "청송",
+      "afterName": "청송초등학교이전분교장",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150006027-2027-03",
+      "kind": "affiliation",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": null,
+      "schoolCode": "S150006027",
+      "schoolName": "녹전초등학교원천분교장",
+      "region": "안동",
+      "afterName": "북후초등학교원천분교장",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150003211-2027-03",
+      "kind": "affiliation",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": null,
+      "schoolCode": "S150003211",
+      "schoolName": "안평초등학교신평분교장",
+      "region": "의성",
+      "afterName": "의성초등학교신평분교장",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    },
+    {
+      "changeId": "S150002110-2027-03",
+      "kind": "rename",
+      "status": "approved",
+      "effectiveDate": "2027-03-01",
+      "firstZeroForecastYear": null,
+      "schoolCode": "S150002110",
+      "schoolName": "중모초등학교",
+      "region": "상주",
+      "afterName": "중모모동초등학교",
+      "recipientCodes": [],
+      "recipientNames": [],
+      "recipientStatus": "unknown",
+      "sourceIds": [
+        "gb-2027-reorganization",
+        "gb-2027-ordinance-review"
+      ]
+    }
+  ]
+}

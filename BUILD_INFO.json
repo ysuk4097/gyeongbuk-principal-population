@@ -1,8 +1,9 @@
 {
-  "edition": "population-v3-organization-scenarios",
+  "edition": "population-v3-school-lifecycle",
   "organization_policy_reference_year": 2026,
   "organization_policy_checked": "2026-11-08",
-  "population_model_version": "municipal-2024-v1",
+  "population_model_version": "municipal-lifecycle-2024-v2",
+  "school_calendar_checked": "2026-11-08",
   "municipal_projection_end_year": 2042,
   "municipal_extension_years": "2043–2045 model assumptions",
   "preview": "2026 observed enrollment and 2027–2045 neutral baseline before explicit game start",
@@ -23,5 +24,5 @@
   "schools": 474,
   "source_year": 2026,
   "future": "2027–2045 school-specific model outputs, not official enrollment plans",
-  "standalone_sha256": "fb5b490cc563898b1232e860ac21784a7179e0450c39c07ac40280c297164bdd"
+  "standalone_sha256": "0df181809f36ec6755492b403e8a8852d8759f0a898fef5e44bf4b71337c2398"
 }

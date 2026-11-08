@@ -152,3 +152,36 @@
 #populationMethod{color:#4c634e;font-size:12px;line-height:1.85}
 #populationMethod p{max-width:75ch;overflow-wrap:anywhere}
 #populationMethod a{text-underline-offset:3px;overflow-wrap:anywhere}
+
+.lifecycle-status{margin:16px 0 20px;padding:14px 0;border-top:1px solid #dce5d7;border-bottom:1px solid #dce5d7;color:#425f49;font-size:13px;line-height:1.85;overflow-wrap:anywhere}
+.lifecycle-status h3{font-size:14px;line-height:1.7;color:#2c533b;margin:0 0 8px}
+.lifecycle-status>ul{margin:0 0 9px;padding-left:19px}
+.lifecycle-status>ul>li{margin:6px 0}
+.lifecycle-status>ul>li>span{font-size:12px}
+.lifecycle-status p{margin:6px 0;max-width:75ch}
+.lifecycle-status .lifecycle-details{margin-top:10px}
+.lifecycle-details{border-top:1px solid #dce5d7;margin-top:14px;font-size:13px;line-height:1.85;color:#425f49;overflow-wrap:anywhere}
+.lifecycle-details>summary{cursor:pointer;padding:12px 0;min-height:44px;color:#315b40;overflow-wrap:anywhere}
+.lifecycle-details p{margin:0 0 12px;max-width:75ch}
+.lifecycle-details .evidence-source-meta{font-size:12px;color:#536b55}
+.lifecycle-details a{text-underline-offset:3px;overflow-wrap:anywhere}
+.lifecycle-details table{width:100%;border-collapse:collapse;text-align:right;font-size:13px;line-height:1.8;font-variant-numeric:tabular-nums;margin:0 0 16px}
+.lifecycle-details caption{text-align:left;font-weight:650;color:#315b40;padding:0 0 7px}
+.lifecycle-details th,.lifecycle-details td{padding:8px 3px;border-bottom:1px solid #dce5d7;overflow-wrap:anywhere}
+.lifecycle-details th{font-weight:500}
+.lifecycle-details th:first-child{text-align:left;padding-left:0}
+.lifecycle-details td:last-child{padding-right:0}
+.lifecycle-ending{margin:0 0 20px;padding:22px 24px;border:1px solid #b8cdb0;border-radius:16px;background:#eef5e8;color:#31553c;font-size:13px;line-height:1.85;min-width:0}
+.lifecycle-ending h2{font-size:20px;line-height:1.6;color:#285139;margin:0 0 10px;overflow-wrap:anywhere}
+.lifecycle-ending>p{max-width:75ch;margin:8px 0;overflow-wrap:anywhere}
+.lifecycle-ending .lifecycle-transfer{font-size:15px;font-weight:700;line-height:1.8;color:#285139;font-variant-numeric:tabular-nums}
+.lifecycle-transfer>span{font-size:13px;font-weight:500}
+.lifecycle-row-note{display:block;font-size:12px;font-weight:400;white-space:normal}
+.setup .baseline-region table{font-size:12px}
+.setup .baseline-region thead th{line-height:1.7}
+#populationRecovery{color:#4c634e;font-size:12px;line-height:1.85}
+#populationRecovery .baseline-details{font-size:12px}
+#populationRecovery table{width:100%;border-collapse:collapse;font-size:12px;text-align:right;font-variant-numeric:tabular-nums;margin-bottom:15px}
+#populationRecovery th,#populationRecovery td{padding:8px 3px;border-bottom:1px solid #e2e8dc}
+#populationRecovery th:first-child{text-align:left}
+@media(max-width:650px){.lifecycle-ending{padding:19px 17px;margin-bottom:16px}.lifecycle-ending h2{font-size:18px}.lifecycle-ending .lifecycle-transfer{font-size:14px}.lifecycle-status{font-size:12px}.lifecycle-details{font-size:12px}.lifecycle-details table{font-size:12px}.setup .baseline-region table{font-size:12px}.setup .baseline-region th:first-child{padding-right:4px}}

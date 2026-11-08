@@ -7,8 +7,10 @@ const province=JSON.parse(fs.readFileSync(require.resolve('../data/source/provin
 const municipal=JSON.parse(fs.readFileSync(require.resolve('../data/source/municipal-projection.json')));
 const source2026=JSON.parse(fs.readFileSync(require.resolve('../data/source/school-students-2026.json'))).list;
 const source2025=JSON.parse(fs.readFileSync(require.resolve('../data/source/school-students-2025.json'))).list;
+const source2024=JSON.parse(fs.readFileSync(require.resolve('../data/source/school-students-2024.json'))).list;
+const calendar=JSON.parse(fs.readFileSync(require.resolve('../data/source/school-calendar.json')));
 const regions=[...new Set(schools.map(s=>s.region))];
-assert.equal(metadata.populationModelVersion,'municipal-2024-v1');
+assert.equal(metadata.populationModelVersion,'municipal-lifecycle-2024-v2');
 assert.equal(regions.length,22);
 assert.equal(Object.keys(municipal.regions).length,24);
 assert.ok(!regions.includes('군위'));
@@ -18,6 +20,21 @@ assert.equal(metadata.regionProjection.officialEndYear,2042);
 assert.equal(schools.length,474);
 assert.equal(new Set(schools.map(s=>s.id)).size,474);
 assert.equal(schools.reduce((sum,s)=>sum+s.base,0),101176);
+const byCode=new Map(schools.map(s=>[s.code,s]));
+assert.equal(calendar.changes.filter(c=>c.kind==='closure').length,10);
+for(const change of calendar.changes){
+  const school=byCode.get(change.schoolCode);
+  assert.ok(school);
+  assert.equal(change.schoolName,school.name);
+  assert.equal(change.region,school.region);
+  assert.ok(change.sourceIds.every(id=>calendar.sources[id]));
+  if(change.kind==='closure'){
+    for(const point of school.forecast.filter(p=>p.year>=change.firstZeroForecastYear)){
+      assert.equal(point.total,0,`${school.name} ${point.year}: verified closed school must remain zero`);
+      assert.ok(point.closed&&point.grades.every(n=>n===0)&&point.special===0);
+    }
+  }else assert.equal(school.forecast[1].closed,false,'Conversion/renaming is not closure');
+}
 const yearly=[];
 let regionalChecks=0;
 for(let year=2026;year<=2045;year++){
@@ -36,7 +53,7 @@ for(let year=2026;year<=2045;year++){
       neutral.forEach((v,i)=>assert.ok(Math.abs(v-f.grades[i])<1e-8));
     }
   }
-  let target=0,schoolTotal=0;
+  let target=0,schoolTotal=0,unassignedTotal=0;
   for(const region of regions){
     const group=schools.filter(s=>s.region===region);
     const observed=source2026.filter(s=>s.ADRCD_NM.split(' ')[1].slice(0,-1)===region).reduce((sum,s)=>sum+Number(s.COL_S_SUM),0);
@@ -44,14 +61,37 @@ for(let year=2026;year<=2045;year++){
     const projected=year<=2042?population[year]:population[2042]*province.values[year]/province.values[2042];
     const expected=Math.floor(observed*projected/population[2026]+.5);
     const actual=group.reduce((sum,s)=>sum+model.forecast(s,year).total,0);
-    assert.equal(actual,expected,`${region} ${year}: school headlines must equal regional target`);
+    const pool=metadata.regionalForecasts[region].unassignedTotals[year];
+    assert.ok(Number.isInteger(pool)&&pool>=0);
+    assert.equal(actual+pool,expected,`${region} ${year}: schools plus modeled unknown destinations must equal target`);
+    const fixed=group.reduce((sum,s)=>sum+s.intakeShareFixedPoints[year-2026].total,0);
+    const fixedPool=metadata.intakeShareFixedRegional[region].unassignedTotals[year];
+    assert.equal(fixed+fixedPool,expected,'Assumption comparison must also reconcile without inventing or deleting pupils');
     assert.equal(metadata.regionalForecasts[region].observed2026,observed);
     assert.equal(metadata.regionalForecasts[region].totals[year],expected);
     assert.equal(metadata.regionalForecasts[region].population[year],projected);
-    target+=expected;schoolTotal+=actual;regionalChecks++;
+    assert.equal(metadata.regionalForecasts[region].closedSchoolCount[year],calendar.changes.filter(c=>c.region===region&&c.kind==='closure'&&c.firstZeroForecastYear<=year).length);
+    assert.equal(metadata.regionalForecasts[region].activeSchoolCount[year],group.length-metadata.regionalForecasts[region].closedSchoolCount[year]);
+    if(year>=2032)assert.equal(pool,0,'Unassigned continuing cohorts must graduate; no immortal pool');
+    target+=expected;schoolTotal+=actual;unassignedTotal+=pool;regionalChecks++;
   }
-  yearly.push({year,students:schoolTotal,target,regular:Math.round(regular)});
+  yearly.push({year,students:schoolTotal,unassigned:unassignedTotal,target,regular:Math.round(regular)});
 }
+const historical=[source2024,source2025,source2026].map(rows=>new Map(rows.map(row=>[row.SCHUL_CODE,row])));
+const zeroIntake=schools.filter(s=>historical.every(rows=>rows.has(s.code)&&Number(rows.get(s.code).COL_S1)===0));
+assert.ok(zeroIntake.length>0&&zeroIntake.some(s=>s.special>0));
+for(const school of zeroIntake){
+  for(const point of school.forecast.slice(1))assert.equal(point.grades[0],0,'No invented neutral entrants after three zero-intake observations');
+  assert.equal(school.forecast[6].total,0,'Existing cohorts and special students have no permanent floor');
+}
+// Zero reference demand must not erase a hypothetical policy-recruited cohort.
+const zero={grades:[0,0,0,0,0,0],special:0,gameRecruitmentPotential:10,gameRetention:1};
+assert.deepEqual(model.transition(zero.grades,zero,zero,{admission:0,transfer:0}),zero.grades);
+const recruited=model.transition(zero.grades,zero,zero,{admission:.2,transfer:0});
+assert.equal(recruited[0],2);
+const carried=model.transition(recruited,zero,zero,{admission:0,transfer:0});
+assert.equal(carried[1],2);
+assert.deepEqual(model.transition(recruited,zero,{...zero,closed:true},{admission:.2,transfer:.01}),zero.grades);
 for(const school of schools){
   let good=school.grades.slice(),bad=school.grades.slice();
   for(let year=2027;year<=2045;year++){
@@ -73,4 +113,4 @@ assert.equal(metadata.validation.absentSchoolIds,source2025.length-matched.lengt
 const naive=matched.reduce((sum,s)=>sum+Math.abs(Number(s.COL_S_SUM)-old.get(s.SCHUL_CODE)),0)/matched.length;
 assert.equal(metadata.validation.lastYearCountMeanAbsoluteError,Math.round(naive*100)/100);
 assert.ok(metadata.validation.meanAbsoluteError<naive);
-console.log(JSON.stringify({status:'passed',schools:schools.length,years:20,regionalChecks,distinctSchoolRatios:ratios.size,regionalReconciliation:yearly,validation:metadata.validation,examples:schools.filter(s=>['동해초등학교','황남초등학교','울릉초등학교'].includes(s.name)).map(s=>({school:s.name,region:s.region,observed2026:s.base,model2030:model.forecast(s,2030).total,model2045:model.forecast(s,2045).total}))},null,2));
+console.log(JSON.stringify({status:'passed',schools:schools.length,years:20,regionalChecks,calendarClosures:10,zeroIntakeSchools:zeroIntake.length,distinctSchoolRatios:ratios.size,regionalReconciliation:yearly,validation:metadata.validation,examples:schools.filter(s=>['동해초등학교','황남초등학교','울릉초등학교'].includes(s.name)).map(s=>({school:s.name,region:s.region,observed2026:s.base,model2030:model.forecast(s,2030).total,model2045:model.forecast(s,2045).total,fixedShare2045:s.intakeShareFixedPoints.at(-1).total}))},null,2));

@@ -12,18 +12,24 @@ const PopulationModel = (() => {
     };
   }
   function transition(previousGrades,previousBaseline,nextBaseline,policy){
+    if(nextBaseline.closed)return nextBaseline.grades.map(()=>0);
     const baseTotal=sum(nextBaseline.grades);
+    // A game policy may recruit from the regional catchment even when the
+    // no-additional-policy reference has zero intake. This is a game assumption,
+    // separate from the baseline; neutral policy never creates these entrants.
+    const recruitment=Number.isFinite(nextBaseline.gameRecruitmentPotential)?Math.max(0,nextBaseline.gameRecruitmentPotential):0;
     const next=nextBaseline.grades.map((value,i)=>{
-      if(i===0)return Math.max(0,value*(1+policy.admission));
+      if(i===0)return Math.max(0,value*(1+policy.admission)+(value===0?recruitment*Math.max(0,policy.admission):0));
       const prior=previousBaseline.grades[i-1];
-      const retention=prior>0?value/prior:0;
+      const retention=prior>0&&value>0?value/prior:(nextBaseline.gameRetention||1);
       const inherited=(previousGrades[i-1]-prior)*retention;
       const transfer=value*policy.transfer;
       return Math.max(0,value+inherited+transfer);
     });
     // A school cannot indefinitely multiply a shrinking catchment through choices.
-    const ratio=sum(next)/(baseTotal||1);
-    return ratio>1.6?next.map(v=>v*1.6/ratio):next;
+    const capacity=Math.max(baseTotal,recruitment*6);
+    const nextTotal=sum(next);
+    return nextTotal>capacity*1.6&&nextTotal>0?next.map(v=>v*capacity*1.6/nextTotal):next;
   }
   return {forecast,total,effects,transition};
 })();
