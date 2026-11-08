@@ -410,3 +410,11 @@ main{padding-top:24px}
   .stat strong{font-size:22px}
   .setup .baseline-panel,.setup .picker{padding:16px}
 }
+
+/* Common municipal factor: compact context and a contained wide data table. */
+.setup .forecast-preview>.baseline-common-factor{margin:6px 0;font-size:12px;line-height:1.7;color:#425f49;overflow-wrap:anywhere}
+.region-table-scroll{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+.setup .baseline-region .region-table-scroll table{min-width:460px}
+.baseline-version-note{font-size:12px;line-height:1.75;color:#425f49;overflow-wrap:anywhere}
+.comparison{flex-wrap:wrap}
+.comparison>.baseline-version-note{flex-basis:100%;margin:0}

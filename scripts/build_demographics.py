@@ -1,12 +1,12 @@
-"""Reconcile illustrative school forecasts to municipal population trends.
+"""Apply one municipal population ratio independently to each school.
 
-Resident population is not enrollment. Only verified school-change dates are
-applied. Unknown receiving schools are a separate modeled allocation pool.
+Arithmetic teaching scenario: closure shares and rounding are not redistributed.
 """
 from pathlib import Path
 import collections
 import json
 import math
+import statistics
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'data/source'
@@ -14,11 +14,7 @@ annual = {y: json.loads((SOURCE / f'school-students-{y}.json').read_text(encodin
 province = json.loads((SOURCE / 'province-projection.json').read_text(encoding='utf8'))
 municipal = json.loads((SOURCE / 'municipal-projection.json').read_text(encoding='utf8'))
 calendar = json.loads((SOURCE / 'school-calendar.json').read_text(encoding='utf8'))
-lookup = {y: {x['SCHUL_CODE']: x for x in rows} for y, rows in annual.items()}
-regional_entries = {y: collections.Counter() for y in annual}
-for y, rows in annual.items():
-    for row in rows:
-        regional_entries[y][row['ADRCD_NM'].split()[1][:-1]] += float(row['COL_S1'])
+lookup = {year: {row['SCHUL_CODE']: row for row in rows} for year, rows in annual.items()}
 
 
 def regular(row):
@@ -29,226 +25,158 @@ def region(row):
     return row['ADRCD_NM'].split()[1][:-1]
 
 
-def round_n(v):
-    return math.floor(v + .5)
+def round_n(value):
+    return math.floor(value + .5)
 
 
-def population(r, year, indicator='age6to11'):
-    values = municipal['regions'][r][indicator]
+def population(area, year):
+    values = municipal['regions'][area]['age6to11']
     if year <= 2042:
         return values[str(year)]
-    # Official municipal series ends in 2042; this is an explicit extension.
     return values['2042'] * province['values'][str(year)] / province['values']['2042']
 
 
-def allocate_totals(items, values, target):
-    """Largest remainder makes integer school headlines sum to a regional goal."""
-    result = [math.floor(v) for v in values]
-    remaining = target - sum(result)
-    assert 0 <= remaining <= len(items)
-    order = sorted(range(len(items)), key=lambda i: (-(values[i] - result[i]), items[i]['id']))
-    for i in order[:remaining]:
-        result[i] += 1
-    assert sum(result) == target
-    return result
-
-
-def entry_trend(code, r, base_year):
-    """An explicit extrapolation of recent relative intake, not a policy effect.
-
-    The pseudocount is used only to estimate a log trend; it never generates
-    entrants for a school whose observed intake score is zero.
-    """
-    observed = [(y, lookup[y][code]) for y in range(max(2024, base_year - 2), base_year + 1) if code in lookup[y]]
-    if len(observed) < 2:
-        return 0
-    y0, old = observed[0]
-    y1, new = observed[-1]
-    old_share = (float(old['COL_S1']) + .5) / (regional_entries[y0][r] + .5)
-    new_share = (float(new['COL_S1']) + .5) / (regional_entries[y1][r] + .5)
-    evidence = sum(float(row['COL_S1']) for _, row in observed)
-    trend = math.log(new_share / old_share) / (y1 - y0) * evidence / (evidence + 30)
-    return min(math.log(1.15), max(math.log(.85), trend))
-
-
 def closure_for(school, year):
-    return next((c for c in school['lifecycleChanges'] if c['kind'] == 'closure' and year >= c['firstZeroForecastYear']), None)
+    return next((change for change in school['lifecycleChanges']
+                 if change['kind'] == 'closure' and change['status'] in ('approved', 'effective')
+                 and year >= change['firstZeroForecastYear']), None)
 
 
-def build(base_year, end_year, continue_intake_trend=True):
+def split_components(school, total, offset):
+    """Allocate seven integer components inside one school, never across schools.
+
+    Rotating baseline grade shares is game composition, not actual cohort aging.
+    """
+    if school['base'] == 0 or total == 0:
+        return [0] * 6, 0
+    weights = [school['grades'][(index - offset) % 6] for index in range(6)] + [school['special']]
+    raw = [weight / school['base'] * total for weight in weights]
+    counts = [math.floor(value) for value in raw]
+    remaining = total - sum(counts)
+    assert 0 <= remaining <= 7
+    order = sorted(range(7), key=lambda index: (-(raw[index] - counts[index]), index))
+    for index in order[:remaining]:
+        counts[index] += 1
+    assert sum(counts) == total
+    return counts[:6], counts[6]
+
+
+def build(base_year, end_year, apply_calendar=True):
     schools = []
     for row in annual[base_year]:
-        code = row['SCHUL_CODE']
-        r = region(row)
-        assert r in municipal['regions'] and r != '군위'
-        grades = [float(row[f'COL_S{i}']) for i in range(1, 7)]
+        code, area = row['SCHUL_CODE'], region(row)
+        assert area in municipal['regions'] and area != '군위'
+        grades = [int(row[f'COL_S{i}']) for i in range(1, 7)]
         total = int(row['COL_S_SUM'])
         assert total == sum(row.get(f'COL_S{i}', 0) for i in range(1, 9))
-        special = total - sum(grades)
-        numerator = denominator = 0
-        for year in range(max(2024, base_year - 2), base_year):
-            old, new = lookup[year].get(code), lookup[year + 1].get(code)
-            if old and new:
-                denominator += sum(float(old[f'COL_S{i}']) for i in range(1, 6))
-                numerator += sum(float(new[f'COL_S{i}']) for i in range(2, 7))
-        # Fixed model assumptions: shrink noisy school ratios toward one.
-        retention = min(1.06, max(.94, (numerator + 200) / (denominator + 200))) if denominator else 1
-        entry = weight_sum = 0
-        for offset, weight in ((0, .7), (1, .2), (2, .1)):
-            observed = lookup.get(base_year - offset, {}).get(code)
-            if observed:
-                entry += float(observed['COL_S1']) * weight
-                weight_sum += weight
-        # No minimum generated from existing pupils: zero observed intake stays zero.
-        entry = entry / weight_sum if weight_sum else grades[0]
-        changes = [c for c in calendar['changes'] if c['schoolCode'] == code] if base_year == 2026 else []
+        changes = [change for change in calendar['changes'] if change['schoolCode'] == code] if apply_calendar else []
         schools.append({
-            'id': r + '-' + row['SCHUL_NM'], 'code': code, 'region': r,
+            'id': area + '-' + row['SCHUL_NM'], 'code': code, 'region': area,
             'name': row['SCHUL_NM'], 'address': row['ADRCD_NM'], 'type': row['FOND_SC_CODE'],
-            'base': total, 'grades': [int(v) for v in grades], 'special': int(special),
-            'history': {str(y): int(lookup[y][code]['COL_S_SUM']) for y in annual if y <= base_year and code in lookup[y]},
-            'retention': retention, 'entryWeight': entry, 'entryLogTrend': entry_trend(code, r, base_year),
-            'lifecycleChanges': changes,
-            'forecast': [{'year': base_year, 'total': total, 'grades': grades, 'special': special,
-                          'gameRecruitmentPotential': sum(grades) / 6, 'gameRetention': retention}]
+            'base': total, 'grades': grades, 'special': total - sum(grades),
+            'history': {str(year): int(lookup[year][code]['COL_S_SUM']) for year in annual if year <= base_year and code in lookup[year]},
+            'retention': 1, 'entryLogTrend': 0, 'lifecycleChanges': changes,
+            'forecast': [{'year': base_year, 'total': total, 'grades': grades[:], 'special': total - sum(grades),
+                          'commonFactor': 1, 'unroundedTotal': total, 'gameRecruitmentPotential': sum(grades) / 6, 'gameRetention': 1}]
         })
-    schools.sort(key=lambda s: (s['region'], s['name']))
-    groups = collections.defaultdict(list)
+    schools.sort(key=lambda school: (school['region'], school['name']))
+    grouped = collections.defaultdict(list)
     for school in schools:
-        groups[school['region']].append(school)
+        grouped[school['region']].append(school)
     regional = {}
-    for r, items in groups.items():
-        base_total = sum(s['base'] for s in items)
-        base_regular = sum(sum(s['grades']) for s in items)
-        pool = {'grades': [0.] * 6, 'specialGrades': [0.] * 6}
-        regional[r] = {'observed2026' if base_year == 2026 else 'observedBase': base_total,
-                       'regular2026' if base_year == 2026 else 'regularBase': int(base_regular),
-                       'special2026' if base_year == 2026 else 'specialBase': int(base_total - base_regular),
-                       'population': {str(base_year): population(r, base_year)},
-                       'totals': {str(base_year): base_total},
-                       'unassignedTotals': {str(base_year): 0},
-                       'activeSchoolCount': {str(base_year): len(items)},
-                       'closedSchoolCount': {str(base_year): 0}}
-        for year in range(base_year + 1, end_year + 1):
-            t = year - base_year
-            target = round_n(base_total * population(r, year) / population(r, base_year))
-            # July-1 age6 is a demand indicator, not the March entry cohort.
-            entry_factor = population(r, year, 'age6') / population(r, base_year, 'age6')
-            raw_grades, special = [], []
-            pool_grades = [0.] + pool['grades'][:5]
-            pool_special = [0.] + pool['specialGrades'][:5]
-            for s in items:
-                prior = s['forecast'][-1]
-                closed = closure_for(s, year)
-                incoming = 0 if closed else s['entryWeight'] * entry_factor * math.exp(s['entryLogTrend'] * t if continue_intake_trend else 0)
-                g = [incoming] + [v * s['retention'] for v in prior['grades'][:5]]
-                previous_regular = sum(prior['grades'])
-                # No permanent special-pupil floor; exact age distribution is unknown.
-                ratio = prior['special'] / previous_regular if previous_regular else (s['special'] / sum(s['grades']) if sum(s['grades']) else 0)
-                other = sum(g) * ratio
-                raw_grades.append(g)
-                special.append(other)
-            for i, s in enumerate(items):
-                change = closure_for(s, year)
-                if not change:
+    for area, items in grouped.items():
+        base_total = sum(school['base'] for school in items)
+        base_regular = sum(sum(school['grades']) for school in items)
+        assert population(area, base_year) > 0
+        data = {'observed2026' if base_year == 2026 else 'observedBase': base_total,
+                'regular2026' if base_year == 2026 else 'regularBase': base_regular,
+                'special2026' if base_year == 2026 else 'specialBase': base_total - base_regular,
+                'population': {}, 'commonFactors': {}, 'totals': {}, 'unassignedTotals': {},
+                'activeSchoolTotals': {}, 'excludedClosureShare': {}, 'roundingAdjustment': {},
+                'activeSchoolCount': {}, 'closedSchoolCount': {}}
+        for year in range(base_year, end_year + 1):
+            factor = population(area, year) / population(area, base_year)
+            target = round_n(base_total * factor)
+            active_total = excluded = closed_count = 0
+            for school in items:
+                raw_total = school['base'] * factor
+                independent_total = round_n(raw_total)
+                closed = year > base_year and bool(closure_for(school, year))
+                total = 0 if closed else independent_total
+                active_total += total
+                excluded += independent_total if closed else 0
+                closed_count += int(closed)
+                if year == base_year:
                     continue
-                recipients = change.get('recipientCodes', []) if change.get('recipientStatus') == 'verified' else []
-                destination = next((j for j, school in enumerate(items) if school['code'] in recipients and not closure_for(school, year)), None)
-                if destination is not None:
-                    raw_grades[destination] = [a + b for a, b in zip(raw_grades[destination], raw_grades[i])]
-                    special[destination] += special[i]
-                else:
-                    pool_grades = [a + b for a, b in zip(pool_grades, raw_grades[i])]
-                    # Spread unknown ages over the five continuing grades, then age out.
-                    pool_special = [a + (special[i] / 5 if k else 0) for k, a in enumerate(pool_special)]
-                raw_grades[i] = [0.] * 6
-                special[i] = 0.
-            weights = [sum(g) + other for g, other in zip(raw_grades, special)] + [sum(pool_grades) + sum(pool_special)]
-            raw_total_all = sum(weights)
-            if not raw_total_all and target:
-                # Demand unsupported by current-school cohorts is never assigned to
-                # a zero-entry school merely to keep that school operating.
-                pool_grades[0] = float(target)
-                weights[-1] = float(target)
-                raw_total_all = float(target)
-            factor = target / raw_total_all if raw_total_all else 0
-            grades = [[v * factor for v in g] for g in raw_grades]
-            special = [v * factor for v in special]
-            pool_grades = [v * factor for v in pool_grades]
-            pool_special = [v * factor for v in pool_special]
-            raw_totals = [w * factor for w in weights]
-            totals = allocate_totals(items + [{'id': r + '-배치학교미확인'}], raw_totals, target)
-            for s, g, other, raw_total, total in zip(items, grades, special, raw_totals, totals):
-                # Numerical rounding allocation preserves component proportions.
-                scale = total / raw_total if raw_total else 0
-                g = [round(v * scale, 5) for v in g]
-                other = round(other * scale, 5)
-                assert round_n(sum(g) + other) == total
-                closed = closure_for(s, year)
-                if closed:
-                    assert total == 0
-                point = {'year': year, 'total': total, 'grades': g, 'special': other, 'closed': bool(closed),
-                         'gameRecruitmentPotential': 0 if closed else round(sum(s['grades']) / 6 * population(r, year) / population(r, base_year), 5),
-                         'gameRetention': s['retention']}
-                name_changes = [c for c in s['lifecycleChanges'] if c.get('afterName') and year >= int(c['effectiveDate'][:4])]
-                if name_changes:
-                    point['displayName'] = name_changes[-1]['afterName']
-                s['forecast'].append(point)
-            pool_scale = totals[-1] / raw_totals[-1] if raw_totals[-1] else 0
-            pool = {'grades': [v * pool_scale for v in pool_grades], 'specialGrades': [v * pool_scale for v in pool_special]}
-            regional[r]['population'][str(year)] = population(r, year)
-            regional[r]['totals'][str(year)] = target
-            regional[r]['unassignedTotals'][str(year)] = totals[-1]
-            regional[r]['closedSchoolCount'][str(year)] = sum(bool(closure_for(s, year)) for s in items)
-            regional[r]['activeSchoolCount'][str(year)] = len(items) - regional[r]['closedSchoolCount'][str(year)]
-        minimum_year = min(range(base_year, min(end_year, 2042) + 1), key=lambda y: population(r, y))
-        regional[r]['minimum'] = {'year': minimum_year, 'population': population(r, minimum_year)}
-        regional[r]['recovery'] = {'year': 2042, 'population': population(r, 2042), 'change': population(r, 2042) - population(r, minimum_year)}
-    for s in schools:
-        s.pop('entryWeight')
+                grades, special = split_components(school, total, year - base_year)
+                prior_factor = school['forecast'][-1]['commonFactor']
+                point = {'year': year, 'total': total, 'grades': grades, 'special': special, 'closed': closed,
+                         'commonFactor': factor, 'unroundedTotal': raw_total,
+                         'gameRecruitmentPotential': 0 if closed else sum(school['grades']) / 6 * factor,
+                         'gameRetention': factor / prior_factor if prior_factor else 1}
+                names = [change for change in school['lifecycleChanges'] if change.get('afterName') and year >= int(change['effectiveDate'][:4])]
+                if names:
+                    point['displayName'] = names[-1]['afterName']
+                school['forecast'].append(point)
+            key = str(year)
+            data['population'][key] = population(area, year)
+            data['commonFactors'][key] = factor
+            data['totals'][key] = target
+            data['activeSchoolTotals'][key] = active_total
+            data['unassignedTotals'][key] = data['excludedClosureShare'][key] = excluded
+            data['roundingAdjustment'][key] = target - active_total - excluded
+            data['closedSchoolCount'][key] = closed_count
+            data['activeSchoolCount'][key] = len(items) - closed_count
+        minimum_year = min(range(base_year, min(end_year, 2042) + 1), key=lambda year: population(area, year))
+        data['minimum'] = {'year': minimum_year, 'population': population(area, minimum_year)}
+        data['recovery'] = {'year': 2042, 'population': population(area, 2042), 'change': population(area, 2042) - population(area, minimum_year)}
+        regional[area] = data
     return schools, regional
 
 
 schools, regional = build(2026, 2045)
 assert len(regional) == 22 and len(schools) == 474
-# A transparent assumption comparison, not a second official projection.
-fixed_share, fixed_regional = build(2026, 2045, continue_intake_trend=False)
-fixed_by_code = {s['code']: s for s in fixed_share}
 for school in schools:
-    school['intakeShareFixedPoints'] = [{'year': p['year'], 'total': p['total']} for p in fixed_by_code[school['code']]['forecast']]
-# 2026 outcomes are excluded from all 2025 -> 2026 forecast inputs.
-hindcast, _ = build(2025, 2026)
-predictions = {s['code']: s['forecast'][-1]['total'] for s in hindcast}
-matched = [(predictions[c], int(row['COL_S_SUM'])) for c, row in lookup[2026].items() if c in predictions]
-errors = sorted(abs(p - a) for p, a in matched)
-naive_errors = [abs(int(lookup[2025][c]['COL_S_SUM']) - int(row['COL_S_SUM']))
-                for c, row in lookup[2026].items() if c in predictions]
+    school['intakeShareFixedPoints'] = [{'year': point['year'], 'total': point['total']} for point in school['forecast']]
+
+# Only 2025 stock and the published population ratio enter the holdout formula.
+hindcast, _ = build(2025, 2026, apply_calendar=False)
+predictions = {school['code']: school['forecast'][-1]['total'] for school in hindcast}
+matched = [(predictions[code], int(row['COL_S_SUM'])) for code, row in lookup[2026].items() if code in predictions]
+errors = [abs(predicted - actual) for predicted, actual in matched]
+constant_errors = [abs(int(lookup[2025][code]['COL_S_SUM']) - int(row['COL_S_SUM'])) for code, row in lookup[2026].items() if code in predictions]
+actual_total = sum(actual for _, actual in matched)
 validation = {
-    'kind': 'retrospective-one-year-holdout', 'trainYears': [2024, 2025], 'targetYear': 2026,
+    'kind': 'retrospective-one-year-holdout', 'trainYears': [2025], 'referenceYears': [2024], 'targetYear': 2026,
     'matchedSchools': len(matched), 'newSchoolIds': len(lookup[2026].keys() - predictions.keys()),
     'absentSchoolIds': len(predictions.keys() - lookup[2026].keys()),
-    'meanAbsoluteError': round(sum(errors) / len(errors), 2),
-    'medianAbsoluteError': errors[len(errors) // 2],
-    'weightedAbsolutePercentageError': round(sum(errors) / sum(a for _, a in matched) * 100, 2),
-    'lastYearCountMeanAbsoluteError': round(sum(naive_errors) / len(naive_errors), 2),
-    'note': '2024·2025년 공시와 2024년 발표 인구추계로 2026년을 계산한 회고 점검. 공통 학교 ID만 비교하며 신설·폐교의 수요 재배치는 예측하지 못함. 장기 정확도나 신뢰구간을 입증하지 않음.'
+    'meanAbsoluteError': round(statistics.mean(errors), 2), 'medianAbsoluteError': statistics.median(errors),
+    'weightedAbsolutePercentageError': round(sum(errors) / actual_total * 100, 2),
+    'lastYearCountMeanAbsoluteError': round(statistics.mean(constant_errors), 2),
+    'lastYearCountMedianAbsoluteError': statistics.median(constant_errors),
+    'lastYearCountWeightedAbsolutePercentageError': round(sum(constant_errors) / actual_total * 100, 2),
+    'note': '2025년 공시 재학생 수에 시군 6~11세 인구의 2025→2026년 비율을 적용한 한 해 회고 점검입니다. 2026년 실측은 오차 비교에만 사용하며 2024년 관측은 참고 이력입니다. 공통 학교 ID만 비교하고 신설·폐교의 재배치는 예측하지 않습니다. 장기 정확도·신뢰구간이나 비교 기준보다 우수함을 입증하지 않습니다.'
 }
-region_projection = {k: municipal[k] for k in ('title', 'publisher', 'published', 'source', 'downloadUrl', 'reportUrl', 'table', 'unit', 'boundaryYear', 'sourceRegions', 'definition', 'limitations')}
+region_projection = {key: municipal[key] for key in ('title', 'publisher', 'published', 'source', 'downloadUrl', 'reportUrl', 'table', 'unit', 'boundaryYear', 'sourceRegions', 'definition', 'limitations')}
 region_projection.update({'usedRegions': 22, 'excludedRegions': ['군위군'], 'officialEndYear': 2042,
-                         'extension': {'startYear': 2043, 'endYear': 2045,
-                                       'method': '2042년 시군별 수준에 통계청 경북 6~11세 추계의 2042년 대비 증감비율을 적용한 자체 연장',
-                                       'source': province['source']}})
+                          'extension': {'startYear': 2043, 'endYear': 2045,
+                                        'method': '2042년 시군별 수준에 통계청 경북 6~11세 추계의 2042년 대비 증감비율을 적용한 자체 연장',
+                                        'source': province['source']}})
 metadata = {
-    'version': 3, 'populationModelVersion': 'municipal-lifecycle-2024-v2', 'observedYear': 2026, 'checked': '2026-11-08',
+    'version': 3, 'populationModelVersion': 'municipal-common-factor-v3', 'observedYear': 2026, 'checked': '2026-11-08',
     'schoolSource': 'https://www.schoolinfo.go.kr/ng/go/pnnggo_a01_l2.do',
     'schoolSourceTitle': '학교알리미 학년별·학급별 학생수, 2024·2025·2026년 공시',
     'province': province, 'regionProjection': region_projection, 'regionalForecasts': regional, 'schoolCalendar': calendar,
-    'forecastAssumptions': {'primary': '최근 학교별 1학년 재학생 점유율 추세 지속', 'comparison': '1학년 재학생 점유율 고정',
-                            'note': '두 경로 모두 모형 가정이며 어느 쪽의 장기 정확도가 더 높은지 검증한 것이 아님. 게임은 기본 모형을 사용.'},
-    'intakeShareFixedRegional': {r: {'totals': data['totals'], 'unassignedTotals': data['unassignedTotals']} for r, data in fixed_regional.items()},
+    'forecastAssumptions': {'primary': '시군 공통 인구 비율 · 학교별 독립 반올림', 'comparison': '동일 계산의 호환 필드',
+                            'note': '학교별 실측 규모에 같은 시군의 인구 비율을 곱하는 교육용 산술 시나리오입니다. 별도의 학교별 추세·재배분·하한을 적용하지 않으며 공식 학교별 학생배치계획이나 장기 정확도를 뜻하지 않습니다.'},
+    'roundingMethod': '학교별 예상은 각각 사사오입하고 시군 전체 목표도 별도로 사사오입합니다. 운영교 합계와 폐교 제외 몫을 더한 값의 차이는 부호 있는 반올림 조정으로 표시하며 학교에 배분하지 않습니다. 학년·특수 인원의 최대잔여법은 이미 정한 한 학교의 정수 합계를 나누는 게임 표시 배분에만 사용합니다.',
+    'intakeShareFixedRegional': {area: {key: data[key] for key in ('totals', 'unassignedTotals', 'activeSchoolTotals', 'excludedClosureShare', 'roundingAdjustment')} for area, data in regional.items()},
     'validation': validation, 'schools': len(schools), 'officialSchoolForecast': False,
-    'regularTotals': {y: sum(regular(x) for x in rows) for y, rows in annual.items()},
-    'method': '시군별 2026년 공시 재학생 합계에 공식 6~11세 인구의 증감 비율을 적용해 지역 목표를 설정. 최근 3년 1학년 재학생 가중치와 시군 6세 인구, 학교별 1학년 재학생 점유율의 보정 추세(관측 1학년 인원/(1학년 인원+30), 연 -15~+15% 제한)를 지속하는 가정으로 배분. 이는 입학일 당시 입학생 수와 다른 지표이며 별도 입학생 전망은 실제 입학생 공시를 사용한다. 기존 학생 평균에서 1학년 인원을 생성하는 하한과 과거 추세를 강제로 없애는 감쇠를 제거. 진급비율은 200명 보정·0.94~1.06 제한. 특수·순회 인원은 일반학년 변화에 연동하며 별도 영구 하한을 두지 않음. 확인된 폐교 일정 이후 학교 인원은 0명, 수용학교 확인 시 해당 학교로, 미확인 시 별도 모형 배치풀로 진급학생을 이동. 배치풀은 졸업에 따라 소멸. 학교합계+배치학교 미확인 모형 인원을 최대잔여법으로 시군 목표와 일치시킴. 공식 추계의 회복 경로를 보장으로 해석할 수 없으며, 2043~2045년은 별도 연장 가정. 일정 미확인 학교는 존치 가정. 공식 학교별 학생배치계획이 아님.'
+    'regularTotals': {year: sum(regular(row) for row in rows) for year, rows in annual.items()},
+    'method': '학교별 미래 재학생 합계 = 2026년 공시 재학생 합계 × 해당 시군의 그해 6~11세 거주인구 / 해당 시군의 2026년 6~11세 거주인구를 학교마다 독립 사사오입합니다. 같은 시군에는 같은 비율을 적용하며 입학생·1학년 점유율 추세, 학교별 진급률, 하한, 학교 간 재배분을 쓰지 않습니다. 확인된 폐교 이후 해당 학교는 0명이며 그 학교의 현재 연도 비율상 수요 몫은 제외 몫으로 별도 집계합니다. 이는 과거 학생을 영구 보존한 풀이나 실제 전학·미배치 인원이 아닙니다. 지역 목표·학교별 반올림 차이는 별도 조정으로 남깁니다. 미래 학년 구성은 2026년 일반학년 비중을 순환 이동하고 특수·순회 비중과 함께 합계에 맞춰 정수 배분한 게임용 구성으로 실제 코호트나 입학일 입학생 전망이 아닙니다. 인구 감소·회복을 그대로 따르며 초소규모 학교는 1명 반올림만으로도 큰 비율 변화가 납니다. 2043~2045년은 별도 자체 연장이고 미확인 일정은 존치 가정입니다. 공식 학교별 학생배치계획이 아닙니다.'
 }
 (ROOT / 'dist/schools.js').write_text('const SCHOOLS=' + json.dumps(schools, ensure_ascii=False, separators=(',', ':')) + ';\nconst DEMOGRAPHICS=' + json.dumps(metadata, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf8', newline='\n')
-print(json.dumps({'schools': len(schools), 'regions': len(regional), 'students2026': sum(s['base'] for s in schools), 'studentForecast2045': sum(s['forecast'][-1]['total'] for s in schools), 'validation': validation}, ensure_ascii=False))
+print(json.dumps({'schools': len(schools), 'regions': len(regional), 'students2026': sum(school['base'] for school in schools),
+                  'studentForecast2045': sum(school['forecast'][-1]['total'] for school in schools),
+                  'excludedClosureShare2045': sum(data['excludedClosureShare']['2045'] for data in regional.values()),
+                  'roundingAdjustment2045': sum(data['roundingAdjustment']['2045'] for data in regional.values()), 'validation': validation}, ensure_ascii=True))

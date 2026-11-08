@@ -210,7 +210,8 @@ const admissions=preview.run('ADMISSIONS');
 const originalAdmissions=preview.run('JSON.stringify(ADMISSIONS)');
 assert.equal(admissions.version,1);
 assert.equal(admissions.forecastEndYear,2045);
-assert.equal(demographics.populationModelVersion,'municipal-lifecycle-2024-v2');
+assert.equal(demographics.populationModelVersion,'municipal-common-factor-v3');
+assert.equal(preview.run('initial(SCHOOLS[0]).populationModelVersion'),demographics.populationModelVersion,'New runs must identify their reference model');
 assert.equal(Object.keys(demographics.regionalForecasts).length,22);
 const originalForecasts=preview.run('JSON.stringify(SCHOOLS.map(school=>school.forecast))');
 const comparedRegions=new Set();
@@ -228,12 +229,18 @@ for(let i=0;i<roster.length;i++){
   preview.run(`selectSchool(SCHOOLS[${i}].id)`);
   const school=roster[i],markup=preview.nodes.get('forecastPreview').innerHTML;
   const summary=preview.run('baselineSummary(selected)');
+  const sharedFactor=markup.match(/<p\b[^>]*class="baseline-common-factor"[^>]*>/)?.[0];
+  assert.ok(sharedFactor,`${school.name}: the municipality's common rate must remain visible before play`);
+  assert.equal(Number(sharedFactor.match(/data-year="(\d+)"/)?.[1]),2045);
+  assert.equal(Number(sharedFactor.match(/data-factor="([^"]+)"/)?.[1]),demographics.regionalForecasts[school.region].commonFactors[2045]);
   if(i===0){
     const view=indexStructure(markup),details=view.byId('baselineDataDetails');
     assert.equal(details?.tag,'details');
     assert.ok(!Object.hasOwn(details.attrs,'open'),'Additional forecast data starts collapsed');
     const primaryChart=view.nodes.find(node=>node.tag==='svg'&&String(node.attrs.class).split(/\s+/).includes('baseline-svg')&&!String(node.attrs.class).includes('admissions-svg'));
     assert.equal(view.detailsAncestors(primaryChart).length,0,'Simple reference chart stays visible');
+    const factorNode=view.nodes.find(node=>String(node.attrs.class).split(/\s+/).includes('baseline-common-factor'));
+    assert.equal(view.detailsAncestors(factorNode).length,0,'The shared municipal rate is part of the compact overview');
     for(const className of ['admissions-row','baseline-annual-row','baseline-milestone']){
       const row=view.nodes.find(node=>String(node.attrs.class).split(/\s+/).includes(className));
       assert.ok(view.detailsAncestors(row).includes(details),`${className} belongs inside the single deeper-data disclosure`);
@@ -285,7 +292,10 @@ for(let i=0;i<roster.length;i++){
     assert.equal(Number(row.match(/data-population="(\d+)"/)?.[1]),region.population[year]);
     assert.equal(Number(row.match(/data-target="(\d+)"/)?.[1]),region.totals[year]);
     assert.equal(Number(row.match(/data-unassigned="(\d+)"/)?.[1]),region.unassignedTotals[year]);
-    assert.equal(Number(row.match(/data-school-total="(\d+)"/)?.[1]),region.totals[year]-region.unassignedTotals[year]);
+    assert.equal(Number(row.match(/data-school-total="(\d+)"/)?.[1]),region.activeSchoolTotals[year]);
+    assert.equal(Number(row.match(/data-excluded-share="(\d+)"/)?.[1]),region.excludedClosureShare[year]);
+    assert.equal(Number(row.match(/data-rounding-adjustment="(-?\d+)"/)?.[1]),region.roundingAdjustment[year]);
+    assert.equal(region.activeSchoolTotals[year]+region.excludedClosureShare[year]+region.roundingAdjustment[year],region.totals[year]);
     const text=row.replace(/<[^>]+>/g,'');
     assert.ok(text.includes(region.population[year].toLocaleString('ko-KR'))&&text.includes(region.totals[year].toLocaleString('ko-KR')),'Regional details distinguish resident population and calibrated enrollment target');
   });
@@ -310,13 +320,7 @@ for(let i=0;i<roster.length;i++){
     comparedRegions.add(school.region);
   }
   const comparisons=[...markup.matchAll(/<tr\b[^>]*class="[^"]*\bbaseline-share-comparison\b[^>]*>[\s\S]*?<\/tr>/g)];
-  assert.equal(comparisons.length,3);
-  comparisons.forEach((match,j)=>{
-    const year=[2030,2035,2045][j],row=match[0];
-    assert.equal(Number(row.match(/data-year="(\d+)"/)?.[1]),year);
-    assert.equal(Number(row.match(/data-primary="(\d+)"/)?.[1]),school.forecast.find(point=>point.year===year).total);
-    assert.equal(Number(row.match(/data-fixed="(\d+)"/)?.[1]),school.intakeShareFixedPoints.find(point=>point.year===year).total);
-  });
+  assert.equal(comparisons.length,0,'Obsolete school-share trend comparisons must not remain visible');
   assert.match(markup,/<svg\b[^>]*aria-label="[^"]+"/);
   assert.match(markup,/<title[\s>]/);
   const axis=markup.match(/class="baseline-ylabels"[^>]*>([\s\S]*?)<\/div>/)?.[1];
@@ -372,7 +376,7 @@ assert.ok(!/NaN|Infinity/.test(zero.markup));
 
 // An existing 2040 game still opens onto the original baseline and resumes only on explicit start.
 const schoolId=roster[0].id,saveKey='gyeongbuk-principal-population-v3:'+schoolId;
-const saved=preview.run('(()=>{const state=initial(SCHOOLS[0]);state.year=2040;state.rep=90;state.appeal=20;state.grades=state.grades.map(value=>value*1.3);state.eventId=events[14].id;delete state.budget;return JSON.stringify(state)})()');
+const saved=preview.run('(()=>{const state=initial(SCHOOLS[0]);state.year=2040;state.rep=90;state.appeal=20;state.grades=state.grades.map(value=>value*1.3);state.eventId=events[14].id;delete state.budget;delete state.populationModelVersion;return JSON.stringify(state)})()');
 const savedEntries=[[saveKey,saved],['gyeongbuk-principal-last',schoolId]];
 for(const search of ['', '?school='+encodeURIComponent(schoolId)]){
   const returning=boot({savedEntries,search});
@@ -389,11 +393,20 @@ for(const search of ['', '?school='+encodeURIComponent(schoolId)]){
   assert.equal(returning.run('s.year'),2040);
   assert.equal(returning.run('s.rep'),90);
   assert.equal(returning.run('s.appeal'),20);
+  assert.equal(returning.run('s.populationModelVersion'),'legacy-unknown');
+  assert.equal(returning.run('baselineVersionInfo(s).legacy'),true);
+  assert.ok(returning.nodes.get('chartNote').textContent.includes('이전'),'Resumed legacy games need a visible reference-change notice');
   assert.equal(returning.run('JSON.stringify(s.grades)'),JSON.stringify(JSON.parse(saved).grades));
   assert.ok(returning.writes.length>0,'Explicit start may persist the resumed game');
   assert.equal(returning.nodes.get('setup').hidden,true);
   assert.equal(returning.nodes.get('game').hidden,false);
 }
+const knownOld=JSON.stringify({...JSON.parse(saved),populationModelVersion:'municipal-lifecycle-2024-v2'});
+const knownOldView=boot({savedEntries:[[saveKey,knownOld]],search:'?school='+encodeURIComponent(schoolId)});
+assert.equal(knownOldView.writes.length,0);
+knownOldView.nodes.get('start').onclick();
+assert.equal(knownOldView.run('s.populationModelVersion'),'municipal-lifecycle-2024-v2','A resumed run retains its original model identity');
+assert.equal(knownOldView.run('JSON.stringify(s.points)'),JSON.stringify(JSON.parse(knownOld).points));
 
 // Organization choices run independently from annual choices and retain physical students.
 for(const endingAction of ['merge','close']){
@@ -486,14 +499,11 @@ assert.ok(oldClosing.run('s.points.filter(point=>point.year>=2027).every(point=>
 const savedEnding=oldClosing.run('JSON.stringify(s.lifecycle.ending)');oldClosing.run('persist();s=loadSave(s.schoolId);render()');
 assert.equal(oldClosing.run('JSON.stringify(s.lifecycle.ending)'),savedEnding,'Reload cannot duplicate or replace the preserved snapshot');
 
-// Game-only zero closure: natural play reaches zero, freezes immediately, and preserves history.
+// Game-only zero closure uses a synthetic zero reference, independently of the
+// current municipality dataset: no real school is forced to decline for a test.
 const natural=boot();
-natural.run("selectSchool('의성-금성초등학교가음분교장');enterGame();s.happy=75");
-while(natural.run('s.year')<2030){
-  assert.ok(natural.run('PopulationModel.total(s.grades,s.special)>0'));
-  assert.equal(natural.run('s.organization.ending'),null);
-  natural.run('choose(2);advance()');
-}
+natural.run("selectSchool(SCHOOLS[0].id);enterGame();s.grades=[1,0,0,0,0,0];s.special=0;s.happy=75;s.points=[{year:2026,total:1}];Object.assign(SCHOOLS[0].forecast[0],{grades:[1,0,0,0,0,0],special:0,total:1});Object.assign(SCHOOLS[0].forecast[1],{grades:[0,0,0,0,0,0],special:0,total:0,gameRecruitmentPotential:0});render();choose(2);advance()");
+assert.equal(natural.run('s.year'),2027);
 assert.equal(natural.run('PopulationModel.total(s.grades,s.special)'),0);
 assert.equal(natural.run('s.organization.ending.kind'),'zero-enrollment');
 assert.equal(natural.run('s.organization.ending.reason'),'zero-enrollment');
@@ -501,7 +511,7 @@ assert.equal(natural.run('s.organization.ending.gameRule'),true);
 assert.equal(natural.run('s.organization.ending.automatic'),true);
 assert.equal(natural.run('s.lifecycle.ending'),null,'Game zero rule must not fabricate an official closure');
 assert.equal(natural.run('s.done'),false);
-assert.equal(natural.run('s.history.length'),4);
+assert.equal(natural.run('s.history.length'),1);
 assert.equal(natural.run('s.points.at(-1).total'),0);
 assertCurrentGrades(natural);
 assert.equal(natural.nodes.get('next').disabled,true);
@@ -509,6 +519,8 @@ assert.match(natural.nodes.get('organizationEnding').innerHTML,/0명/);
 assert.match(natural.nodes.get('chartNote').textContent,/종료/);
 assert.equal((natural.nodes.get('yard').innerHTML.match(/class="person"/g)||[]).length,0);
 const naturalEnded=natural.run('JSON.stringify(s)');
+natural.run('Object.assign(SCHOOLS[0].forecast[2],{grades:[1,0,0,0,0,0],special:0,total:1})');
+assert.equal(natural.run('PopulationModel.forecast(SCHOOLS[0],2028).total'),1,'The arithmetic reference may rise after zero without reopening an ended game');
 natural.run("choose(0);advance();organizationAction('start-consultation')");
 assert.equal(natural.run('JSON.stringify(s)'),naturalEnded,'No policy can restart an automatic ending');
 natural.run('persist();s=loadSave(s.schoolId);render()');
@@ -516,7 +528,7 @@ assert.equal(natural.run('JSON.stringify(s)'),naturalEnded,'Reload must preserve
 
 // Legacy current-zero saves migrate in memory, without deleting their positive prior progress.
 for(const endingYear of [2034,2045]){
-  const raw=preview.run(`(()=>{const state=initial(SCHOOLS[0]);state.year=${endingYear};state.grades=[0,0,0,0,0,0];state.special=0;state.done=${endingYear===2045};state.last='이전 결정 기록';state.history=[{year:${endingYear-1},title:'보존할 결정'}];state.points=[{year:2026,total:state.base},{year:${endingYear-1},total:7},{year:${endingYear},total:0}];delete state.budget;return JSON.stringify(state)})()`);
+  const raw=preview.run(`(()=>{const state=initial(SCHOOLS[0]);state.year=${endingYear};state.grades=[0,0,0,0,0,0];state.special=0;state.done=${endingYear===2045};state.last='이전 결정 기록';state.history=[{year:${endingYear-1},title:'보존할 결정'}];state.points=[{year:2026,total:state.base},{year:${endingYear-1},total:7},{year:${endingYear},total:0}];delete state.budget;delete state.populationModelVersion;return JSON.stringify(state)})()`);
   const zeroSave=boot({savedEntries:[[saveKey,raw]],search:'?school='+encodeURIComponent(schoolId)});
   assert.equal(zeroSave.writes.length,0);
   assert.equal(zeroSave.storage.get(saveKey),raw);
@@ -526,6 +538,7 @@ for(const endingYear of [2034,2045]){
   assert.equal(zeroSave.run('s.done'),endingYear===2045);
   for(const key of ['year','grades','special','history','points','money','rep','teacher','happy','facilities','appeal','last'])assert.equal(zeroSave.run(`JSON.stringify(s.${key})`),JSON.stringify(JSON.parse(raw)[key]),`Automatic ending must preserve ${key}`);
   assert.equal(zeroSave.nodes.get('next').disabled,true);
+  assert.ok(zeroSave.nodes.get('learningReport').innerHTML.includes('baseline-version-note'),'Old ended runs must disclose mixed-model comparison directly in the ending report');
   assertCurrentGrades(zeroSave);
   assert.match(zeroSave.nodes.get('narrative').textContent,/0명|종료/);
   assert.match(zeroSave.nodes.get('chartNote').textContent,/종료/);
