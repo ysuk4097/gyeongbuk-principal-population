@@ -14,15 +14,21 @@
     "project_name": "gyeongbuk-principal-population",
     "deployment_method": "direct-upload",
     "production_branch": "main",
-    "deployment_id": "9a6e4d1a-2b82-450d-b159-725cdd4c91b0",
-    "source_commit": "686db7f0a145d782b714566bcc0450410be0e551",
-    "artifact_zip_sha256": "618853e1ac723f7a9d807daafa83a10843401d9354d517a2a4b1fc18ac390634",
-    "uploaded_files": 10
+    "deployment_id": "9f94fb48-3e51-4bb3-8dac-72498946f695",
+    "source_commit": "7ffe6d9f3377b483d64bb6671c4e3baf0da8cdf4",
+    "artifact_zip_sha256": "34165ee480d933a4dccf5f6c148b2b7ddc9b9c373165972c0597462233b39281",
+    "uploaded_files": 13
   },
   "decisions": 19,
   "evidence_checked": "2026-11-08",
   "schools": 474,
   "source_year": 2026,
   "future": "2027–2045 school-specific model outputs, not official enrollment plans",
-  "standalone_sha256": "d756ef74b95f16bc9c4ddbb12db75dacdb9dbab347e566419c23568fe65559f8"
+  "standalone_sha256": "d756ef74b95f16bc9c4ddbb12db75dacdb9dbab347e566419c23568fe65559f8",
+  "admissions_forecast_end_year": 2045,
+  "admissions_observed_years": [
+    2024,
+    2025,
+    2026
+  ]
 }
