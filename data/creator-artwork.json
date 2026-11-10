@@ -1,0 +1,17 @@
+{
+  "nickname": "경북GBEAILAB정교사",
+  "prepared": "2026-11-10",
+  "asset": "dist/assets/alji-creator.png",
+  "dimensions": [1145, 1374],
+  "format": "PNG RGBA with transparent background",
+  "sha256": "2b7bb6edbaadaff60d24f08992824e50694ae7b24cbdf82b2110263bd2aa455e",
+  "source": {
+    "title": "알지캐릭터_기본형.pdf",
+    "folder": "https://drive.google.com/drive/folders/1Aj-A9RIYwskog60D_bOdhZ0TtCxoZVs2",
+    "url": "https://drive.google.com/file/d/1m67038gyXMsJGr0-Oj6iu7wr5hpSARdR/view",
+    "description": "사용자가 제공한 팀 공통 디자인 자료의 기본형 왼쪽 캐릭터를 바탕으로 제작했습니다. 캐릭터 원작의 제작자나 권리를 앱 제작자에게 귀속시키지 않습니다."
+  },
+  "tool": "image_gen built-in image editing; no CLI/API fallback",
+  "changes": "왼쪽 알지 한 개를 투명 배경으로 분리하고 파란 머리띠의 AI·신호 표시를 공개 닉네임으로 교체했습니다.",
+  "prompt": "Use case: text-localization and background-extraction. Edit target: official AI-G (알지) mascot sheet provided. Make one clean transparent full-body cutout of ONLY the LEFT mascot (the standing owl without tablet). Preserve the exact official mascot's face, body proportions, yellow feathers, thick dark outline, glossy blue goggles, blue neck scarf, red heart emblem, feet, cheerful expression, and its existing pose. Do not redraw into a different style. Remove the other mascot and white sheet background. Replace the existing 'AI' letters and signal bars on the BLUE FOREHEAD GOGGLES/HEADBAND with one centered line of this exact creator nickname in clear white bold lettering: '경북GBEAILAB정교사'. The nickname must appear on the headband itself, not outside the character, and must include every character in this exact order: 경 북 G B E A I L A B 정 교 사. Keep the blue goggle/headband outline intact and use its full lens width for the long text. Do not add other writing, signs, borders, app UI or objects. Full mascot visible with small transparent padding on every side, true transparent background, no white rectangle, no checkerboard drawing. App footer artwork, same official identity, only nickname replacement and cutout."
+}

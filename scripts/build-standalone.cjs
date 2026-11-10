@@ -15,7 +15,19 @@ html=html.replace(/<script src="([^"?]+)(?:\?[^\"]*)?"><\/script>/g,(_,name)=>{
   assert.equal(path.basename(name),name,'Script must be a local file');
   return '<script>\n'+readText(path.join(dist,name)).replace(/<\/script/gi,'<\\/script')+'\n</script>';
 });
+html=html.replace(/<img\b[^>]*\bsrc="([^"]+)"[^>]*>/gi,(tag,source)=>{
+  if(source.startsWith('data:'))return tag;
+  assert.ok(!/^[a-z][a-z0-9+.-]*:|^[\\/]/i.test(source),'Standalone images must be local files');
+  const name=decodeURIComponent(source.split(/[?#]/)[0]);
+  const file=fs.realpathSync(path.resolve(dist,name));
+  const relative=path.relative(fs.realpathSync(dist),file);
+  assert.ok(relative&&!relative.startsWith('..')&&!path.isAbsolute(relative),'Image must stay inside dist');
+  const mime={'.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg'}[path.extname(file).toLowerCase()];
+  assert.ok(mime,'Unsupported standalone image format');
+  return tag.replace(/\bsrc="[^"]+"/i,'src="data:'+mime+';base64,'+fs.readFileSync(file).toString('base64')+'"');
+});
 assert.ok(!/<script\b[^>]*\bsrc=|<link\b[^>]*rel="stylesheet"/i.test(html),'Standalone must embed all application assets');
+assert.ok(!/<img\b[^>]*\bsrc="(?!data:)/i.test(html),'Standalone must embed all images');
 const sha=crypto.createHash('sha256').update(html).digest('hex');
 const output=path.join(root,'game.html');
 const manifestPath=path.join(root,'BUILD_INFO.json');

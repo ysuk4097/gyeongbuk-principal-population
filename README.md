@@ -6,6 +6,10 @@ Before playing, select a school to read its municipality's enrollment scenario: 
 
 The default view shows a short municipality overview and regional reference chart. School-level forecasts, admissions, regional comparisons, annual tables and methodology remain under “자료·다른 전망 보기”. During play, the annual decision, school scene and Next action stay primary; native disclosures hold grades/budget/support, operating records and detailed indicators. Support is one disclosure away, while costs and pending transfer consequences stay visible. Opening a chart redraws it, and unrelated actions preserve the open secondary areas.
 
+Public creator credit: **경북GBEAILAB정교사**. The shared footer uses the team character artwork; its provenance is recorded in `data/creator-artwork.json`. The offline builder embeds the character image in `game.html`, so no adjacent asset folder is needed to run that file.
+
+Local December 1 demonstration materials are in `docs/DEMO-GUIDE.ko.txt` (three-minute script, extended flow and preparation) and `docs/REGISTRATION-INTRO.ko.txt` (copyable introduction). These files are local drafts; no external status sheet has been edited or submitted.
+
 ## Cloudflare Pages
 
 Play: https://gyeongbuk-principal-population.pages.dev/
